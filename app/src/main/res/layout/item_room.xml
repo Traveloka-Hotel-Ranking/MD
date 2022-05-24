@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/cv_item_room"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="16dp"
+    android:layout_marginVertical="4dp"
+    android:focusable="true"
+    android:foreground="?attr/selectableItemBackground"
+    app:cardCornerRadius="10dp"
+    app:cardElevation="8dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/im_hotel"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/image_desc"
+            android:scaleType="centerCrop"
+            android:src="@drawable/sample_image"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <TextView
+            android:id="@+id/tv_kind_of_rooms"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="8dp"
+            android:layout_marginVertical="8dp"
+            android:text="@string/app_name"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/im_hotel"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_guest"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:drawablePadding="4dp"
+            android:text="@string/guest"
+            app:drawableStartCompat="@drawable/ic_people_alt"
+            app:layout_constraintStart_toStartOf="@+id/tv_kind_of_rooms"
+            app:layout_constraintTop_toBottomOf="@+id/tv_kind_of_rooms" />
+
+        <TextView
+            android:id="@+id/tv_bed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:drawablePadding="4dp"
+            android:text="@string/bed"
+            app:drawableStartCompat="@drawable/ic_bed"
+            app:layout_constraintStart_toStartOf="@+id/tv_guest"
+            app:layout_constraintTop_toBottomOf="@+id/tv_guest" />
+
+        <TextView
+            android:id="@+id/tv_food"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:drawablePadding="4dp"
+            android:text="@string/food"
+            app:drawableStartCompat="@drawable/ic_food"
+            app:layout_constraintStart_toStartOf="@+id/tv_bed"
+            app:layout_constraintTop_toBottomOf="@+id/tv_bed" />
+
+        <TextView
+            android:id="@+id/tv_wifi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:drawablePadding="4dp"
+            android:text="@string/wifi"
+            app:drawableStartCompat="@drawable/ic_wifi"
+            app:layout_constraintStart_toStartOf="@+id/tv_food"
+            app:layout_constraintTop_toBottomOf="@+id/tv_food" />
+
+        <TextView
+            android:id="@+id/tv_see_detail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:textColor="@color/blue"
+            android:text="@string/see_detail"
+            app:layout_constraintStart_toStartOf="@+id/tv_wifi"
+            app:layout_constraintTop_toBottomOf="@+id/tv_wifi" />
+
+        <TextView
+            android:id="@+id/tv_room_discount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:textColor="@color/gray"
+            android:text="@string/price_discount"
+            app:layout_constraintStart_toStartOf="@+id/tv_see_detail"
+            app:layout_constraintTop_toBottomOf="@+id/tv_see_detail" />
+
+        <TextView
+            android:id="@+id/tv_room_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:textColor="@color/orange"
+            android:textStyle="bold"
+            android:text="Rp 300.000"
+            app:layout_constraintStart_toStartOf="@+id/tv_room_discount"
+            app:layout_constraintTop_toBottomOf="@+id/tv_room_discount" />
+
+        <com.google.android.material.button.MaterialButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/select"
+            android:backgroundTint="@color/orange"
+            android:layout_margin="5dp"
+            android:outlineProvider="bounds"
+            app:cornerRadius="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tv_room_price"
+            app:layout_constraintBottom_toBottomOf="@id/tv_room_price"/>
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</com.google.android.material.card.MaterialCardView>

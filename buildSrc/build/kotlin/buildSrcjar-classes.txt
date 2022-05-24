@@ -1,0 +1,1 @@
+/Users/muhamadsyafii/Documents/AndroidProject/Bangkit/TravelokaHotelRanking/buildSrc/build/classes/kotlin/main/Libs.class:/Users/muhamadsyafii/Documents/AndroidProject/Bangkit/TravelokaHotelRanking/buildSrc/build/classes/kotlin/main/Versions.class
