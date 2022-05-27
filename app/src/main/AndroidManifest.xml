@@ -11,10 +11,20 @@
         android:theme="@style/Theme.TravelokaHotelRanking">
         <activity
             android:name="com.traveloka.hotelranking.view.ui.login.LoginActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:parentActivityName="com.traveloka.hotelranking.view.ui.main.MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.traveloka.hotelranking.view.ui.main.MainActivity" />
+        </activity>
         <activity
             android:name="com.traveloka.hotelranking.view.ui.register.RegisterActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:parentActivityName="com.traveloka.hotelranking.view.ui.main.MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.traveloka.hotelranking.view.ui.main.MainActivity" />
+        </activity>
         <activity
             android:name="com.traveloka.hotelranking.view.ui.detail.DetailHotelActivity"
             android:exported="false" />

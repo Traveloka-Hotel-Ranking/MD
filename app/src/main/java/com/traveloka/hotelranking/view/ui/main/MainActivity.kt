@@ -1,48 +1,52 @@
 package com.traveloka.hotelranking.view.ui.main
 
 import android.content.Intent
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.TableLayout
-import androidx.viewpager.widget.PagerAdapter
-import com.google.android.material.tabs.TabLayout
-import com.traveloka.hotelranking.R
+import android.view.WindowInsets
+import android.view.WindowManager
+import androidx.core.app.ActivityOptionsCompat
 import com.traveloka.hotelranking.databinding.ActivityMainBinding
 import com.traveloka.hotelranking.view.ui.login.LoginActivity
-import com.traveloka.hotelranking.view.ui.main.adapter.DummyData
-import com.traveloka.hotelranking.view.ui.main.adapter.OnBoardingAdapter
 import com.traveloka.hotelranking.view.ui.register.RegisterActivity
 
 class MainActivity : AppCompatActivity() {
-    private val binding by lazy { ActivityMainBinding.inflate(layoutInflater) }
-    private lateinit var adapter: OnBoardingAdapter
-    private val dataDummy = DummyData
+
+    private lateinit var binding: ActivityMainBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        initView()
+        setupAction()
+        playAnimation()
     }
 
-    private fun initView() {
-        actionBar?.hide()
-        supportActionBar?.hide()
-        adapter = OnBoardingAdapter(this)
-        adapter.setBoardingList(dataDummy.listData)
-
-        binding.run {
-            vpBoarding.adapter = adapter
-            tbBoarding.setupWithViewPager(vpBoarding)
-
-            btnLogin.setOnClickListener {
-                val intent = Intent(this@MainActivity, LoginActivity::class.java)
-                startActivity(intent)
-            }
-
-            btnRegister.setOnClickListener {
-                val intent = Intent(this@MainActivity, RegisterActivity::class.java)
-                startActivity(intent)
-            }
+    private fun setupAction() {
+        @Suppress("DEPRECATION")
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            window.insetsController?.hide(WindowInsets.Type.statusBars())
+        } else {
+            window.setFlags(
+                WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN
+            )
         }
+        supportActionBar?.hide()
+
+        binding.btnLogin.setOnClickListener {
+            val intent = Intent(this@MainActivity, LoginActivity::class.java)
+            startActivity(intent, ActivityOptionsCompat.makeSceneTransitionAnimation(this@MainActivity).toBundle())
+        }
+        binding.btnRegister.setOnClickListener {
+            val intent = Intent(this@MainActivity, RegisterActivity::class.java)
+            startActivity(intent, ActivityOptionsCompat.makeSceneTransitionAnimation(this@MainActivity).toBundle())
+        }
+    }
+
+    private fun playAnimation() {
+
     }
 }
