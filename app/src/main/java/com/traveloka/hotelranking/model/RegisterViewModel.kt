@@ -16,10 +16,15 @@ import retrofit2.Response
 class RegisterViewModel: ViewModel() {
 
     private val _signup = MutableLiveData<UserRegisterResponse>()
+
+    private val _isLoading = MutableLiveData<Boolean>()
+    val isLoading: LiveData<Boolean> = _isLoading
+
     var messageResponse = MutableLiveData<String?>()
     var messageSuccessResponse = MutableLiveData<String?>()
 
     fun registerUser(name: String, email: String, phone: String, password: String) {
+        _isLoading.value = true
         val client = ApiConfig.getApiService().registerUser(name, email, phone, password)
         client.enqueue(object : Callback<UserRegisterResponse> {
             @SuppressLint("LogNotTimber")
@@ -27,6 +32,7 @@ class RegisterViewModel: ViewModel() {
                 call: Call<UserRegisterResponse>,
                 response: Response<UserRegisterResponse>
             ) {
+                _isLoading.value = false
                 if (response.isSuccessful) {
                     val responseBody = response.body()
                     _signup.value = responseBody!!
@@ -41,6 +47,8 @@ class RegisterViewModel: ViewModel() {
 
             @SuppressLint("LogNotTimber")
             override fun onFailure(call: Call<UserRegisterResponse>, t: Throwable) {
+                _isLoading.value = false
+                messageResponse.value = "Server Timeout!"
                 Log.e(TAG, "onFailure: ${t.message}")
             }
 

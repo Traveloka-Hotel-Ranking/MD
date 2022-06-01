@@ -54,4 +54,12 @@
     <string name="title_welcome_3">Various Rooms</string>
     <string name="desc_welcome_2">We recommend the best hotel for you</string>
     <string name="desc_welcome_3">A wide variety of hotel rooms are available</string>
+    <string name="nav_next_onboarding">This is the Next button to go to the next slide of onboarding</string>
+    <string name="nav_back_onboarding">This is the Back button to go to the back slide of onboarding</string>
+    <string name="name_required">Name Required</string>
+    <string name="invalid_email">Invalid Email!</string>
+    <string name="mobile_number_required">Mobile Number Required</string>
+    <string name="password_length">Minimum password length is 8 characters!</string>
+    <string name="password_doesnt_match">Password doesn\'t match!</string>
+    <string name="password_required">Password Required</string>
 </resources>

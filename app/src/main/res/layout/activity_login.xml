@@ -15,12 +15,14 @@
         android:layout_marginTop="16dp"
         android:hint="@string/hint_email"
         android:alpha="0"
+        app:errorEnabled="true"
         app:boxBackgroundColor="?attr/colorSurface"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textEmailAddress" />
@@ -31,9 +33,10 @@
         style="@style/Widget.Material3.TextInputLayout.FilledBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:hint="@string/hint_password"
         android:alpha="0"
+        app:errorEnabled="true"
         app:boxBackgroundColor="?attr/colorSurface"
         app:endIconMode="password_toggle"
         app:layout_constraintEnd_toEndOf="parent"
@@ -41,6 +44,7 @@
         app:layout_constraintTop_toBottomOf="@id/email_login">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textPassword" />
@@ -102,7 +106,7 @@
         android:id="@+id/trav_acc"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="16dp"
         android:text="@string/not_have_traveloka_acc"
         android:alpha="0"
         app:layout_constraintEnd_toEndOf="parent"

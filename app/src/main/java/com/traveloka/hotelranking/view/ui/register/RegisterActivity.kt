@@ -46,6 +46,10 @@ class RegisterActivity : AppCompatActivity() {
 
     private fun setupAction() {
         binding.mbRegister.setOnClickListener {
+            registerViewModel.isLoading.observe(this) {
+                showLoading(it)
+            }
+
             val name = binding.name.text.toString().trim()
             val email = binding.email.text.toString().trim()
             val phone = binding.phone.text.toString().trim()
@@ -54,19 +58,19 @@ class RegisterActivity : AppCompatActivity() {
 
             when {
                 name.isEmpty() -> {
-                    binding.nameRegist.error = "Name Required"
+                    binding.nameRegist.error = getString(R.string.name_required)
                 }
                 email.isEmpty() -> {
-                    binding.emailRegist.error = "Email Required"
+                    binding.emailRegist.error = getString(R.string.invalid_email)
                 }
                 phone.isEmpty() -> {
-                    binding.numberRegist.error = "Phone Number Required"
+                    binding.numberRegist.error = getString(R.string.mobile_number_required)
                 }
                 password.isEmpty() -> {
-                    binding.passRegist.error = "Password Required"
+                    binding.passRegist.error = getString(R.string.password_required)
                 }
                 confirmPass.isEmpty() -> {
-                    binding.passConfirmRegist.error = "Password Required"
+                    binding.passConfirmRegist.error = getString(R.string.password_required)
                 }
                 else -> {
                     registerViewModel.registerUser(name, email, phone, password)
@@ -77,7 +81,8 @@ class RegisterActivity : AppCompatActivity() {
                                 setMessage(registerViewModel.messageSuccessResponse.value)
                                 setPositiveButton("Login") { _, _ ->
                                     finish()
-                                    startActivity(Intent(this@RegisterActivity, LoginActivity::class.java))
+                                    startActivity(Intent(this@RegisterActivity, LoginActivity::class.java),
+                                    ActivityOptionsCompat.makeSceneTransitionAnimation(this@RegisterActivity).toBundle())
                                 }
                                 create()
                                 show()
@@ -179,23 +184,23 @@ class RegisterActivity : AppCompatActivity() {
     }
 
     private fun showNameExistAlert(isNotValid: Boolean) {
-        binding.nameRegist.error = if (isNotValid) "Name Required" else null
+        binding.nameRegist.error = if (isNotValid) getString(R.string.name_required) else null
     }
 
     private fun showEmailExistAlert(isNotValid: Boolean) {
-        binding.emailRegist.error = if (isNotValid) "Invalid Email!" else null
+        binding.emailRegist.error = if (isNotValid) getString(R.string.invalid_email) else null
     }
 
     private fun showPhoneNumberExistAlert(isNotValid: Boolean) {
-        binding.numberRegist.error = if (isNotValid) "Phone Required" else null
+        binding.numberRegist.error = if (isNotValid) getString(R.string.mobile_number_required) else null
     }
 
     private fun showPasswordMinimalAlert(isNotValid: Boolean) {
-        binding.passRegist.error = if (isNotValid) "Minimum password length is 8 characters!" else null
+        binding.passRegist.error = if (isNotValid) getString(R.string.password_length) else null
     }
 
     private fun showPasswordConfirmationAlert(isNotValid: Boolean) {
-        binding.passConfirmRegist.error = if (isNotValid) "Password doesn't match!" else null
+        binding.passConfirmRegist.error = if (isNotValid) getString(R.string.password_doesnt_match) else null
     }
 
     private fun setupActionBar() {
@@ -217,6 +222,10 @@ class RegisterActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
         NavUtils.navigateUpFromSameTask(this)
+    }
+
+    private fun showLoading(isLoading: Boolean) {
+        binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
     }
 
     private fun playAnimation() {

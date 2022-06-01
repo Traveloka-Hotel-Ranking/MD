@@ -39,7 +39,7 @@ class LoginActivity : AppCompatActivity() {
 
     private fun setupActionBar(){
         supportActionBar?.elevation = 0F
-        supportActionBar?.setDisplayHomeAsUpEnabled(true) //add back button on Action Bar
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
         this.title = getString(R.string.login)
     }
 
