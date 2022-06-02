@@ -62,4 +62,5 @@
     <string name="password_length">Minimum password length is 8 characters!</string>
     <string name="password_doesnt_match">Password doesn\'t match!</string>
     <string name="password_required">Password Required</string>
+    <string name="skip">SKIP</string>
 </resources>

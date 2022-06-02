@@ -130,4 +130,17 @@
         app:layout_constraintStart_toEndOf="@+id/trav_acc"
         app:layout_constraintTop_toTopOf="@+id/trav_acc" />
 
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:visibility="gone"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:padding="10dp"
+        android:layout_margin="10dp"
+        android:background="@drawable/progressbar_bg"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:visibility="visible"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

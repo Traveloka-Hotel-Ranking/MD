@@ -76,11 +76,11 @@
         android:layout_marginTop="8dp"
         android:fontFamily="sans-serif-condensed-light"
         android:gravity="center_horizontal"
+        android:text="@string/desc_welcome_2"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="@id/title_welcome2"
         app:layout_constraintStart_toStartOf="@id/title_welcome2"
-        app:layout_constraintTop_toBottomOf="@id/title_welcome2"
-        android:text="@string/desc_welcome_2" />
+        app:layout_constraintTop_toBottomOf="@id/title_welcome2" />
 
     <ImageView
         android:id="@+id/img_welcome3"
@@ -100,12 +100,12 @@
         android:layout_marginTop="50dp"
         android:fontFamily="sans-serif-condensed-light"
         android:gravity="center_horizontal"
+        android:text="@string/title_welcome_3"
         android:textSize="16sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="@id/img_welcome3"
         app:layout_constraintStart_toStartOf="@id/img_welcome3"
-        app:layout_constraintTop_toBottomOf="@id/img_welcome3"
-        android:text="@string/title_welcome_3" />
+        app:layout_constraintTop_toBottomOf="@id/img_welcome3" />
 
     <TextView
         android:id="@+id/desc_welcome3"
@@ -114,11 +114,11 @@
         android:layout_marginTop="8dp"
         android:fontFamily="sans-serif-condensed-light"
         android:gravity="center_horizontal"
+        android:text="@string/desc_welcome_3"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="@id/title_welcome3"
         app:layout_constraintStart_toStartOf="@id/title_welcome3"
-        app:layout_constraintTop_toBottomOf="@id/title_welcome3"
-        android:text="@string/desc_welcome_3" />
+        app:layout_constraintTop_toBottomOf="@id/title_welcome3" />
 
     <androidx.constraintlayout.utils.widget.ImageFilterView
         android:id="@+id/menu1"
@@ -223,6 +223,19 @@
         android:src="@drawable/ic_arrow_forward_ios"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/navSkip"
+        style="?attr/borderlessButtonStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="30dp"
+        android:layout_marginStart="30dp"
+        android:text="@string/skip"
+        android:alpha="1"
+        android:textColor="@color/blue"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
 
     <ImageButton
         android:id="@+id/navBack"

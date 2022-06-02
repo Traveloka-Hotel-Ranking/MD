@@ -18,11 +18,18 @@ import androidx.core.app.ActivityOptionsCompat
 import androidx.core.app.NavUtils
 import androidx.core.content.ContextCompat
 import androidx.core.widget.addTextChangedListener
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.preferencesDataStore
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import com.jakewharton.rxbinding2.widget.RxTextView
 import com.traveloka.hotelranking.R
 import com.traveloka.hotelranking.databinding.ActivityRegisterBinding
+import com.traveloka.hotelranking.model.LoginViewModel
 import com.traveloka.hotelranking.model.RegisterViewModel
+import com.traveloka.hotelranking.model.UserPreference
+import com.traveloka.hotelranking.model.ViewModelFactory
 import com.traveloka.hotelranking.view.ui.login.LoginActivity
 import com.traveloka.hotelranking.view.ui.main.MainActivity
 import io.reactivex.Observable
@@ -30,14 +37,17 @@ import io.reactivex.functions.Function3
 
 class RegisterActivity : AppCompatActivity() {
 
+    private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
+
     private lateinit var binding: ActivityRegisterBinding
-    private val registerViewModel by viewModels<RegisterViewModel>()
+    private lateinit var registerViewModel: RegisterViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityRegisterBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        setupViewModel(applicationContext)
         setupActionBar()
         playAnimation()
         inputLayoutValidate()
@@ -87,6 +97,7 @@ class RegisterActivity : AppCompatActivity() {
                                 create()
                                 show()
                             }
+                            registerViewModel.messageSuccessResponse.value = null
                         }
                     }
 
@@ -201,6 +212,12 @@ class RegisterActivity : AppCompatActivity() {
 
     private fun showPasswordConfirmationAlert(isNotValid: Boolean) {
         binding.passConfirmRegist.error = if (isNotValid) getString(R.string.password_doesnt_match) else null
+    }
+
+    private fun setupViewModel(context: Context) {
+        registerViewModel = ViewModelProvider(this,
+            ViewModelFactory(UserPreference.getInstance(dataStore), context)
+        )[RegisterViewModel::class.java]
     }
 
     private fun setupActionBar() {

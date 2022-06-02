@@ -1,9 +1,19 @@
 package com.traveloka.hotelranking.view.ui.home
 
+import android.content.Context
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.preferencesDataStore
+import androidx.lifecycle.ViewModelProvider
 import com.traveloka.hotelranking.R
 import com.traveloka.hotelranking.databinding.ActivityHomeBinding
+import com.traveloka.hotelranking.model.LoginViewModel
+import com.traveloka.hotelranking.model.UserPreference
+import com.traveloka.hotelranking.model.ViewModelFactory
 
 class HomeActivity : AppCompatActivity() {
 
@@ -13,7 +23,12 @@ class HomeActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityHomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        supportActionBar?.elevation = 0F //remove shadow action bar
-        this.title = getString(R.string.accommodations) //title
+        
+        setupActionBar()
+    }
+
+    private fun setupActionBar() {
+        supportActionBar?.elevation = 0F
+        this.title = getString(R.string.accommodations)
     }
 }
