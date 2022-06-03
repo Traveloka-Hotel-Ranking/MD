@@ -1,11 +1,11 @@
-package com.traveloka.hotelranking.data.source.local.room
+package com.traveloka.hotelranking.data.local.room
 
 import androidx.paging.PagingSource
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.traveloka.hotelranking.data.source.local.entity.HotelEntity
+import com.traveloka.hotelranking.data.local.entity.HotelEntity
 
 @Dao
 interface HotelDao {

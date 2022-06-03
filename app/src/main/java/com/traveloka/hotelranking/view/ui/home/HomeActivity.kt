@@ -13,7 +13,6 @@ import com.traveloka.hotelranking.R
 import com.traveloka.hotelranking.databinding.ActivityHomeBinding
 import com.traveloka.hotelranking.model.LoginViewModel
 import com.traveloka.hotelranking.model.UserPreference
-import com.traveloka.hotelranking.model.ViewModelFactory
 
 class HomeActivity : AppCompatActivity() {
 

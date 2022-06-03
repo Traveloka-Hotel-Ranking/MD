@@ -1,9 +1,9 @@
-package com.traveloka.hotelranking.data.source.local.room
+package com.traveloka.hotelranking.data.local.room
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
-import com.traveloka.hotelranking.data.source.local.entity.HotelEntity
-import com.traveloka.hotelranking.data.source.local.entity.RemoteKeysEntity
+import com.traveloka.hotelranking.data.local.entity.HotelEntity
+import com.traveloka.hotelranking.data.local.entity.RemoteKeysEntity
 
 @Database(
     entities = [HotelEntity::class, RemoteKeysEntity::class],

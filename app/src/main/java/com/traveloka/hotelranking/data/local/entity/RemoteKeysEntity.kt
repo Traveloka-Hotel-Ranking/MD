@@ -1,4 +1,4 @@
-package com.traveloka.hotelranking.data.source.local.entity
+package com.traveloka.hotelranking.data.local.entity
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

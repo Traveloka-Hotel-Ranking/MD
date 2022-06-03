@@ -25,29 +25,30 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.jakewharton.rxbinding2.widget.RxTextView
 import com.traveloka.hotelranking.R
+import com.traveloka.hotelranking.data.Resource
 import com.traveloka.hotelranking.databinding.ActivityRegisterBinding
 import com.traveloka.hotelranking.model.LoginViewModel
 import com.traveloka.hotelranking.model.RegisterViewModel
 import com.traveloka.hotelranking.model.UserPreference
-import com.traveloka.hotelranking.model.ViewModelFactory
 import com.traveloka.hotelranking.view.ui.login.LoginActivity
 import com.traveloka.hotelranking.view.ui.main.MainActivity
 import io.reactivex.Observable
 import io.reactivex.functions.Function3
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class RegisterActivity : AppCompatActivity() {
 
     private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
 
     private lateinit var binding: ActivityRegisterBinding
-    private lateinit var registerViewModel: RegisterViewModel
+    private val registerViewModel: RegisterViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityRegisterBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        setupViewModel(applicationContext)
+//        setupViewModel(applicationContext)
         setupActionBar()
         playAnimation()
         inputLayoutValidate()
@@ -56,9 +57,9 @@ class RegisterActivity : AppCompatActivity() {
 
     private fun setupAction() {
         binding.mbRegister.setOnClickListener {
-            registerViewModel.isLoading.observe(this) {
-                showLoading(it)
-            }
+//            registerViewModel.isLoading.observe(this) {
+//                showLoading(it)
+//            }
 
             val name = binding.name.text.toString().trim()
             val email = binding.email.text.toString().trim()
@@ -84,32 +85,63 @@ class RegisterActivity : AppCompatActivity() {
                 }
                 else -> {
                     registerViewModel.registerUser(name, email, phone, password)
-
-                    registerViewModel.messageSuccessResponse.observe(this) { status ->
-                        status?.let {
-                            AlertDialog.Builder(this@RegisterActivity).apply {
-                                setMessage(registerViewModel.messageSuccessResponse.value)
-                                setPositiveButton("Login") { _, _ ->
-                                    finish()
-                                    startActivity(Intent(this@RegisterActivity, LoginActivity::class.java),
-                                    ActivityOptionsCompat.makeSceneTransitionAnimation(this@RegisterActivity).toBundle())
+                        .observe(this@RegisterActivity) { result ->
+                            if (result is Resource.Loading) {
+                                showLoading(true)
+                            } else if (result is Resource.Error) {
+                                showLoading(false)
+                                Toast.makeText(
+                                    this@RegisterActivity, result.message,
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            } else if (result is Resource.Success) {
+                                showLoading(false)
+                                if (result.data != null) {
+                                    AlertDialog.Builder(this@RegisterActivity).apply {
+                                        setMessage(result.data.message)
+                                        setPositiveButton("Login") { _, _ ->
+                                            finish()
+                                            startActivity(
+                                                Intent(
+                                                    this@RegisterActivity,
+                                                    LoginActivity::class.java
+                                                ),
+                                                ActivityOptionsCompat.makeSceneTransitionAnimation(this@RegisterActivity)
+                                                    .toBundle()
+                                            )
+                                        }
+                                        create()
+                                        show()
+                                    }
                                 }
-                                create()
-                                show()
                             }
-                            registerViewModel.messageSuccessResponse.value = null
                         }
-                    }
 
-                    registerViewModel.messageResponse.observe(this) { status ->
-                        status?.let {
-                            Toast.makeText(
-                                this@RegisterActivity, registerViewModel.messageResponse.value,
-                                Toast.LENGTH_SHORT
-                            ).show()
-                            registerViewModel.messageResponse.value = null
-                        }
-                    }
+//                    registerViewModel.messageSuccessResponse.observe(this) { status ->
+//                        status?.let {
+//                            AlertDialog.Builder(this@RegisterActivity).apply {
+//                                setMessage(registerViewModel.messageSuccessResponse.value)
+//                                setPositiveButton("Login") { _, _ ->
+//                                    finish()
+//                                    startActivity(Intent(this@RegisterActivity, LoginActivity::class.java),
+//                                    ActivityOptionsCompat.makeSceneTransitionAnimation(this@RegisterActivity).toBundle())
+//                                }
+//                                create()
+//                                show()
+//                            }
+//                            registerViewModel.messageSuccessResponse.value = null
+//                        }
+//                    }
+//
+//                    registerViewModel.messageResponse.observe(this) { status ->
+//                        status?.let {
+//                            Toast.makeText(
+//                                this@RegisterActivity, registerViewModel.messageResponse.value,
+//                                Toast.LENGTH_SHORT
+//                            ).show()
+//                            registerViewModel.messageResponse.value = null
+//                        }
+//                    }
                 }
             }
         }
@@ -214,11 +246,11 @@ class RegisterActivity : AppCompatActivity() {
         binding.passConfirmRegist.error = if (isNotValid) getString(R.string.password_doesnt_match) else null
     }
 
-    private fun setupViewModel(context: Context) {
-        registerViewModel = ViewModelProvider(this,
-            ViewModelFactory(UserPreference.getInstance(dataStore), context)
-        )[RegisterViewModel::class.java]
-    }
+//    private fun setupViewModel(context: Context) {
+//        registerViewModel = ViewModelProvider(this,
+//            ViewModelFactory(UserPreference.getInstance(dataStore), context)
+//        )[RegisterViewModel::class.java]
+//    }
 
     private fun setupActionBar() {
         supportActionBar?.elevation = 0F

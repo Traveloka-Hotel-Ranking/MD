@@ -15,17 +15,17 @@ import androidx.lifecycle.ViewModelProvider
 import com.traveloka.hotelranking.databinding.ActivityMainBinding
 import com.traveloka.hotelranking.model.LoginViewModel
 import com.traveloka.hotelranking.model.UserPreference
-import com.traveloka.hotelranking.model.ViewModelFactory
 import com.traveloka.hotelranking.view.ui.home.HomeActivity
 import com.traveloka.hotelranking.view.ui.login.LoginActivity
 import com.traveloka.hotelranking.view.ui.register.RegisterActivity
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : AppCompatActivity() {
 
-    private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
+//    private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
 
     private lateinit var binding: ActivityMainBinding
-    private lateinit var loginViewModel: LoginViewModel
+    private val loginViewModel: LoginViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,9 +38,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupViewModel(context: Context) {
-        loginViewModel = ViewModelProvider(this,
-        ViewModelFactory(UserPreference.getInstance(dataStore), context)
-        )[LoginViewModel::class.java]
+//        loginViewModel = ViewModelProvider(this,
+//        ViewModelFactory(UserPreference.getInstance(dataStore), context)
+//        )[LoginViewModel::class.java]
 
         loginViewModel.getUser().observe(this) { pref ->
             if (pref.checkLogin) {

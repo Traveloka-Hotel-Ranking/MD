@@ -1,4 +1,4 @@
-package com.traveloka.hotelranking.data.source.remote.response
+package com.traveloka.hotelranking.data.remote.response
 
 import com.google.gson.annotations.SerializedName
 

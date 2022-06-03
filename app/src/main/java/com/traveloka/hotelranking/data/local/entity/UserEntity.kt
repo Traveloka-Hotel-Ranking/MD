@@ -1,4 +1,4 @@
-package com.traveloka.hotelranking.data.source.local.entity
+package com.traveloka.hotelranking.data.local.entity
 
 import androidx.annotation.NonNull
 import androidx.room.ColumnInfo

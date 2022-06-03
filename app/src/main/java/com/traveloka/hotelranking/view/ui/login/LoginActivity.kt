@@ -21,21 +21,22 @@ import androidx.datastore.preferences.preferencesDataStore
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.traveloka.hotelranking.R
+import com.traveloka.hotelranking.data.Resource
 import com.traveloka.hotelranking.databinding.ActivityLoginBinding
 import com.traveloka.hotelranking.model.LoginViewModel
 import com.traveloka.hotelranking.model.UserModel
 import com.traveloka.hotelranking.model.UserPreference
-import com.traveloka.hotelranking.model.ViewModelFactory
 import com.traveloka.hotelranking.view.ui.home.HomeActivity
 import com.traveloka.hotelranking.view.ui.main.MainActivity
 import com.traveloka.hotelranking.view.ui.register.RegisterActivity
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class LoginActivity : AppCompatActivity() {
 
-    private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
+//    private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
 
     private lateinit var binding: ActivityLoginBinding
-    private lateinit var loginViewModel: LoginViewModel
+    private val loginViewModel: LoginViewModel by viewModel()
     private lateinit var userModel: UserModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -58,14 +59,15 @@ class LoginActivity : AppCompatActivity() {
         }
 
         binding.mbLogin.setOnClickListener {
-            loginViewModel.isLoading.observe(this) {
-                showLoading(it)
-            }
+//            loginViewModel.isLoading.observe(this) {
+//                showLoading(it)
+//            }
 
             val email = binding.email.text.toString().trim()
             val password = binding.password.text.toString().trim()
 
             loginViewModel.loginUser(email, password)
+<<<<<<< Updated upstream
 
             loginViewModel.messageSuccessResponse.observe(this) { status ->
                 status?.let {
@@ -93,11 +95,69 @@ class LoginActivity : AppCompatActivity() {
                         else -> {
                             binding.emailLogin.error = null
                             binding.passLogin.error = null
+=======
+                .observe(this@LoginActivity) { result ->
+                    if (result is Resource.Loading) {
+                        showLoading(true)
+                        binding.emailLogin.error = null
+                        binding.passLogin.error = null
+
+                    } else if (result is Resource.Error) {
+                        showLoading(false)
+                        binding.emailLogin.error = result.message
+                        binding.passLogin.error = result.message
+
+                    } else if (result is Resource.Success) {
+                        showLoading(false)
+                        binding.emailLogin.error = null
+                        binding.passLogin.error = null
+
+                        if (result.data != null) {
+                            loginViewModel.login()
+                            val name = result.data.name
+                            val dataEmail = result.data.email
+                            val accessToken = result.data.accessToken
+                            loginViewModel.saveUser(UserModel(name, dataEmail, accessToken, true))
+
+                            Toast.makeText(this@LoginActivity,
+                                result.data.message,
+                                Toast.LENGTH_SHORT).show()
+                            startActivity(Intent(this@LoginActivity, HomeActivity::class.java),
+                                ActivityOptionsCompat.makeSceneTransitionAnimation(this@LoginActivity).toBundle())
+>>>>>>> Stashed changes
                         }
                     }
-                    loginViewModel.messageResponse.value = null
                 }
-            }
+//            loginViewModel.loginUser(email, password)
+
+//            loginViewModel.messageSuccessResponse.observe(this) { status ->
+//                status?.let {
+//                    Toast.makeText(this@LoginActivity,
+//                        loginViewModel.messageSuccessResponse.value,
+//                        Toast.LENGTH_SHORT).show()
+//                    startActivity(Intent(this@LoginActivity, HomeActivity::class.java),
+//                        ActivityOptionsCompat.makeSceneTransitionAnimation(this@LoginActivity).toBundle())
+//                    loginViewModel.messageSuccessResponse.value = null
+//                }
+//            }
+//
+//            loginViewModel.messageResponse.observe(this) { status ->
+//                status?.let {
+//                    when (loginViewModel.messageResponse.value) {
+//                        "User Not Found." -> {
+//                            binding.emailLogin.error = loginViewModel.messageResponse.value
+//                        }
+//                        "Invalid Password!" -> {
+//                            binding.passLogin.error = loginViewModel.messageResponse.value
+//                        }
+//                        else -> {
+//                            binding.emailLogin.error = null
+//                            binding.passLogin.error = null
+//                        }
+//                    }
+//                    loginViewModel.messageResponse.value = null
+//                }
+//            }
 
         }
 
@@ -114,9 +174,9 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun setupViewModel(context: Context) {
-        loginViewModel = ViewModelProvider(this,
-        ViewModelFactory(UserPreference.getInstance(dataStore), context)
-        )[LoginViewModel::class.java]
+//        loginViewModel = ViewModelProvider(this,
+//        ViewModelFactory(UserPreference.getInstance(dataStore), context)
+//        )[LoginViewModel::class.java]
 
         loginViewModel.getUser().observe(this) { user ->
             this.userModel = user
