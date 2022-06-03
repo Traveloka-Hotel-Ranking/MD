@@ -67,35 +67,6 @@ class LoginActivity : AppCompatActivity() {
             val password = binding.password.text.toString().trim()
 
             loginViewModel.loginUser(email, password)
-<<<<<<< Updated upstream
-
-            loginViewModel.messageSuccessResponse.observe(this) { status ->
-                status?.let {
-                    Toast.makeText(this@LoginActivity,
-                        loginViewModel.messageSuccessResponse.value,
-                        Toast.LENGTH_SHORT).show()
-                    startActivity(Intent(this@LoginActivity, HomeActivity::class.java),
-                        ActivityOptionsCompat.makeSceneTransitionAnimation(this@LoginActivity).toBundle())
-                    loginViewModel.messageSuccessResponse.value = null
-                }
-            }
-
-            loginViewModel.messageResponse.observe(this) { status ->
-                status?.let {
-                    when (loginViewModel.messageResponse.value) {
-                        "User Not Found." -> {
-                            binding.emailLogin.error = loginViewModel.messageResponse.value
-                        }
-                        "Invalid Password!" -> {
-                            binding.passLogin.error = loginViewModel.messageResponse.value
-                        }
-                        "Server Timeout!" -> {
-                            Toast.makeText(this@LoginActivity, loginViewModel.messageResponse.value, Toast.LENGTH_SHORT).show()
-                        }
-                        else -> {
-                            binding.emailLogin.error = null
-                            binding.passLogin.error = null
-=======
                 .observe(this@LoginActivity) { result ->
                     if (result is Resource.Loading) {
                         showLoading(true)
@@ -124,11 +95,9 @@ class LoginActivity : AppCompatActivity() {
                                 Toast.LENGTH_SHORT).show()
                             startActivity(Intent(this@LoginActivity, HomeActivity::class.java),
                                 ActivityOptionsCompat.makeSceneTransitionAnimation(this@LoginActivity).toBundle())
->>>>>>> Stashed changes
                         }
                     }
                 }
-//            loginViewModel.loginUser(email, password)
 
 //            loginViewModel.messageSuccessResponse.observe(this) { status ->
 //                status?.let {
@@ -150,14 +119,13 @@ class LoginActivity : AppCompatActivity() {
 //                        "Invalid Password!" -> {
 //                            binding.passLogin.error = loginViewModel.messageResponse.value
 //                        }
+//                        "Server Timeout!" -> {
+//                            Toast.makeText(this@LoginActivity, loginViewModel.messageResponse.value, Toast.LENGTH_SHORT).show()
+//                        }
 //                        else -> {
 //                            binding.emailLogin.error = null
 //                            binding.passLogin.error = null
 //                        }
-//                    }
-//                    loginViewModel.messageResponse.value = null
-//                }
-//            }
 
         }
 
