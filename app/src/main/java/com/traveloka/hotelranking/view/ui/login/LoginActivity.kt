@@ -87,6 +87,9 @@ class LoginActivity : AppCompatActivity() {
                         "Invalid Password!" -> {
                             binding.passLogin.error = loginViewModel.messageResponse.value
                         }
+                        "Server Timeout!" -> {
+                            Toast.makeText(this@LoginActivity, loginViewModel.messageResponse.value, Toast.LENGTH_SHORT).show()
+                        }
                         else -> {
                             binding.emailLogin.error = null
                             binding.passLogin.error = null
