@@ -63,4 +63,18 @@
     <string name="password_doesnt_match">Password doesn\'t match!</string>
     <string name="password_required">Password Required</string>
     <string name="skip">SKIP</string>
+    <string name="additional_security">Note : This question is needed for the additional security. Don\'t share this!</string>
+    <string name="answer_here">Answer here</string>
+    <string name="required">Required</string>
+    <string name="email_or_mobile_number">Email or Mobile Number</string>
+    <string name="send">Send</string>
+    <string name="new_password">New Password</string>
+    <string name="confirm">Confirm</string>
+
+    <string-array name="additional_security_entries">
+        <item>Select Question :</item>
+        <item>What\'s your Favorite Country?</item>
+        <item>What\'s your Favorite Food?</item>
+        <item>What\'s your Favorite Movie?</item>
+    </string-array>
 </resources>

@@ -11,6 +11,7 @@ import androidx.datastore.preferences.preferencesDataStore
 import androidx.datastore.preferences.preferencesDataStoreFile
 import com.traveloka.hotelranking.data.HotelRepository
 import com.traveloka.hotelranking.data.remote.network.ApiService
+import com.traveloka.hotelranking.model.ForgetPasswordViewModel
 import com.traveloka.hotelranking.model.LoginViewModel
 import com.traveloka.hotelranking.model.RegisterViewModel
 import com.traveloka.hotelranking.model.UserPreference
@@ -44,6 +45,7 @@ val networkModule = module {
 val viewModelModule = module {
     viewModel { LoginViewModel(get(), get()) }
     viewModel { RegisterViewModel(get()) }
+    viewModel { ForgetPasswordViewModel(get(), get()) }
 }
 
 val repositoryModule = module {

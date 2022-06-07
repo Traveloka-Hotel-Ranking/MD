@@ -12,6 +12,9 @@ data class UserResponse(
     @field:SerializedName("id")
     val id: Int,
 
+    @field:SerializedName("phone")
+    val phone: String,
+
     @field:SerializedName("message")
     val message: String,
 
@@ -26,6 +29,37 @@ data class UserResponse(
 )
 
 data class UserRegisterResponse(
+    @field:SerializedName("message")
+    val message: String
+)
+
+data class ForgetPasswordUserResponse(
+    @field:SerializedName("status")
+    val status: String,
+
+    @field:SerializedName("message")
+    val message: String,
+
+    @field:SerializedName("id")
+    val id: Int,
+
+    @field:SerializedName("name")
+    val name: String,
+
+    @field:SerializedName("email")
+    val email: String,
+
+    @field:SerializedName("roles")
+    val roles: List<String>,
+
+    @field:SerializedName("accessToken")
+    val accessTokenPassword: String
+)
+
+data class ResetPasswordResponse(
+    @field:SerializedName("status")
+    val status: String,
+
     @field:SerializedName("message")
     val message: String
 )

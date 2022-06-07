@@ -3,52 +3,41 @@ package com.traveloka.hotelranking.view.ui.register
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
-import android.content.Context
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.util.Patterns
 import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
-import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityOptionsCompat
 import androidx.core.app.NavUtils
 import androidx.core.content.ContextCompat
-import androidx.core.widget.addTextChangedListener
-import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.Preferences
-import androidx.datastore.preferences.preferencesDataStore
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import com.jakewharton.rxbinding2.widget.RxTextView
 import com.traveloka.hotelranking.R
 import com.traveloka.hotelranking.data.Resource
 import com.traveloka.hotelranking.databinding.ActivityRegisterBinding
-import com.traveloka.hotelranking.model.LoginViewModel
 import com.traveloka.hotelranking.model.RegisterViewModel
-import com.traveloka.hotelranking.model.UserPreference
 import com.traveloka.hotelranking.view.ui.login.LoginActivity
 import com.traveloka.hotelranking.view.ui.main.MainActivity
 import io.reactivex.Observable
-import io.reactivex.functions.Function3
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class RegisterActivity : AppCompatActivity() {
 
-    private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
-
     private lateinit var binding: ActivityRegisterBinding
     private val registerViewModel: RegisterViewModel by viewModel()
+
+    private var favCountry: String? = null
+    private var favFood: String? = null
+    private var favMovie: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityRegisterBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-//        setupViewModel(applicationContext)
         setupActionBar()
         playAnimation()
         inputLayoutValidate()
@@ -57,43 +46,56 @@ class RegisterActivity : AppCompatActivity() {
 
     private fun setupAction() {
         binding.mbRegister.setOnClickListener {
-//            registerViewModel.isLoading.observe(this) {
-//                showLoading(it)
-//            }
 
             val name = binding.name.text.toString().trim()
             val email = binding.email.text.toString().trim()
             val phone = binding.phone.text.toString().trim()
             val password = binding.password.text.toString().trim()
-            val confirmPass = binding.confirmPassword.text.toString().trim()
+            val favorite = binding.security.text.toString().trim()
+            val spinner = binding.spinnerSecurity.selectedItem.toString()
 
             when {
                 name.isEmpty() -> {
                     binding.nameRegist.error = getString(R.string.name_required)
                 }
-                email.isEmpty() -> {
-                    binding.emailRegist.error = getString(R.string.invalid_email)
-                }
                 phone.isEmpty() -> {
                     binding.numberRegist.error = getString(R.string.mobile_number_required)
                 }
-                password.isEmpty() -> {
-                    binding.passRegist.error = getString(R.string.password_required)
+                favorite.isEmpty() -> {
+                    binding.layoutSecurity.error = getString(R.string.required)
                 }
-                confirmPass.isEmpty() -> {
-                    binding.passConfirmRegist.error = getString(R.string.password_required)
+                spinner == "Select Question :" -> {
+                    AlertDialog.Builder(this@RegisterActivity).apply {
+                        setMessage("Please Select the question!")
+                        setNegativeButton("Close") { _, _ -> }
+                        create()
+                        show()
+                    }
                 }
                 else -> {
-                    registerViewModel.registerUser(name, email, phone, password)
+                    if (spinner == "What's your Favorite Country?") {
+                        favCountry = favorite
+                    }
+                    if (spinner == "What's your Favorite Food?") {
+                        favFood = favorite
+                    }
+                    if(spinner == "What's your Favorite Movie?") {
+                        favMovie = favorite
+                    }
+
+                    registerViewModel.registerUser(name, email, phone, password, favCountry, favFood, favMovie)
                         .observe(this@RegisterActivity) { result ->
                             if (result is Resource.Loading) {
                                 showLoading(true)
                             } else if (result is Resource.Error) {
                                 showLoading(false)
                                 Toast.makeText(
-                                    this@RegisterActivity, result.message,
+                                    this@RegisterActivity, result.message.toString(),
                                     Toast.LENGTH_SHORT
                                 ).show()
+                                favCountry = null
+                                favFood = null
+                                favMovie = null
                             } else if (result is Resource.Success) {
                                 showLoading(false)
                                 if (result.data != null) {
@@ -114,34 +116,11 @@ class RegisterActivity : AppCompatActivity() {
                                         show()
                                     }
                                 }
+                                favCountry = null
+                                favFood = null
+                                favMovie = null
                             }
                         }
-
-//                    registerViewModel.messageSuccessResponse.observe(this) { status ->
-//                        status?.let {
-//                            AlertDialog.Builder(this@RegisterActivity).apply {
-//                                setMessage(registerViewModel.messageSuccessResponse.value)
-//                                setPositiveButton("Login") { _, _ ->
-//                                    finish()
-//                                    startActivity(Intent(this@RegisterActivity, LoginActivity::class.java),
-//                                    ActivityOptionsCompat.makeSceneTransitionAnimation(this@RegisterActivity).toBundle())
-//                                }
-//                                create()
-//                                show()
-//                            }
-//                            registerViewModel.messageSuccessResponse.value = null
-//                        }
-//                    }
-//
-//                    registerViewModel.messageResponse.observe(this) { status ->
-//                        status?.let {
-//                            Toast.makeText(
-//                                this@RegisterActivity, registerViewModel.messageResponse.value,
-//                                Toast.LENGTH_SHORT
-//                            ).show()
-//                            registerViewModel.messageResponse.value = null
-//                        }
-//                    }
                 }
             }
         }
@@ -184,6 +163,15 @@ class RegisterActivity : AppCompatActivity() {
             showPhoneNumberExistAlert(it)
         }
 
+        val spinnerStream = RxTextView.textChanges(binding.security)
+            .skipInitialValue()
+            .map { spinner ->
+                spinner.isEmpty()
+            }
+        spinnerStream.subscribe{
+            showSpinnerAlert(it)
+        }
+
         val passwordStream = RxTextView.textChanges(binding.password)
             .skipInitialValue()
             .map { password ->
@@ -210,11 +198,10 @@ class RegisterActivity : AppCompatActivity() {
         val invalidFieldsStream = Observable.combineLatest(
             emailStream,
             passwordStream,
-            passwordConfirmationStream,
-            Function3 { emailInvalid: Boolean, passwordInvalid: Boolean, passwordConfirmationInvalid: Boolean ->
-                !emailInvalid && !passwordInvalid && !passwordConfirmationInvalid
-            }
-        )
+            passwordConfirmationStream
+        ) { emailInvalid: Boolean, passwordInvalid: Boolean, passwordConfirmationInvalid: Boolean ->
+            !emailInvalid && !passwordInvalid && !passwordConfirmationInvalid
+        }
         invalidFieldsStream.subscribe { isValid ->
             if (isValid) {
                 binding.mbRegister.isEnabled = true
@@ -245,12 +232,9 @@ class RegisterActivity : AppCompatActivity() {
     private fun showPasswordConfirmationAlert(isNotValid: Boolean) {
         binding.passConfirmRegist.error = if (isNotValid) getString(R.string.password_doesnt_match) else null
     }
-
-//    private fun setupViewModel(context: Context) {
-//        registerViewModel = ViewModelProvider(this,
-//            ViewModelFactory(UserPreference.getInstance(dataStore), context)
-//        )[RegisterViewModel::class.java]
-//    }
+    private fun showSpinnerAlert(isNotValid: Boolean) {
+        binding.layoutSecurity.error = if (isNotValid) getString(R.string.required) else null
+    }
 
     private fun setupActionBar() {
         supportActionBar?.elevation = 0F
@@ -278,24 +262,33 @@ class RegisterActivity : AppCompatActivity() {
     }
 
     private fun playAnimation() {
-        val nameRegister = ObjectAnimator.ofFloat(binding.nameRegist, View.ALPHA, 1f).setDuration(300)
-        val emailRegister = ObjectAnimator.ofFloat(binding.emailRegist, View.ALPHA, 1f).setDuration(300)
-        val numberRegister = ObjectAnimator.ofFloat(binding.numberRegist, View.ALPHA, 1f).setDuration(300)
-        val passwordReg = ObjectAnimator.ofFloat(binding.passRegist, View.ALPHA, 1f).setDuration(300)
-        val confirmPasswordReg = ObjectAnimator.ofFloat(binding.passConfirmRegist, View.ALPHA, 1f).setDuration(300)
-        val btnRegister = ObjectAnimator.ofFloat(binding.mbRegister, View.ALPHA, 1f).setDuration(300)
-        val btnRegisterGoogle = ObjectAnimator.ofFloat(binding.mbRegisterGoogle, View.ALPHA, 1f).setDuration(300)
-        val travAcc = ObjectAnimator.ofFloat(binding.travAcc, View.ALPHA, 1f).setDuration(300)
-        val loginNow = ObjectAnimator.ofFloat(binding.loginNow, View.ALPHA, 1f).setDuration(300)
+        val nameRegister = ObjectAnimator.ofFloat(binding.nameRegist, View.ALPHA, 1f).setDuration(ANIMATION_DURATION.toLong())
+        val emailRegister = ObjectAnimator.ofFloat(binding.emailRegist, View.ALPHA, 1f).setDuration(ANIMATION_DURATION.toLong())
+        val numberRegister = ObjectAnimator.ofFloat(binding.numberRegist, View.ALPHA, 1f).setDuration(ANIMATION_DURATION.toLong())
+        val passwordReg = ObjectAnimator.ofFloat(binding.passRegist, View.ALPHA, 1f).setDuration(ANIMATION_DURATION.toLong())
+        val confirmPasswordReg = ObjectAnimator.ofFloat(binding.passConfirmRegist, View.ALPHA, 1f).setDuration(ANIMATION_DURATION.toLong())
+        val textNote = ObjectAnimator.ofFloat(binding.tvAdditionalSecurity, View.ALPHA, 1f).setDuration(ANIMATION_DURATION.toLong())
+        val spinner = ObjectAnimator.ofFloat(binding.spinnerSecurity, View.ALPHA, 1f).setDuration(ANIMATION_DURATION.toLong())
+        val btnRegister = ObjectAnimator.ofFloat(binding.mbRegister, View.ALPHA, 1f).setDuration(ANIMATION_DURATION.toLong())
+        val security = ObjectAnimator.ofFloat(binding.layoutSecurity, View.ALPHA, 1f).setDuration(ANIMATION_DURATION.toLong())
+        val travAcc = ObjectAnimator.ofFloat(binding.travAcc, View.ALPHA, 1f).setDuration(ANIMATION_DURATION.toLong())
+        val loginNow = ObjectAnimator.ofFloat(binding.loginNow, View.ALPHA, 1f).setDuration(ANIMATION_DURATION.toLong())
 
-        val together = AnimatorSet().apply {
+        val together1 = AnimatorSet().apply {
+            playTogether(textNote, spinner, security)
+        }
+        val together2 = AnimatorSet().apply {
             playTogether(travAcc, loginNow)
         }
 
         AnimatorSet().apply {
             playSequentially(nameRegister, emailRegister, numberRegister, passwordReg, confirmPasswordReg,
-                btnRegister, btnRegisterGoogle, together)
+                together1, btnRegister, together2)
             start()
         }
+    }
+
+    companion object {
+        private const val ANIMATION_DURATION = 200
     }
 }
