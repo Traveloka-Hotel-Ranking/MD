@@ -4,6 +4,8 @@ import com.traveloka.hotelranking.data.remote.response.ForgetPasswordUserRespons
 import com.traveloka.hotelranking.data.remote.response.ResetPasswordResponse
 import com.traveloka.hotelranking.data.remote.response.UserRegisterResponse
 import com.traveloka.hotelranking.data.remote.response.UserResponse
+import retrofit2.Call
+import retrofit2.Response
 import retrofit2.http.*
 
 interface ApiService {
@@ -17,7 +19,7 @@ interface ApiService {
         @Field("favCountry") favCountry: String?,
         @Field("favFood") favFood: String?,
         @Field("favMovie") favMovie: String?
-    ): UserRegisterResponse
+    ): Response<UserRegisterResponse>
 
     @FormUrlEncoded
     @POST("signin")
@@ -25,7 +27,7 @@ interface ApiService {
         @Field("email") email: String?,
         @Field("phone") phone: String?,
         @Field("password") password: String
-    ): UserResponse
+    ): Response<UserResponse>
 
     @FormUrlEncoded
     @POST("forgotpassword")
@@ -34,7 +36,7 @@ interface ApiService {
         @Field("favCountry") favCountry: String?,
         @Field("favFood") favFood: String?,
         @Field("favMovie") favMovie: String?
-    ): ForgetPasswordUserResponse
+    ): Response<ForgetPasswordUserResponse>
 
     @FormUrlEncoded
     @PUT("resetpassword")
@@ -42,6 +44,6 @@ interface ApiService {
         @Header("x-access-token-reset") tokenReset: String,
         @Field("email") email: String,
         @Field("password") password: String
-    ): ResetPasswordResponse
+    ): Response<ResetPasswordResponse>
 
 }

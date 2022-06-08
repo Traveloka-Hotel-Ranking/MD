@@ -9,6 +9,7 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.emptyPreferences
 import androidx.datastore.preferences.preferencesDataStore
 import androidx.datastore.preferences.preferencesDataStoreFile
+import com.traveloka.hotelranking.BuildConfig
 import com.traveloka.hotelranking.data.HotelRepository
 import com.traveloka.hotelranking.data.remote.network.ApiService
 import com.traveloka.hotelranking.model.ForgetPasswordViewModel
@@ -28,8 +29,14 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 val networkModule = module {
     single {
+        val loggingInterceptor =
+            if (BuildConfig.DEBUG) {
+                HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
+            } else {
+                HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.NONE)
+            }
         OkHttpClient.Builder()
-            .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
+            .addInterceptor(loggingInterceptor)
             .build()
     }
     single {
