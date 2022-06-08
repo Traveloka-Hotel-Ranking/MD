@@ -70,6 +70,11 @@
     <string name="send">Send</string>
     <string name="new_password">New Password</string>
     <string name="confirm">Confirm</string>
+    <string name="profile">Profile</string>
+    <string name="email">Email :</string>
+    <string name="phone">Phone :</string>
+    <string name="change_password">Change Password</string>
+    <string name="logout">Logout</string>
 
     <string-array name="additional_security_entries">
         <item>Select Question :</item>

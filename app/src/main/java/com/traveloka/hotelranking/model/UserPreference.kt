@@ -15,6 +15,9 @@ class UserPreference (private val dataStore: DataStore<Preferences>){
                 pref[NAME_KEY] ?:"",
                 pref[EMAIL_KEY] ?:"",
                 pref[PHONE_KEY] ?:"",
+                pref[FAV_COUNTRY_KEY] ?:"",
+                pref[FAV_FOOD_KEY] ?:"",
+                pref[FAV_MOVIE_KEY] ?:"",
                 pref[ACCESS_TOKEN_KEY] ?:"",
                 pref[STATE_KEY] ?: false
             )
@@ -26,6 +29,9 @@ class UserPreference (private val dataStore: DataStore<Preferences>){
             pref[NAME_KEY] = userModel.name
             pref[EMAIL_KEY] = userModel.email
             pref[PHONE_KEY] = userModel.phone
+            pref[FAV_COUNTRY_KEY] = userModel.favCountry
+            pref[FAV_FOOD_KEY] = userModel.favFood
+            pref[FAV_MOVIE_KEY] = userModel.favMovie
             pref[ACCESS_TOKEN_KEY] = userModel.accessToken
         }
     }
@@ -63,6 +69,9 @@ class UserPreference (private val dataStore: DataStore<Preferences>){
         private val NAME_KEY = stringPreferencesKey("name")
         private val EMAIL_KEY = stringPreferencesKey("email")
         private val PHONE_KEY = stringPreferencesKey("phone")
+        private val FAV_COUNTRY_KEY = stringPreferencesKey("fav_country")
+        private val FAV_FOOD_KEY = stringPreferencesKey("fav_food")
+        private val FAV_MOVIE_KEY = stringPreferencesKey("fav_movie")
         private val ACCESS_TOKEN_KEY = stringPreferencesKey("access_token")
         private val STATE_KEY = booleanPreferencesKey("state_token")
 

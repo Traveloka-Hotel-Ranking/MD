@@ -9,7 +9,6 @@ import android.util.Patterns
 import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityOptionsCompat
 import androidx.core.app.NavUtils
 import androidx.core.widget.addTextChangedListener
@@ -31,6 +30,9 @@ class LoginActivity : AppCompatActivity() {
 
     private var email: String? = null
     private var phone: String? = null
+    private var favCountry = "favCountry"
+    private var favFood = "favFood"
+    private var favMovie = "favMovie"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -75,11 +77,13 @@ class LoginActivity : AppCompatActivity() {
 
                     } else if (result is Resource.Error) {
                         showLoading(false)
-                        AlertDialog.Builder(this@LoginActivity).apply {
-                            setMessage("Email/Phone number or Password are Incorrect!")
-                            setNegativeButton("Close") { _, _ -> }
-                            create()
-                            show()
+                        when (val mMessage = result.message.toString()) {
+                            "User Not Found." -> {
+                                binding.emailPhoneLogin.error = mMessage
+                            }
+                            "Invalid Password!" -> {
+                                binding.passLogin.error = mMessage
+                            }
                         }
                         email = null
                         phone = null
@@ -88,13 +92,17 @@ class LoginActivity : AppCompatActivity() {
                         binding.emailPhoneLogin.error = null
                         binding.passLogin.error = null
 
+                        favCountry = result.data?.favCountry.toString()
+                        favFood = result.data?.favFood.toString()
+                        favMovie = result.data?.favMovie.toString()
+
                         if (result.data != null) {
                             loginViewModel.login()
                             val name = result.data.name
                             val dataEmail = result.data.email
                             val dataPhone = result.data.phone
                             val accessToken = result.data.accessToken
-                            loginViewModel.saveUser(UserModel(name, dataEmail, dataPhone, accessToken, true))
+                            loginViewModel.saveUser(UserModel(name, dataEmail, dataPhone, favCountry, favFood, favMovie, accessToken,true))
 
                             Toast.makeText(this@LoginActivity,
                                 result.data.message,

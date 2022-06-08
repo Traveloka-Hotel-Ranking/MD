@@ -18,8 +18,6 @@ import com.traveloka.hotelranking.databinding.ActivityForgetPasswordBinding
 import com.traveloka.hotelranking.databinding.NewPasswordLayoutBinding
 import com.traveloka.hotelranking.model.ForgetPasswordViewModel
 import com.traveloka.hotelranking.model.UserForgetPasswordModel
-import com.traveloka.hotelranking.model.UserModel
-import com.traveloka.hotelranking.view.ui.main.MainActivity
 import io.reactivex.Observable
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -118,15 +116,15 @@ class ForgetPasswordActivity : AppCompatActivity() {
 
                                             forgetPasswordViewModel.resetPassword(tokenReset, emailReset, newPass).observe(this@ForgetPasswordActivity) { result ->
                                                 if (result is Resource.Loading) {
-                                                    showLoading(true)
+                                                    showLoadingForgetPassword(true)
                                                 } else if (result is Resource.Error) {
-                                                    showLoading(false)
+                                                    showLoadingForgetPassword(false)
                                                     Toast.makeText(
                                                         this@ForgetPasswordActivity, result.message.toString(),
                                                         Toast.LENGTH_SHORT
                                                     ).show()
                                                 } else if (result is Resource.Success) {
-                                                    showLoading(false)
+                                                    showLoadingForgetPassword(false)
                                                     if (result.data != null) {
                                                         AlertDialog.Builder(this@ForgetPasswordActivity).apply {
                                                             setMessage(result.data.message)
@@ -229,5 +227,9 @@ class ForgetPasswordActivity : AppCompatActivity() {
 
     private fun showLoading(isLoading: Boolean) {
         binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
+    }
+
+    private fun showLoadingForgetPassword(isLoading: Boolean) {
+        binding2.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
     }
 }

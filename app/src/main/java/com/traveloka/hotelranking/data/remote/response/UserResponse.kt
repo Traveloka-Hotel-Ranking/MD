@@ -25,7 +25,17 @@ data class UserResponse(
     val email: String,
 
     @field:SerializedName("status")
-    val status: String
+    val status: String,
+
+    @field:SerializedName("favCountry")
+    val favCountry: String?,
+
+    @field:SerializedName("favMovie")
+    val favMovie: String?,
+
+    @field:SerializedName("favFood")
+    val favFood: String?
+
 )
 
 data class UserRegisterResponse(

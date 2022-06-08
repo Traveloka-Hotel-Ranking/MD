@@ -16,4 +16,5 @@
     <color name="light_gray">#aaa</color>
     <color name="blue_dot">#235D9F</color>
     <color name="textSmokeWhite">#e8e8e8</color>
+    <color name="red">#DA1212</color>
 </resources>

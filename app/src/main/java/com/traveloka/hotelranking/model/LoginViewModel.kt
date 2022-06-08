@@ -29,4 +29,10 @@ class LoginViewModel(private val preference: UserPreference,
             preference.login()
         }
     }
+
+    fun logout() {
+        viewModelScope.launch {
+            preference.logout()
+        }
+    }
 }
