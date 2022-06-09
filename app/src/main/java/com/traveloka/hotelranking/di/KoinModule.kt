@@ -1,22 +1,20 @@
 package com.traveloka.hotelranking.di
 
 import androidx.datastore.core.DataStore
-import androidx.datastore.core.DataStoreFactory
 import androidx.datastore.core.handlers.ReplaceFileCorruptionHandler
 import androidx.datastore.preferences.SharedPreferencesMigration
 import androidx.datastore.preferences.core.PreferenceDataStoreFactory
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.emptyPreferences
-import androidx.datastore.preferences.preferencesDataStore
 import androidx.datastore.preferences.preferencesDataStoreFile
 import com.traveloka.hotelranking.BuildConfig
 import com.traveloka.hotelranking.data.HotelRepository
 import com.traveloka.hotelranking.data.remote.network.ApiService
-import com.traveloka.hotelranking.model.ForgetPasswordViewModel
-import com.traveloka.hotelranking.model.LoginViewModel
-import com.traveloka.hotelranking.model.RegisterViewModel
+import com.traveloka.hotelranking.view.ui.login.ForgetPasswordViewModel
+import com.traveloka.hotelranking.view.ui.register.RegisterViewModel
 import com.traveloka.hotelranking.model.UserPreference
 import com.traveloka.hotelranking.view.ui.home.HomeViewModel
+import com.traveloka.hotelranking.view.ui.login.LoginViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob

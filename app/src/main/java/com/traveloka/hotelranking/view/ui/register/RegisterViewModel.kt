@@ -1,4 +1,4 @@
-package com.traveloka.hotelranking.model
+package com.traveloka.hotelranking.view.ui.register
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel

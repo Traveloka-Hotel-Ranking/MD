@@ -54,6 +54,9 @@ dependencies {
     implementation "io.insert-koin:koin-android:3.2.0"
     implementation"androidx.lifecycle:lifecycle-runtime-ktx:2.4.1"
 
+    implementation 'com.google.android.gms:play-services-maps:18.0.2'
+    implementation 'com.google.android.gms:play-services-location:19.0.1'
+
     implementation Libs.timber
     implementation Libs.gson
     implementation Libs.retrofit

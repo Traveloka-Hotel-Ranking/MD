@@ -1,7 +1,6 @@
 package com.traveloka.hotelranking.view.ui.home
 
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
@@ -15,7 +14,6 @@ import com.traveloka.hotelranking.view.ui.detail.DetailHotelActivity
 import com.traveloka.hotelranking.view.ui.home.adapter.HomeAdapter
 import com.traveloka.hotelranking.view.ui.profile.ProfileActivity
 import com.traveloka.hotelranking.view.utils.*
-import com.traveloka.hotelranking.view.utils.constants.RAW_DATE_PATTERN
 import com.traveloka.hotelranking.view.utils.constants.RAW_DATE_PATTERN_NEW
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.util.*
@@ -24,7 +22,7 @@ class HomeActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityHomeBinding
     private val adapter by lazy { HomeAdapter(this) }
-    private val viewModel : HomeViewModel by viewModel()
+    private val viewModel: HomeViewModel by viewModel()
     var countNight = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,31 +37,31 @@ class HomeActivity : AppCompatActivity() {
     }
 
     private fun subscribeToLiveData() {
-        viewModel.dataRequestList.observe(this){ data ->
+        viewModel.dataRequestList.observe(this) { data ->
             adapter.setItemListHotel(data.toMutableList())
         }
 
-        viewModel.isErrorRequestList.observe(this){ message ->
+        viewModel.isErrorRequestList.observe(this) { message ->
             showToast(message!!)
         }
 
-        viewModel.isLoadingRequestList.observe(this){ isLoading ->
+        viewModel.isLoadingRequestList.observe(this) { isLoading ->
             handleShimmer(isLoading)
         }
     }
 
     private fun initView() {
-        adapter.setItemClickListener(object : ItemClickListener<HomeModel>{
+        adapter.setItemClickListener(object : ItemClickListener<HomeModel> {
             override fun onClick(data: HomeModel) {
-                openActivity(DetailHotelActivity::class.java)
+                openActivityWithData(DetailHotelActivity::class.java, data)
             }
         })
         binding.run {
             rvHome.adapter = adapter
             tvDate.isFocusable = false
             etCountNight.isFocusable = false
-            tvDate.setOnClickListener{
-                showCalender(object : ItemClickListener<String>{
+            tvDate.setOnClickListener {
+                showCalender(object : ItemClickListener<String> {
                     override fun onClick(data: String) {
                         tvDate.setText(data)
                     }
@@ -72,7 +70,7 @@ class HomeActivity : AppCompatActivity() {
 
             imMinus.setOnClickListener {
 
-                if (countNight > 1){
+                if (countNight > 1) {
                     countNight -= 1
                     etCountNight.setText(concat(countNight, getString(R.string.text_night)))
                 }
@@ -99,14 +97,14 @@ class HomeActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == R.id.menu_profile){
+        if (item.itemId == R.id.menu_profile) {
             openActivity(ProfileActivity::class.java)
         }
         return super.onOptionsItemSelected(item)
 
     }
 
-    private fun showCalender(listener: ItemClickListener<String>){
+    private fun showCalender(listener: ItemClickListener<String>) {
         val constraintsBuilder =
             CalendarConstraints.Builder()
                 .setValidator(DateValidatorPointForward.now())

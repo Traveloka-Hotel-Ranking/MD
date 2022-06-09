@@ -4,9 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    app:cardElevation="2dp"
+    android:layout_marginTop="@dimen/_20sdp"
     app:cardCornerRadius="@dimen/_4sdp"
-    android:layout_marginTop="@dimen/_20sdp">
+    app:cardElevation="2dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -64,11 +64,11 @@
             android:layout_height="@dimen/_16sdp"
             android:layout_marginStart="@dimen/_14sdp"
             android:layout_marginTop="6dp"
-            android:textSize="14sp"
             android:background="@drawable/shimmer_20dp"
+            android:textSize="14sp"
             android:textStyle="bold"
             app:layout_constraintStart_toEndOf="@id/card_thumbnail"
-            app:layout_constraintTop_toBottomOf="@id/tv_product_name"/>
+            app:layout_constraintTop_toBottomOf="@id/tv_product_name" />
 
         <View
             android:layout_width="@dimen/_100sdp"
@@ -76,8 +76,8 @@
             android:layout_marginStart="@dimen/_14sdp"
             android:layout_marginTop="@dimen/_8sdp"
             android:layout_marginBottom="@dimen/_8sdp"
-            android:backgroundTint="@color/grayscale_placeholder"
             android:background="@drawable/shimmer_2dp"
+            android:backgroundTint="@color/grayscale_placeholder"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@id/card_thumbnail"
             app:layout_constraintTop_toBottomOf="@id/tv_price" />

@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/cv_item_room"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -90,8 +89,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:textColor="@color/blue"
             android:text="@string/see_detail"
+            android:textColor="@color/blue"
             app:layout_constraintStart_toStartOf="@+id/tv_wifi"
             app:layout_constraintTop_toBottomOf="@+id/tv_wifi" />
 
@@ -100,8 +99,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:textColor="@color/gray"
             android:text="@string/price_discount"
+            android:textColor="@color/gray"
             app:layout_constraintStart_toStartOf="@+id/tv_see_detail"
             app:layout_constraintTop_toBottomOf="@+id/tv_see_detail" />
 
@@ -110,24 +109,23 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
+            android:text="Rp 300.000"
             android:textColor="@color/orange"
             android:textStyle="bold"
-            android:text="Rp 300.000"
             app:layout_constraintStart_toStartOf="@+id/tv_room_discount"
             app:layout_constraintTop_toBottomOf="@+id/tv_room_discount" />
 
         <com.google.android.material.button.MaterialButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/select"
-            android:backgroundTint="@color/orange"
             android:layout_margin="5dp"
+            android:backgroundTint="@color/orange"
             android:outlineProvider="bounds"
+            android:text="@string/select"
             app:cornerRadius="16dp"
+            app:layout_constraintBottom_toBottomOf="@id/tv_room_price"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/tv_room_price"
-            app:layout_constraintBottom_toBottomOf="@id/tv_room_price"/>
-
+            app:layout_constraintTop_toTopOf="@id/tv_room_price" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

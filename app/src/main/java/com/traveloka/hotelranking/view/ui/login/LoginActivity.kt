@@ -3,19 +3,18 @@ package com.traveloka.hotelranking.view.ui.login
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Patterns
 import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityOptionsCompat
 import androidx.core.app.NavUtils
 import androidx.core.widget.addTextChangedListener
 import com.traveloka.hotelranking.R
 import com.traveloka.hotelranking.data.Resource
 import com.traveloka.hotelranking.databinding.ActivityLoginBinding
-import com.traveloka.hotelranking.model.LoginViewModel
 import com.traveloka.hotelranking.model.UserModel
 import com.traveloka.hotelranking.view.ui.home.HomeActivity
 import com.traveloka.hotelranking.view.ui.main.MainActivity
@@ -102,13 +101,29 @@ class LoginActivity : AppCompatActivity() {
                             val dataEmail = result.data.email
                             val dataPhone = result.data.phone
                             val accessToken = result.data.accessToken
-                            loginViewModel.saveUser(UserModel(name, dataEmail, dataPhone, favCountry, favFood, favMovie, accessToken,true))
+                            loginViewModel.saveUser(
+                                UserModel(
+                                    name,
+                                    dataEmail,
+                                    dataPhone,
+                                    favCountry,
+                                    favFood,
+                                    favMovie,
+                                    accessToken,
+                                    true
+                                )
+                            )
 
-                            Toast.makeText(this@LoginActivity,
+                            Toast.makeText(
+                                this@LoginActivity,
                                 result.data.message,
-                                Toast.LENGTH_SHORT).show()
-                            startActivity(Intent(this@LoginActivity, HomeActivity::class.java),
-                                ActivityOptionsCompat.makeSceneTransitionAnimation(this@LoginActivity).toBundle())
+                                Toast.LENGTH_SHORT
+                            ).show()
+                            startActivity(
+                                Intent(this@LoginActivity, HomeActivity::class.java),
+                                ActivityOptionsCompat.makeSceneTransitionAnimation(this@LoginActivity)
+                                    .toBundle()
+                            )
                         }
                         email = null
                         phone = null
@@ -118,12 +133,18 @@ class LoginActivity : AppCompatActivity() {
 
         binding.forgetPass.setOnClickListener {
             val intent = Intent(this@LoginActivity, ForgetPasswordActivity::class.java)
-            startActivity(intent, ActivityOptionsCompat.makeSceneTransitionAnimation(this@LoginActivity).toBundle())
+            startActivity(
+                intent,
+                ActivityOptionsCompat.makeSceneTransitionAnimation(this@LoginActivity).toBundle()
+            )
         }
 
         binding.registerNow.setOnClickListener {
             val intent = Intent(this@LoginActivity, RegisterActivity::class.java)
-            startActivity(intent, ActivityOptionsCompat.makeSceneTransitionAnimation(this@LoginActivity).toBundle())
+            startActivity(
+                intent,
+                ActivityOptionsCompat.makeSceneTransitionAnimation(this@LoginActivity).toBundle()
+            )
         }
     }
 
@@ -141,7 +162,7 @@ class LoginActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
-            android.R.id.home ->{
+            android.R.id.home -> {
                 val intent = Intent(this, MainActivity::class.java)
                 startActivity(intent)
                 super.onOptionsItemSelected(item)
@@ -159,12 +180,18 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun playAnimation() {
-        val email = ObjectAnimator.ofFloat(binding.emailPhoneLogin, View.ALPHA, 1f).setDuration(ANIMATION_DURATION.toLong())
-        val password = ObjectAnimator.ofFloat(binding.passLogin, View.ALPHA, 1f).setDuration(ANIMATION_DURATION.toLong())
-        val btnLogin = ObjectAnimator.ofFloat(binding.mbLogin, View.ALPHA, 1f).setDuration(ANIMATION_DURATION.toLong())
-        val forgetPass = ObjectAnimator.ofFloat(binding.forgetPass, View.ALPHA, 1f).setDuration(ANIMATION_DURATION.toLong())
-        val travAcc = ObjectAnimator.ofFloat(binding.travAcc, View.ALPHA, 1f).setDuration(ANIMATION_DURATION.toLong())
-        val registerNow = ObjectAnimator.ofFloat(binding.registerNow, View.ALPHA, 1f).setDuration(ANIMATION_DURATION.toLong())
+        val email = ObjectAnimator.ofFloat(binding.emailPhoneLogin, View.ALPHA, 1f)
+            .setDuration(ANIMATION_DURATION.toLong())
+        val password = ObjectAnimator.ofFloat(binding.passLogin, View.ALPHA, 1f)
+            .setDuration(ANIMATION_DURATION.toLong())
+        val btnLogin = ObjectAnimator.ofFloat(binding.mbLogin, View.ALPHA, 1f)
+            .setDuration(ANIMATION_DURATION.toLong())
+        val forgetPass = ObjectAnimator.ofFloat(binding.forgetPass, View.ALPHA, 1f)
+            .setDuration(ANIMATION_DURATION.toLong())
+        val travAcc = ObjectAnimator.ofFloat(binding.travAcc, View.ALPHA, 1f)
+            .setDuration(ANIMATION_DURATION.toLong())
+        val registerNow = ObjectAnimator.ofFloat(binding.registerNow, View.ALPHA, 1f)
+            .setDuration(ANIMATION_DURATION.toLong())
 
         val together = AnimatorSet().apply {
             playTogether(travAcc, registerNow)

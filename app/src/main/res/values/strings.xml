@@ -85,4 +85,10 @@
 
     <string name="text_night">Night</string>
     <string name="text_points">Points</string>
+
+    <!-- Room List -->
+    <string name="room_price_before_discount"><strike>%1s</strike></string>
+
+    <!-- Detail Activity -->
+    <string name="detail">Detail</string>
 </resources>

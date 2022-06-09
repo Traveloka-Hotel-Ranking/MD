@@ -18,7 +18,6 @@ import com.jakewharton.rxbinding2.widget.RxTextView
 import com.traveloka.hotelranking.R
 import com.traveloka.hotelranking.data.Resource
 import com.traveloka.hotelranking.databinding.ActivityRegisterBinding
-import com.traveloka.hotelranking.model.RegisterViewModel
 import com.traveloka.hotelranking.view.ui.login.LoginActivity
 import com.traveloka.hotelranking.view.ui.main.MainActivity
 import io.reactivex.Observable
@@ -79,11 +78,19 @@ class RegisterActivity : AppCompatActivity() {
                     if (spinner == "What's your Favorite Food?") {
                         favFood = favorite
                     }
-                    if(spinner == "What's your Favorite Movie?") {
+                    if (spinner == "What's your Favorite Movie?") {
                         favMovie = favorite
                     }
 
-                    registerViewModel.registerUser(name, email, phone, password, favCountry, favFood, favMovie)
+                    registerViewModel.registerUser(
+                        name,
+                        email,
+                        phone,
+                        password,
+                        favCountry,
+                        favFood,
+                        favMovie
+                    )
                         .observe(this@RegisterActivity) { result ->
                             if (result is Resource.Loading) {
                                 showLoading(true)
@@ -108,7 +115,9 @@ class RegisterActivity : AppCompatActivity() {
                                                     this@RegisterActivity,
                                                     LoginActivity::class.java
                                                 ),
-                                                ActivityOptionsCompat.makeSceneTransitionAnimation(this@RegisterActivity)
+                                                ActivityOptionsCompat.makeSceneTransitionAnimation(
+                                                    this@RegisterActivity
+                                                )
                                                     .toBundle()
                                             )
                                         }
@@ -127,7 +136,10 @@ class RegisterActivity : AppCompatActivity() {
 
         binding.loginNow.setOnClickListener {
             val intent = Intent(this@RegisterActivity, LoginActivity::class.java)
-            startActivity(intent, ActivityOptionsCompat.makeSceneTransitionAnimation(this@RegisterActivity).toBundle())
+            startActivity(
+                intent,
+                ActivityOptionsCompat.makeSceneTransitionAnimation(this@RegisterActivity).toBundle()
+            )
         }
     }
 
@@ -150,7 +162,7 @@ class RegisterActivity : AppCompatActivity() {
             .map { email ->
                 !Patterns.EMAIL_ADDRESS.matcher(email).matches()
             }
-        emailStream.subscribe{
+        emailStream.subscribe {
             showEmailExistAlert(it)
         }
 
@@ -168,7 +180,7 @@ class RegisterActivity : AppCompatActivity() {
             .map { spinner ->
                 spinner.isEmpty()
             }
-        spinnerStream.subscribe{
+        spinnerStream.subscribe {
             showSpinnerAlert(it)
         }
 
@@ -177,7 +189,7 @@ class RegisterActivity : AppCompatActivity() {
             .map { password ->
                 password.length < 8
             }
-        passwordStream.subscribe{
+        passwordStream.subscribe {
             showPasswordMinimalAlert(it)
         }
 
@@ -191,7 +203,7 @@ class RegisterActivity : AppCompatActivity() {
                     confirmPassword.toString() != binding.password.text.toString()
                 }
         )
-        passwordConfirmationStream.subscribe{
+        passwordConfirmationStream.subscribe {
             showPasswordConfirmationAlert(it)
         }
 
@@ -208,7 +220,12 @@ class RegisterActivity : AppCompatActivity() {
                 binding.mbRegister.setBackgroundColor(ContextCompat.getColor(this, R.color.orange))
             } else {
                 binding.mbRegister.isEnabled = false
-                binding.mbRegister.setBackgroundColor(ContextCompat.getColor(this, R.color.light_gray))
+                binding.mbRegister.setBackgroundColor(
+                    ContextCompat.getColor(
+                        this,
+                        R.color.light_gray
+                    )
+                )
             }
         }
     }
@@ -222,7 +239,8 @@ class RegisterActivity : AppCompatActivity() {
     }
 
     private fun showPhoneNumberExistAlert(isNotValid: Boolean) {
-        binding.numberRegist.error = if (isNotValid) getString(R.string.mobile_number_required) else null
+        binding.numberRegist.error =
+            if (isNotValid) getString(R.string.mobile_number_required) else null
     }
 
     private fun showPasswordMinimalAlert(isNotValid: Boolean) {
@@ -230,8 +248,10 @@ class RegisterActivity : AppCompatActivity() {
     }
 
     private fun showPasswordConfirmationAlert(isNotValid: Boolean) {
-        binding.passConfirmRegist.error = if (isNotValid) getString(R.string.password_doesnt_match) else null
+        binding.passConfirmRegist.error =
+            if (isNotValid) getString(R.string.password_doesnt_match) else null
     }
+
     private fun showSpinnerAlert(isNotValid: Boolean) {
         binding.layoutSecurity.error = if (isNotValid) getString(R.string.required) else null
     }
@@ -244,7 +264,7 @@ class RegisterActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
-            android.R.id.home ->{
+            android.R.id.home -> {
                 val intent = Intent(this, MainActivity::class.java)
                 startActivity(intent)
                 super.onOptionsItemSelected(item)
@@ -262,17 +282,28 @@ class RegisterActivity : AppCompatActivity() {
     }
 
     private fun playAnimation() {
-        val nameRegister = ObjectAnimator.ofFloat(binding.nameRegist, View.ALPHA, 1f).setDuration(ANIMATION_DURATION.toLong())
-        val emailRegister = ObjectAnimator.ofFloat(binding.emailRegist, View.ALPHA, 1f).setDuration(ANIMATION_DURATION.toLong())
-        val numberRegister = ObjectAnimator.ofFloat(binding.numberRegist, View.ALPHA, 1f).setDuration(ANIMATION_DURATION.toLong())
-        val passwordReg = ObjectAnimator.ofFloat(binding.passRegist, View.ALPHA, 1f).setDuration(ANIMATION_DURATION.toLong())
-        val confirmPasswordReg = ObjectAnimator.ofFloat(binding.passConfirmRegist, View.ALPHA, 1f).setDuration(ANIMATION_DURATION.toLong())
-        val textNote = ObjectAnimator.ofFloat(binding.tvAdditionalSecurity, View.ALPHA, 1f).setDuration(ANIMATION_DURATION.toLong())
-        val spinner = ObjectAnimator.ofFloat(binding.spinnerSecurity, View.ALPHA, 1f).setDuration(ANIMATION_DURATION.toLong())
-        val btnRegister = ObjectAnimator.ofFloat(binding.mbRegister, View.ALPHA, 1f).setDuration(ANIMATION_DURATION.toLong())
-        val security = ObjectAnimator.ofFloat(binding.layoutSecurity, View.ALPHA, 1f).setDuration(ANIMATION_DURATION.toLong())
-        val travAcc = ObjectAnimator.ofFloat(binding.travAcc, View.ALPHA, 1f).setDuration(ANIMATION_DURATION.toLong())
-        val loginNow = ObjectAnimator.ofFloat(binding.loginNow, View.ALPHA, 1f).setDuration(ANIMATION_DURATION.toLong())
+        val nameRegister = ObjectAnimator.ofFloat(binding.nameRegist, View.ALPHA, 1f)
+            .setDuration(ANIMATION_DURATION.toLong())
+        val emailRegister = ObjectAnimator.ofFloat(binding.emailRegist, View.ALPHA, 1f)
+            .setDuration(ANIMATION_DURATION.toLong())
+        val numberRegister = ObjectAnimator.ofFloat(binding.numberRegist, View.ALPHA, 1f)
+            .setDuration(ANIMATION_DURATION.toLong())
+        val passwordReg = ObjectAnimator.ofFloat(binding.passRegist, View.ALPHA, 1f)
+            .setDuration(ANIMATION_DURATION.toLong())
+        val confirmPasswordReg = ObjectAnimator.ofFloat(binding.passConfirmRegist, View.ALPHA, 1f)
+            .setDuration(ANIMATION_DURATION.toLong())
+        val textNote = ObjectAnimator.ofFloat(binding.tvAdditionalSecurity, View.ALPHA, 1f)
+            .setDuration(ANIMATION_DURATION.toLong())
+        val spinner = ObjectAnimator.ofFloat(binding.spinnerSecurity, View.ALPHA, 1f)
+            .setDuration(ANIMATION_DURATION.toLong())
+        val btnRegister = ObjectAnimator.ofFloat(binding.mbRegister, View.ALPHA, 1f)
+            .setDuration(ANIMATION_DURATION.toLong())
+        val security = ObjectAnimator.ofFloat(binding.layoutSecurity, View.ALPHA, 1f)
+            .setDuration(ANIMATION_DURATION.toLong())
+        val travAcc = ObjectAnimator.ofFloat(binding.travAcc, View.ALPHA, 1f)
+            .setDuration(ANIMATION_DURATION.toLong())
+        val loginNow = ObjectAnimator.ofFloat(binding.loginNow, View.ALPHA, 1f)
+            .setDuration(ANIMATION_DURATION.toLong())
 
         val together1 = AnimatorSet().apply {
             playTogether(textNote, spinner, security)
@@ -282,8 +313,10 @@ class RegisterActivity : AppCompatActivity() {
         }
 
         AnimatorSet().apply {
-            playSequentially(nameRegister, emailRegister, numberRegister, passwordReg, confirmPasswordReg,
-                together1, btnRegister, together2)
+            playSequentially(
+                nameRegister, emailRegister, numberRegister, passwordReg, confirmPasswordReg,
+                together1, btnRegister, together2
+            )
             start()
         }
     }

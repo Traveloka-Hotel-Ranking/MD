@@ -13,16 +13,17 @@ import com.traveloka.hotelranking.view.utils.ItemClickListener
 import com.traveloka.hotelranking.view.utils.concat
 import com.traveloka.hotelranking.view.utils.loadImageDrawable
 
-class HomeAdapter(val context: Context) : ListAdapter<HomeModel, HomeAdapter.HomeViewHolder>(HomeDiffUtils){
+class HomeAdapter(val context: Context) :
+    ListAdapter<HomeModel, HomeAdapter.HomeViewHolder>(HomeDiffUtils) {
 
     var listHotel = mutableListOf<HomeModel>()
-    private lateinit var listener : ItemClickListener<HomeModel>
+    private lateinit var listener: ItemClickListener<HomeModel>
 
-    fun setItemClickListener(itemClickListener: ItemClickListener<HomeModel>){
+    fun setItemClickListener(itemClickListener: ItemClickListener<HomeModel>) {
         this.listener = itemClickListener
     }
 
-    fun setItemListHotel(list : MutableList<HomeModel>){
+    fun setItemListHotel(list: MutableList<HomeModel>) {
         listHotel.clear()
         listHotel.addAll(list)
         notifyDataSetChanged()
@@ -40,19 +41,20 @@ class HomeAdapter(val context: Context) : ListAdapter<HomeModel, HomeAdapter.Hom
 
     override fun getItemCount(): Int = listHotel.size
 
-    inner class HomeViewHolder(val binding : ItemHotelBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bindData(data : HomeModel){
+    inner class HomeViewHolder(val binding: ItemHotelBinding) :
+        RecyclerView.ViewHolder(binding.root) {
+        fun bindData(data: HomeModel) {
             binding.run {
-                imHotel.loadImageDrawable(data.image)
-                tvTitle.text = data.title ?: ""
+                imHotel.loadImageDrawable(data.image[0].image)
+                tvTitle.text = data.title
                 rbRatingHotel.numStars = 5
-                rbRatingHotel.rating = data.rating.toFloat() ?: 0F
-                tvLocationDistance.text = data.currentLocation ?: ""
-                tvRatingHotel.text = data.ratingHotel ?: ""
-                tvRoomDiscount.text = (data.diskon + " %") ?: ""
-                tvRoomPrice.text = data.price ?: ""
-                tvPricePerRoom.text = data.pricePerNight ?: ""
-                tvPoint.concat(data.point.toInt(), context.getString(R.string.text_points))  ?: ""
+                rbRatingHotel.rating = data.rating.toFloat()
+                tvLocationDistance.text = data.currentLocation
+                tvRatingHotel.text = data.ratingHotel
+                tvRoomDiscount.text = (data.discount + " %")
+                tvRoomPrice.text = data.price
+                tvPricePerRoom.text = data.pricePerNight
+                tvPoint.concat(data.point.toInt(), context.getString(R.string.text_points))
             }
             itemView.setOnClickListener {
                 listener.onClick(data)
@@ -60,7 +62,7 @@ class HomeAdapter(val context: Context) : ListAdapter<HomeModel, HomeAdapter.Hom
         }
     }
 
-    object HomeDiffUtils : DiffUtil.ItemCallback<HomeModel>(){
+    object HomeDiffUtils : DiffUtil.ItemCallback<HomeModel>() {
         override fun areItemsTheSame(
             oldItem: HomeModel,
             newItem: HomeModel

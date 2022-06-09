@@ -2,15 +2,15 @@ package com.traveloka.hotelranking.view.ui.main
 
 import android.content.Intent
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.WindowInsets
 import android.view.WindowManager
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityOptionsCompat
 import com.traveloka.hotelranking.databinding.ActivityMainBinding
-import com.traveloka.hotelranking.model.LoginViewModel
 import com.traveloka.hotelranking.view.ui.home.HomeActivity
 import com.traveloka.hotelranking.view.ui.login.LoginActivity
+import com.traveloka.hotelranking.view.ui.login.LoginViewModel
 import com.traveloka.hotelranking.view.ui.register.RegisterActivity
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -54,12 +54,18 @@ class MainActivity : AppCompatActivity() {
     private fun setupAction() {
         binding.btnLogin.setOnClickListener {
             val intent = Intent(this@MainActivity, LoginActivity::class.java)
-            startActivity(intent, ActivityOptionsCompat.makeSceneTransitionAnimation(this@MainActivity).toBundle())
+            startActivity(
+                intent,
+                ActivityOptionsCompat.makeSceneTransitionAnimation(this@MainActivity).toBundle()
+            )
         }
 
         binding.btnRegister.setOnClickListener {
             val intent = Intent(this@MainActivity, RegisterActivity::class.java)
-            startActivity(intent, ActivityOptionsCompat.makeSceneTransitionAnimation(this@MainActivity).toBundle())
+            startActivity(
+                intent,
+                ActivityOptionsCompat.makeSceneTransitionAnimation(this@MainActivity).toBundle()
+            )
         }
     }
 }

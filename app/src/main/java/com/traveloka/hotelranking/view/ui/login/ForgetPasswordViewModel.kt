@@ -1,4 +1,4 @@
-package com.traveloka.hotelranking.model
+package com.traveloka.hotelranking.view.ui.login
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
@@ -8,6 +8,8 @@ import com.traveloka.hotelranking.data.HotelRepository
 import com.traveloka.hotelranking.data.Resource
 import com.traveloka.hotelranking.data.remote.response.ForgetPasswordUserResponse
 import com.traveloka.hotelranking.data.remote.response.ResetPasswordResponse
+import com.traveloka.hotelranking.model.UserForgetPasswordModel
+import com.traveloka.hotelranking.model.UserPreference
 import kotlinx.coroutines.launch
 
 class ForgetPasswordViewModel(private val preference: UserPreference, private val hotelRepository: HotelRepository) : ViewModel() {

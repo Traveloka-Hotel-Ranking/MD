@@ -1,9 +1,11 @@
-package com.traveloka.hotelranking.model
+package com.traveloka.hotelranking.view.ui.login
 
 import androidx.lifecycle.*
 import com.traveloka.hotelranking.data.HotelRepository
 import com.traveloka.hotelranking.data.Resource
 import com.traveloka.hotelranking.data.remote.response.UserResponse
+import com.traveloka.hotelranking.model.UserModel
+import com.traveloka.hotelranking.model.UserPreference
 import kotlinx.coroutines.launch
 
 class LoginViewModel(private val preference: UserPreference,

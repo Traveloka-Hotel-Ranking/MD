@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <RelativeLayout
         android:id="@+id/relativeLayout"
@@ -45,12 +45,12 @@
                 android:id="@+id/tv_near_you"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:backgroundTint="@color/light_gray"
                 android:drawableStart="@drawable/ic_location_traveloka"
                 android:drawablePadding="8dp"
-                android:textColorHint="@color/black"
                 android:hint="@string/near_you"
-                android:backgroundTint="@color/light_gray"
                 android:minHeight="48dp"
+                android:textColorHint="@color/black"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -60,14 +60,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
-                android:drawableStart="@drawable/ic_date"
-                android:drawablePadding="8dp"
-                android:textColorHint="@color/black"
-                android:hint="@string/hint_date"
-                android:minHeight="48dp"
                 android:backgroundTint="@color/light_gray"
                 android:clickable="true"
+                android:drawableStart="@drawable/ic_date"
+                android:drawablePadding="8dp"
                 android:focusable="false"
+                android:hint="@string/hint_date"
+                android:minHeight="48dp"
+                android:textColorHint="@color/black"
                 app:layout_constraintEnd_toEndOf="@+id/tv_near_you"
                 app:layout_constraintStart_toStartOf="@+id/tv_near_you"
                 app:layout_constraintTop_toBottomOf="@+id/tv_near_you" />
@@ -78,12 +78,12 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 android:layout_marginEnd="4dp"
+                android:backgroundTint="@color/light_gray"
                 android:drawableStart="@drawable/ic_moon"
                 android:drawablePadding="8dp"
                 android:hint="@string/hint_night"
-                android:textColorHint="@color/black"
                 android:minHeight="48dp"
-                android:backgroundTint="@color/light_gray"
+                android:textColorHint="@color/black"
                 app:layout_constraintEnd_toStartOf="@+id/im_minus"
                 app:layout_constraintStart_toStartOf="@+id/tv_date"
                 app:layout_constraintTop_toBottomOf="@+id/tv_date" />
@@ -122,9 +122,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
+                android:backgroundTint="@color/light_gray"
                 android:drawableStart="@drawable/ic_people"
                 android:drawablePadding="8dp"
-                android:backgroundTint="@color/light_gray"
                 android:hint="@string/hint_people"
                 android:minHeight="48dp"
                 android:textColorHint="@color/black"
@@ -136,8 +136,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:orientation="horizontal"
                 android:backgroundTint="@color/light_gray"
+                android:orientation="horizontal"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="@+id/tv_people"
                 app:layout_constraintStart_toStartOf="@+id/tv_people"
@@ -194,6 +194,9 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cv_search"
         app:shimmer_base_alpha="1"
         app:shimmer_dropoff="0.5"
         app:shimmer_duration="1300"
@@ -201,10 +204,7 @@
         app:shimmer_intensity="0.5"
         app:shimmer_repeat_mode="restart"
         app:shimmer_shape="linear"
-        app:shimmer_tilt="1"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cv_search">
+        app:shimmer_tilt="1">
 
         <include layout="@layout/view_shimmer_listing_hotel" />
 

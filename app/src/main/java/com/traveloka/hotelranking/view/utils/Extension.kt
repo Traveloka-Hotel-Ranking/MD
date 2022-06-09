@@ -3,6 +3,7 @@ package com.traveloka.hotelranking.view.utils
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.os.Parcelable
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
@@ -12,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import com.traveloka.hotelranking.R
+import com.traveloka.hotelranking.view.utils.constants.HOTEL_DATA
 
 /* Toast */
 fun AppCompatActivity.showToast(message: String) {
@@ -43,6 +45,12 @@ fun <T> Fragment.openActivity(destination: Class<T>) {
 
 fun <T> Activity.openActivity(destination: Class<T>) {
     val intent = Intent(this, destination)
+    startActivity(intent)
+}
+
+fun <T> Activity.openActivityWithData(destination: Class<T>, data: Parcelable) {
+    val intent = Intent(this, destination)
+    intent.putExtra(HOTEL_DATA, data)
     startActivity(intent)
 }
 
