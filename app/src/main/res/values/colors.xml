@@ -17,4 +17,7 @@
     <color name="blue_dot">#235D9F</color>
     <color name="textSmokeWhite">#e8e8e8</color>
     <color name="red">#DA1212</color>
+    <color name="gray_shimmer">#EFEFEF</color>
+    <color name="gray_label">#F8F8F8</color>
+    <color name="grayscale_placeholder">#C5C5C5</color>
 </resources>

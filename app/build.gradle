@@ -78,4 +78,5 @@ dependencies {
     kapt Libs.roomKapt
     implementation Libs.pagingRoom
     implementation Libs.shimmer
+    implementation Libs.sdp
 }

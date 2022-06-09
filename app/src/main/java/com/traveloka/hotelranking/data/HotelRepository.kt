@@ -5,8 +5,16 @@ import com.traveloka.hotelranking.data.remote.response.ForgetPasswordUserRespons
 import com.traveloka.hotelranking.data.remote.response.ResetPasswordResponse
 import com.traveloka.hotelranking.data.remote.response.UserRegisterResponse
 import com.traveloka.hotelranking.data.remote.response.UserResponse
+import com.traveloka.hotelranking.model.dummy.DummyData
+import com.traveloka.hotelranking.model.dummy.HomeModel
+import com.traveloka.hotelranking.view.utils.constants.MESSAGE_ERROR_REQUEST
+import com.traveloka.hotelranking.view.utils.constants.SERVER_TIME_OUT
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
+import okhttp3.Dispatcher
+import okhttp3.ResponseBody
 import org.json.JSONObject
 import retrofit2.HttpException
 
@@ -82,6 +90,16 @@ class HotelRepository(
             }
         } catch (e: Exception) {
             emit(Resource.Error("Server timeout!"))
+        }
+    }
+
+    fun retrieveHotel() : Flow<Resource<List<HomeModel>>> = flow {
+        emit(Resource.Loading())
+        try {
+            val data = DummyData.listHotel
+            emit(Resource.Success(data))
+        }catch (e : Exception){
+            emit(Resource.Error(SERVER_TIME_OUT))
         }
     }
 }

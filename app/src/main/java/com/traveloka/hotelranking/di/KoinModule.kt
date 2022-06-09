@@ -16,6 +16,7 @@ import com.traveloka.hotelranking.model.ForgetPasswordViewModel
 import com.traveloka.hotelranking.model.LoginViewModel
 import com.traveloka.hotelranking.model.RegisterViewModel
 import com.traveloka.hotelranking.model.UserPreference
+import com.traveloka.hotelranking.view.ui.home.HomeViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -53,6 +54,7 @@ val viewModelModule = module {
     viewModel { LoginViewModel(get(), get()) }
     viewModel { RegisterViewModel(get()) }
     viewModel { ForgetPasswordViewModel(get(), get()) }
+    viewModel {HomeViewModel(get())}
 }
 
 val repositoryModule = module {

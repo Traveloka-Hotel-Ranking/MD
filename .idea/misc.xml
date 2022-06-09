@@ -14,7 +14,6 @@
         <entry key="..\:/AndroidStudioProjects/MD/app/src/main/res/layout/activity_login.xml" value="0.176" />
         <entry key="..\:/AndroidStudioProjects/MD/app/src/main/res/layout/activity_main.xml" value="0.2" />
         <entry key="..\:/AndroidStudioProjects/MD/app/src/main/res/layout/activity_new_password.xml" value="0.25" />
-        <entry key="..\:/AndroidStudioProjects/MD/app/src/main/res/layout/activity_profile.xml" value="0.264" />
         <entry key="..\:/AndroidStudioProjects/MD/app/src/main/res/layout/activity_register.xml" value="0.264" />
         <entry key="..\:/AndroidStudioProjects/MD/app/src/main/res/layout/item_hotel.xml" value="0.4" />
         <entry key="..\:/AndroidStudioProjects/MD/app/src/main/res/layout/item_img_hotel.xml" value="0.25" />
@@ -22,7 +21,6 @@
         <entry key="..\:/AndroidStudioProjects/MD/app/src/main/res/layout/item_room.xml" value="0.25" />
         <entry key="..\:/AndroidStudioProjects/MD/app/src/main/res/layout/item_spinner.xml" value="0.24895833333333334" />
         <entry key="..\:/AndroidStudioProjects/MD/app/src/main/res/layout/new_password_layout.xml" value="0.24895833333333334" />
-        <entry key="..\:/AndroidStudioProjects/MD/app/src/main/res/menu/menu.xml" value="0.25" />
         <entry key="..\:/AndroidStudioProjects/MD/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.1125" />
         <entry key="..\:/AndroidStudioProjects/hotel-ranking-traveloka-android/app/src/main/res/layout/activity_detail_hotel.xml" value="0.264" />
         <entry key="..\:/AndroidStudioProjects/hotel-ranking-traveloka-android/app/src/main/res/layout/activity_home.xml" value="0.2" />
@@ -42,22 +40,31 @@
         <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.193" />
         <entry key="app/src/main/res/drawable/ic_location_traveloka.xml" value="0.324" />
         <entry key="app/src/main/res/drawable/ic_maps.xml" value="0.324" />
+        <entry key="app/src/main/res/drawable/ic_menu_profiles.xml" value="0.3205" />
         <entry key="app/src/main/res/drawable/ic_moon.xml" value="0.324" />
         <entry key="app/src/main/res/drawable/ic_people.xml" value="0.324" />
         <entry key="app/src/main/res/drawable/ic_people_alt.xml" value="0.241" />
+        <entry key="app/src/main/res/drawable/ic_person.xml" value="0.3205" />
+        <entry key="app/src/main/res/drawable/ic_person_white.xml" value="0.3205" />
         <entry key="app/src/main/res/drawable/ic_pin_maps_gray.xml" value="0.324" />
         <entry key="app/src/main/res/drawable/ic_point.xml" value="0.324" />
         <entry key="app/src/main/res/drawable/ic_rating_traveloka.xml" value="0.193" />
         <entry key="app/src/main/res/drawable/rounded_blue.xml" value="0.2680567016601563" />
+        <entry key="app/src/main/res/drawable/shimmer_20dp.xml" value="0.357" />
+        <entry key="app/src/main/res/drawable/shimmer_2dp.xml" value="0.12" />
         <entry key="app/src/main/res/drawable/tab_selector.xml" value="0.2505" />
         <entry key="app/src/main/res/layout/activity_detail_hotel.xml" value="0.13802083333333334" />
-        <entry key="app/src/main/res/layout/activity_home.xml" value="0.35722096761067706" />
+        <entry key="app/src/main/res/layout/activity_home.xml" value="0.2987012987012987" />
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.3729166666666667" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.29841766357421873" />
+        <entry key="app/src/main/res/layout/activity_profile.xml" value="0.3729166666666667" />
         <entry key="app/src/main/res/layout/activity_register.xml" value="0.3729166666666667" />
-        <entry key="app/src/main/res/layout/item_hotel.xml" value="0.45" />
+        <entry key="app/src/main/res/layout/item_hotel.xml" value="0.335" />
         <entry key="app/src/main/res/layout/item_img_hotel.xml" value="0.3729166666666667" />
         <entry key="app/src/main/res/layout/item_on_boarding.xml" value="0.371875" />
+        <entry key="app/src/main/res/layout/view_shimmer_listing_hotel.xml" value="0.371875" />
+        <entry key="app/src/main/res/layout/view_shimmer_listing_item_hotel.xml" value="0.25" />
+        <entry key="app/src/main/res/menu/menu.xml" value="0.3729166666666667" />
       </map>
     </option>
   </component>

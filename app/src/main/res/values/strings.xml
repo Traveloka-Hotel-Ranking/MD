@@ -82,4 +82,7 @@
         <item>What\'s your Favorite Food?</item>
         <item>What\'s your Favorite Movie?</item>
     </string-array>
+
+    <string name="text_night">Night</string>
+    <string name="text_points">Points</string>
 </resources>
