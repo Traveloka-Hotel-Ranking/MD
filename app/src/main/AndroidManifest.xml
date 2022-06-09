@@ -43,10 +43,10 @@
         android:name="com.traveloka.hotelranking.view.ui.detail.DetailHotelActivity"
         android:exported="false" />
     <activity
-        android:name="com.traveloka.hotelranking.view.ui.main.MainActivity"
+        android:name="com.traveloka.hotelranking.view.ui.home.HomeActivity"
         android:exported="false" />
     <activity
-        android:name="com.traveloka.hotelranking.view.ui.home.HomeActivity"
+        android:name="com.traveloka.hotelranking.view.ui.main.MainActivity"
         android:exported="true">
         <intent-filter>
             <action android:name="android.intent.action.MAIN" />
