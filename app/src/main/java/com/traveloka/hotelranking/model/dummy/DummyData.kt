@@ -49,6 +49,30 @@ object DummyData {
         ),
         RoomModel(
             image = R.drawable.sample_image,
+            type = "Twin Deluxe",
+            guest = 2,
+            bedNumber = 2,
+            bedType = "Twin Single Bed",
+            breakfast = true,
+            wifi = true,
+            price = "Rp.1.000.000",
+            discount = true,
+            discountPrice = "Rp.500.000"
+        ),
+        RoomModel(
+            image = R.drawable.sample_image,
+            type = "Single Deluxe",
+            guest = 2,
+            bedNumber = 1,
+            bedType = "Queen Size Bed",
+            breakfast = true,
+            wifi = true,
+            price = "Rp.1.000.000",
+            discount = true,
+            discountPrice = "Rp.500.000"
+        ),
+        RoomModel(
+            image = R.drawable.sample_image,
             type = "Single Deluxe",
             guest = 2,
             bedNumber = 1,

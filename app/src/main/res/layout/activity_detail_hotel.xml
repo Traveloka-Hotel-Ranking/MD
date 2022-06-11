@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.traveloka.hotelranking.view.ui.LockableScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/scrollView"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fillViewport="true"
     tools:context=".view.ui.detail.DetailHotelActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -210,14 +212,16 @@
             app:layout_constraintStart_toStartOf="@id/line_view2"
             app:layout_constraintTop_toBottomOf="@id/line_view2" />
 
-        <com.google.android.gms.maps.MapView
+        <androidx.fragment.app.FragmentContainerView
             android:id="@+id/map_view"
+            android:name="com.google.android.gms.maps.SupportMapFragment"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="250dp"
             android:layout_margin="10dp"
             app:layout_constraintEnd_toEndOf="@id/tv_title_location"
             app:layout_constraintStart_toStartOf="@id/tv_title_location"
-            app:layout_constraintTop_toBottomOf="@id/tv_title_location" />
+            app:layout_constraintTop_toBottomOf="@id/tv_title_location"
+            tools:context=".view.ui.detail.DetailHotelActivity"/>
 
         <TextView
             android:id="@+id/tv_title_room_selection"
@@ -245,4 +249,4 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-</ScrollView>
+</com.traveloka.hotelranking.view.ui.LockableScrollView>

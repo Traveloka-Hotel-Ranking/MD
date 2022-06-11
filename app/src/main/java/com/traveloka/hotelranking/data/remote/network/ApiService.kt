@@ -1,9 +1,6 @@
 package com.traveloka.hotelranking.data.remote.network
 
-import com.traveloka.hotelranking.data.remote.response.ForgetPasswordUserResponse
-import com.traveloka.hotelranking.data.remote.response.ResetPasswordResponse
-import com.traveloka.hotelranking.data.remote.response.UserRegisterResponse
-import com.traveloka.hotelranking.data.remote.response.UserResponse
+import com.traveloka.hotelranking.data.remote.response.*
 import retrofit2.Call
 import retrofit2.Response
 import retrofit2.http.*
@@ -45,5 +42,14 @@ interface ApiService {
         @Field("email") email: String,
         @Field("password") password: String
     ): Response<ResetPasswordResponse>
+
+    @FormUrlEncoded
+    @GET("hotel")
+    suspend fun getHotel(
+        @Header("x-access-token-hotel") token: String,
+        @Field("size") size: Int,
+        @Field("page") page: Int,
+        @Field("query") query: String?
+    ): Response<HotelListResponse>
 
 }

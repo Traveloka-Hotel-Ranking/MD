@@ -12,6 +12,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.gms.common.api.ResolvableApiException
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationRequest
@@ -20,13 +21,16 @@ import com.google.android.gms.location.LocationSettingsRequest
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
+import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.LatLngBounds
 import com.google.android.gms.maps.model.MarkerOptions
+import com.traveloka.hotelranking.R
 import com.traveloka.hotelranking.databinding.ActivityDetailHotelBinding
 import com.traveloka.hotelranking.model.dummy.HomeModel
 import com.traveloka.hotelranking.model.dummy.ImageModel
 import com.traveloka.hotelranking.model.dummy.RoomModel
+import com.traveloka.hotelranking.view.utils.ItemClickListener
 import com.traveloka.hotelranking.view.utils.constants.HOTEL_DATA
 import timber.log.Timber
 import java.util.concurrent.TimeUnit
@@ -91,7 +95,8 @@ class DetailHotelActivity : AppCompatActivity(), OnMapReadyCallback {
             initView(intent)
         }
 
-        val mapView = binding.mapView
+        val mapView = supportFragmentManager
+            .findFragmentById(R.id.map_view) as SupportMapFragment
         mapView.getMapAsync(this@DetailHotelActivity)
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
@@ -104,15 +109,29 @@ class DetailHotelActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private fun setImageAdapter(data: List<ImageModel>) {
         imageAdapter.setItemListImage(data.toMutableList())
+
+        imageAdapter.setItemClickListener(object: ItemClickListener<ImageModel> {
+            override fun onClick(data: ImageModel) {
+                TODO("Not yet implemented")
+            }
+        })
+
         binding.rvImgHotel.run {
             adapter = imageAdapter
             setHasFixedSize(true)
-            layoutManager = LinearLayoutManager(this@DetailHotelActivity)
+            layoutManager = LinearLayoutManager(this@DetailHotelActivity, RecyclerView.HORIZONTAL, false)
         }
     }
 
     private fun setRoomAdapter(data: List<RoomModel>) {
         roomAdapter.setItemListRoom(data.toMutableList())
+
+        roomAdapter.setItemClickListener(object: ItemClickListener<RoomModel> {
+            override fun onClick(data: RoomModel) {
+                TODO("Not yet implemented")
+            }
+        })
+
         binding.rvRoom.run {
             adapter = roomAdapter
             setHasFixedSize(true)
@@ -190,6 +209,15 @@ class DetailHotelActivity : AppCompatActivity(), OnMapReadyCallback {
                     .title("New Marker")
                     .snippet("Lat: ${latLng.latitude} Long: ${latLng.longitude}")
             )
+        }
+
+        mMap.setOnCameraMoveStartedListener { i ->
+            if (i == GoogleMap.OnCameraMoveStartedListener.REASON_GESTURE) {
+                binding.scrollView.setScrollingEnabled(false)
+            }
+        }
+        mMap.setOnCameraIdleListener {
+            binding.scrollView.setScrollingEnabled(true)
         }
     }
 
