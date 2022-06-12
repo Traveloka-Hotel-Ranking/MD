@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="string">
+<?xml version="1.0" encoding="utf-8"?><manifest xmlns:android="http://schemas.android.com/apk/res/android"
+package="string">
 
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
@@ -25,6 +25,13 @@
             android:name="android.support.PARENT_ACTIVITY"
             android:value="com.traveloka.hotelranking.view.ui.home.HomeActivity" />
     </activity>
+
+    <activity
+        android:name="com.traveloka.hotelranking.view.ui.maps.MapsActivity"
+        android:exported="false"
+
+        />
+
     <activity
         android:name="com.traveloka.hotelranking.view.ui.login.ForgetPasswordActivity"
         android:exported="false" />

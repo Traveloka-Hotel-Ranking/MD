@@ -1,22 +1,19 @@
-package com.traveloka.hotelranking.view.ui.home
+package com.traveloka.hotelranking.view.ui.maps
 
 import androidx.lifecycle.*
 import com.traveloka.hotelranking.data.HotelRepository
 import com.traveloka.hotelranking.data.Resource
 import com.traveloka.hotelranking.data.remote.response.HotelItem
-import com.traveloka.hotelranking.data.remote.response.HotelListResponse
 import com.traveloka.hotelranking.model.UserModel
 import com.traveloka.hotelranking.model.UserPreference
-import com.traveloka.hotelranking.model.dummy.HomeModel
 import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 
-class HomeViewModel(
+class MapsViewModel(
     private val repository: HotelRepository,
     private val preference: UserPreference
-    ) : ViewModel() {
-
+) : ViewModel(){
     private val _isErrorRequestList = MutableLiveData<String>()
     private val _dataRequestList = MutableLiveData<List<HotelItem>>()
     private val _isLoadingRequestList = MutableLiveData<Boolean>()
@@ -25,11 +22,11 @@ class HomeViewModel(
     val dataRequestList = _dataRequestList
     val isLoadingRequestList = _isLoadingRequestList
 
-    fun getUser(): LiveData<UserModel> {
+    fun observeGetUser(): LiveData<UserModel> {
         return preference.getUser().asLiveData()
     }
 
-    fun requestDataList(token : String){
+    fun requestHotelList(token : String){
         viewModelScope.launch {
             repository.retrieveHotel(token, "")
                 .onStart {

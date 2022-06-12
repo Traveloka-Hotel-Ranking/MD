@@ -7,7 +7,7 @@ import retrofit2.http.*
 
 interface ApiService {
     @FormUrlEncoded
-    @POST("signup")
+    @POST("auth/signup")
     suspend fun registerUser(
         @Field("name") name: String,
         @Field("email") email: String,
@@ -19,7 +19,7 @@ interface ApiService {
     ): Response<UserRegisterResponse>
 
     @FormUrlEncoded
-    @POST("signin")
+    @POST("auth/signin")
     suspend fun loginUser(
         @Field("email") email: String?,
         @Field("phone") phone: String?,
@@ -27,7 +27,7 @@ interface ApiService {
     ): Response<UserResponse>
 
     @FormUrlEncoded
-    @POST("forgotpassword")
+    @POST("auth/forgotpassword")
     suspend fun userForgetPassword(
         @Field("email") email: String,
         @Field("favCountry") favCountry: String?,
@@ -36,20 +36,18 @@ interface ApiService {
     ): Response<ForgetPasswordUserResponse>
 
     @FormUrlEncoded
-    @PUT("resetpassword")
+    @PUT("auth/resetpassword")
     suspend fun resetPassword(
         @Header("x-access-token-reset") tokenReset: String,
         @Field("email") email: String,
         @Field("password") password: String
     ): Response<ResetPasswordResponse>
 
-    @FormUrlEncoded
     @GET("hotel")
     suspend fun getHotel(
         @Header("x-access-token-hotel") token: String,
-        @Field("size") size: Int,
-        @Field("page") page: Int,
-        @Field("query") query: String?
+        @Query("size") size: Int,
+        @Query("location") location : String
     ): Response<HotelListResponse>
 
 }

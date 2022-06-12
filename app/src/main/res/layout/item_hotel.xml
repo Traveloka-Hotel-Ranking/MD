@@ -21,7 +21,7 @@
         <ImageView
             android:id="@+id/im_hotel"
             android:layout_width="160dp"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/_160sdp"
             android:contentDescription="@string/image_desc"
             android:scaleType="centerCrop"
             android:src="@drawable/sample_image"
@@ -45,27 +45,27 @@
 
         <RatingBar
             android:id="@+id/rb_rating_hotel"
-            style="?android:attr/ratingBarStyleIndicator"
+            style="?android:attr/ratingBarStyleSmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
             android:max="5"
             android:progressTint="@color/yellow"
             android:rating="0"
-            android:scaleX="0.88"
-            android:scaleY="0.88"
             android:secondaryProgressTint="@color/yellow"
             app:layout_constraintStart_toStartOf="@+id/tv_title"
             app:layout_constraintTop_toBottomOf="@+id/tv_title" />
 
         <TextView
             android:id="@+id/tv_location_distance"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
             android:drawablePadding="4dp"
-            android:text="@string/pin_maps"
+            android:maxLines="3"
+            tools:text="Hilton Singapore Orchard"
             app:drawableStartCompat="@drawable/ic_pin_maps_gray"
+            app:layout_constraintEnd_toStartOf="@+id/tv_current_location"
             app:layout_constraintStart_toStartOf="@+id/rb_rating_hotel"
             app:layout_constraintTop_toBottomOf="@+id/rb_rating_hotel" />
 
@@ -73,12 +73,12 @@
             android:id="@+id/tv_current_location"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
+            android:layout_marginEnd="8dp"
             android:text="@string/current_location"
             android:textColor="@color/gray"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@+id/tv_location_distance"
-            app:layout_constraintStart_toEndOf="@+id/tv_location_distance"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/tv_location_distance" />
 
         <TextView
@@ -164,7 +164,8 @@
             android:text="Save 50 %"
             android:textColor="@color/gray"
             app:layout_constraintBottom_toTopOf="@+id/tv_room_price"
-            app:layout_constraintStart_toStartOf="@+id/tv_room_price" />
+            app:layout_constraintStart_toStartOf="@+id/tv_room_price"
+            app:layout_constraintTop_toBottomOf="@+id/tv_rating_hotel" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

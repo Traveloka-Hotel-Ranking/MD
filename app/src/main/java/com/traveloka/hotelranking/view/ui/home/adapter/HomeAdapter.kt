@@ -7,23 +7,22 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.traveloka.hotelranking.R
+import com.traveloka.hotelranking.data.remote.response.HotelItem
 import com.traveloka.hotelranking.databinding.ItemHotelBinding
 import com.traveloka.hotelranking.model.dummy.HomeModel
-import com.traveloka.hotelranking.view.utils.ItemClickListener
-import com.traveloka.hotelranking.view.utils.concat
-import com.traveloka.hotelranking.view.utils.loadImageDrawable
+import com.traveloka.hotelranking.view.utils.*
 
 class HomeAdapter(val context: Context) :
     ListAdapter<HomeModel, HomeAdapter.HomeViewHolder>(HomeDiffUtils) {
 
-    var listHotel = mutableListOf<HomeModel>()
-    private lateinit var listener: ItemClickListener<HomeModel>
+    var listHotel = mutableListOf<HotelItem>()
+    private lateinit var listener: ItemClickListener<HotelItem>
 
-    fun setItemClickListener(itemClickListener: ItemClickListener<HomeModel>) {
+    fun setItemClickListener(itemClickListener: ItemClickListener<HotelItem>) {
         this.listener = itemClickListener
     }
 
-    fun setItemListHotel(list: MutableList<HomeModel>) {
+    fun setItemListHotel(list: MutableList<HotelItem>) {
         listHotel.clear()
         listHotel.addAll(list)
         notifyDataSetChanged()
@@ -43,18 +42,18 @@ class HomeAdapter(val context: Context) :
 
     inner class HomeViewHolder(val binding: ItemHotelBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bindData(data: HomeModel) {
+        fun bindData(data: HotelItem) {
             binding.run {
-                imHotel.loadImageDrawable(data.image[0].image)
-                tvTitle.text = data.title
+                imHotel.loadImage(data.image)
+                tvTitle.text = data.name
                 rbRatingHotel.numStars = 5
                 rbRatingHotel.rating = data.rating.toFloat()
-                tvLocationDistance.text = data.currentLocation
-                tvRatingHotel.text = data.ratingHotel
-                tvRoomDiscount.text = (data.discount + " %")
-                tvRoomPrice.text = data.price
-                tvPricePerRoom.text = data.pricePerNight
-                tvPoint.concat(data.point.toInt(), context.getString(R.string.text_points))
+                tvLocationDistance.text = data.location
+                tvRatingHotel.text = data.review.toString()
+//                tvRoomDiscount.text = (data.discount + " %")
+                tvRoomPrice.concatRupiah(data.price)
+//                tvPricePerRoom.text = data.pricePerNight.toDouble().toCurrencyToRupiahFormat()
+                tvPoint.concat("2000".toInt(), context.getString(R.string.text_points))
             }
             itemView.setOnClickListener {
                 listener.onClick(data)

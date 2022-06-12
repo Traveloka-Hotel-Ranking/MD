@@ -1,19 +1,29 @@
 package com.traveloka.hotelranking.view.ui.home
 
+import android.location.Address
+import android.location.Geocoder
+import android.location.Location
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
+import com.google.android.gms.tasks.OnSuccessListener
 import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.DateValidatorPointForward
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.traveloka.hotelranking.R
+import com.traveloka.hotelranking.data.remote.response.HotelItem
 import com.traveloka.hotelranking.databinding.ActivityHomeBinding
-import com.traveloka.hotelranking.model.dummy.HomeModel
+import com.traveloka.hotelranking.model.UserModel
 import com.traveloka.hotelranking.view.ui.detail.DetailHotelActivity
 import com.traveloka.hotelranking.view.ui.home.adapter.HomeAdapter
+import com.traveloka.hotelranking.view.ui.main.MainActivity
+import com.traveloka.hotelranking.view.ui.maps.MapsActivity
 import com.traveloka.hotelranking.view.ui.profile.ProfileActivity
 import com.traveloka.hotelranking.view.utils.*
+import com.traveloka.hotelranking.view.utils.constants.MESSAGE_BACK_PRESS
 import com.traveloka.hotelranking.view.utils.constants.RAW_DATE_PATTERN_NEW
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.util.*
@@ -24,6 +34,8 @@ class HomeActivity : AppCompatActivity() {
     private val adapter by lazy { HomeAdapter(this) }
     private val viewModel: HomeViewModel by viewModel()
     var countNight = 0
+    private var isExit = false
+    private lateinit var userModel: UserModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,7 +50,12 @@ class HomeActivity : AppCompatActivity() {
 
     private fun subscribeToLiveData() {
         viewModel.dataRequestList.observe(this) { data ->
-            adapter.setItemListHotel(data.toMutableList())
+            if (data.isNotEmpty()){
+                adapter.setItemListHotel(data.toMutableList())
+            }else{
+                binding.layoutMessageIllustration.visible()
+                binding.rvHome.gone()
+            }
         }
 
         viewModel.isErrorRequestList.observe(this) { message ->
@@ -48,11 +65,20 @@ class HomeActivity : AppCompatActivity() {
         viewModel.isLoadingRequestList.observe(this) { isLoading ->
             handleShimmer(isLoading)
         }
+        viewModel.getUser().observe(this){ data ->
+            this.userModel = data
+            if (data.checkLogin){
+                viewModel.requestDataList(data.accessToken)
+            }else{
+                openActivity(MainActivity::class.java)
+                finish()
+            }
+        }
     }
 
     private fun initView() {
-        adapter.setItemClickListener(object : ItemClickListener<HomeModel> {
-            override fun onClick(data: HomeModel) {
+        adapter.setItemClickListener(object : ItemClickListener<HotelItem> {
+            override fun onClick(data: HotelItem) {
                 openActivityWithData(DetailHotelActivity::class.java, data)
             }
         })
@@ -60,6 +86,7 @@ class HomeActivity : AppCompatActivity() {
             rvHome.adapter = adapter
             tvDate.isFocusable = false
             etCountNight.isFocusable = false
+            tvNearYou.isFocusable = false
             tvDate.setOnClickListener {
                 showCalender(object : ItemClickListener<String> {
                     override fun onClick(data: String) {
@@ -81,9 +108,23 @@ class HomeActivity : AppCompatActivity() {
 
                 etCountNight.setText(concat(countNight, getString(R.string.text_night)))
             }
+
+            mbMaps.setOnClickListener {
+                hideKeyboard()
+                openActivity(MapsActivity::class.java)
+            }
+
+            swipeRefresh.setOnRefreshListener {
+                viewModel.requestDataList(userModel.accessToken)
+            }
+
+            mbSearch.setOnClickListener {
+                hideKeyboard()
+            }
         }
 
-        viewModel.requestDataList()
+        getMyLocation()
+
     }
 
     private fun setupActionBar() {
@@ -133,11 +174,49 @@ class HomeActivity : AppCompatActivity() {
             if (isShown) {
                 binding.rvHome.gone()
                 if (!isShimmerStarted) startShimmer()
+                binding.swipeRefresh.isRefreshing = false
                 visible()
             } else {
                 binding.rvHome.visible()
+                binding.swipeRefresh.isRefreshing = false
                 gone()
             }
         }
     }
+
+    override fun onBackPressed() {
+        if (isExit) {
+            super.onBackPressed()
+            finishAffinity()
+        } else {
+            isExit = true
+            showToast(MESSAGE_BACK_PRESS)
+        }
+        Handler(Looper.getMainLooper()).postDelayed({ isExit = false }, 2000)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        getMyLocation()
+    }
+
+    private fun getMyLocation(){
+        LocationUtils().getCurrentLocation(this, object : OnSuccessListener<Location?> {
+            override fun onSuccess(location: Location?) {
+                if (location == null){
+                    return
+                }else{
+                    val geocoder = Geocoder(this@HomeActivity, Locale.getDefault())
+                    val addresses: List<Address> = geocoder.getFromLocation(location.latitude, location.longitude, 1)
+                    if (addresses.isNotEmpty()){
+                        val bestMatch: Address? = if (addresses.isEmpty()) null else addresses[0]
+                        binding.tvNearYou.setText(bestMatch?.locality)
+                    }else{
+                        binding.tvNearYou.setText(getString(R.string.near_you))
+                    }
+                }
+            }
+        })
+    }
+
 }

@@ -85,6 +85,9 @@
 
     <string name="text_night">Night</string>
     <string name="text_points">Points</string>
+    <string name="text_maps">Maps</string>
+    <string name="hotel_unavailable">Hotel Tidak Ditemukan</string>
+    <string name="desc_hotel_unavailable">Coba cari dengan kata kunci lain atau pilih filter lain, ya.</string>
 
     <!-- Room List -->
     <string name="room_price_before_discount"><strike>%1s</strike></string>

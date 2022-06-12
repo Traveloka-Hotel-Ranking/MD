@@ -6,6 +6,7 @@ import android.content.IntentSender
 import android.content.pm.PackageManager
 import android.location.Location
 import android.os.Bundle
+import android.view.MenuItem
 import android.widget.Toast
 import androidx.activity.result.IntentSenderRequest
 import androidx.activity.result.contract.ActivityResultContracts
@@ -26,6 +27,7 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.LatLngBounds
 import com.google.android.gms.maps.model.MarkerOptions
 import com.traveloka.hotelranking.R
+import com.traveloka.hotelranking.data.remote.response.HotelItem
 import com.traveloka.hotelranking.databinding.ActivityDetailHotelBinding
 import com.traveloka.hotelranking.model.dummy.HomeModel
 import com.traveloka.hotelranking.model.dummy.ImageModel
@@ -87,11 +89,11 @@ class DetailHotelActivity : AppCompatActivity(), OnMapReadyCallback {
         binding = ActivityDetailHotelBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val intent = intent.getParcelableExtra<HomeModel>(HOTEL_DATA)
+        val intent = intent.getParcelableExtra<HotelItem>(HOTEL_DATA)
         if (intent != null) {
-            setupActionBar(intent.title)
-            setImageAdapter(intent.image)
-            setRoomAdapter(intent.room)
+            setupActionBar(intent.name)
+//            setImageAdapter(intent.image)
+//            setRoomAdapter(intent.room)
             initView(intent)
         }
 
@@ -104,7 +106,9 @@ class DetailHotelActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private fun setupActionBar(title: String) {
         supportActionBar?.elevation = 0F
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
         this.title = title
+
     }
 
     private fun setImageAdapter(data: List<ImageModel>) {
@@ -139,13 +143,13 @@ class DetailHotelActivity : AppCompatActivity(), OnMapReadyCallback {
         }
     }
 
-    private fun initView(data: HomeModel) {
+    private fun initView(data: HotelItem) {
         binding.run {
-            tvTitleHotel.text = data.title
+            tvTitleHotel.text = data.name
             rbRatingHotel.numStars = 5
             rbRatingHotel.rating = data.rating.toFloat()
-            tvLocation.text = data.currentLocation
-            tvRatingHotel.text = data.ratingHotel
+            tvLocation.text = data.location
+            tvRatingHotel.text = data.rating.toString()
         }
     }
 
@@ -246,5 +250,16 @@ class DetailHotelActivity : AppCompatActivity(), OnMapReadyCallback {
                     }
                 }
             }
+    }
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            android.R.id.home ->{
+                finish()
+//                val intent = Intent(this, HomeActivity::class.java)
+//                startActivity(intent, ActivityOptionsCompat.makeSceneTransitionAnimation(this@ProfileActivity).toBundle())
+                super.onOptionsItemSelected(item)
+            }
+            else -> true
+        }
     }
 }

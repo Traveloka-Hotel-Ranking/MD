@@ -19,6 +19,7 @@ object Versions {
     const val room = "2.4.0-rc01"
     const val shimmer_version = "0.5.0"
     const val sdp = "1.0.6"
+    const val chucker = "3.5.2"
 
 }
 
@@ -80,6 +81,10 @@ object Libs {
 
     //intuit
     const val sdp = "com.intuit.sdp:sdp-android:${Versions.sdp}"
+
+    //chucker
+    const val chuckerDegug = "com.github.chuckerteam.chucker:library:${Versions.chucker}"
+    const val chuckerImplementation = "com.github.chuckerteam.chucker:library-no-op:${Versions.chucker}"
 
 
 }

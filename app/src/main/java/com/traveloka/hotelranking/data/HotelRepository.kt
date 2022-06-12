@@ -1,10 +1,7 @@
 package com.traveloka.hotelranking.data
 
 import com.traveloka.hotelranking.data.remote.network.ApiService
-import com.traveloka.hotelranking.data.remote.response.ForgetPasswordUserResponse
-import com.traveloka.hotelranking.data.remote.response.ResetPasswordResponse
-import com.traveloka.hotelranking.data.remote.response.UserRegisterResponse
-import com.traveloka.hotelranking.data.remote.response.UserResponse
+import com.traveloka.hotelranking.data.remote.response.*
 import com.traveloka.hotelranking.model.dummy.DummyData
 import com.traveloka.hotelranking.model.dummy.HomeModel
 import com.traveloka.hotelranking.view.utils.constants.MESSAGE_ERROR_REQUEST
@@ -93,11 +90,17 @@ class HotelRepository(
         }
     }
 
-    fun retrieveHotel() : Flow<Resource<List<HomeModel>>> = flow {
+    fun retrieveHotel(token : String, location : String) : Flow<Resource<HotelListResponse>> = flow {
         emit(Resource.Loading())
         try {
-            val data = DummyData.listHotel
-            emit(Resource.Success(data))
+            val response = apiService.getHotel(token, 10, location)
+            if (response.isSuccessful && response.body() !=null){
+                emit(Resource.Success(response.body()))
+            }else{
+                val jsonObj = JSONObject(response.errorBody()!!.charStream().readText())
+                val message = jsonObj.getString("message")
+                emit(Resource.Error(message))
+            }
         }catch (e : Exception){
             emit(Resource.Error(SERVER_TIME_OUT))
         }

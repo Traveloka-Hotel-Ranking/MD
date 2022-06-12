@@ -14,6 +14,8 @@ import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import com.traveloka.hotelranking.R
 import com.traveloka.hotelranking.view.utils.constants.HOTEL_DATA
+import java.text.NumberFormat
+import java.util.*
 
 /* Toast */
 fun AppCompatActivity.showToast(message: String) {
@@ -79,6 +81,10 @@ fun TextView.concat(count : Int, value: String) {
     this.text = "$count $value"
 }
 
+fun TextView.concatRupiah(value: String) {
+    this.text = "Rp $value"
+}
+
 fun View.visible() {
     if (this.visibility == View.GONE || this.visibility == View.INVISIBLE) this.visibility =
         View.VISIBLE
@@ -90,5 +96,12 @@ fun View.gone() {
 
 fun View.invisible() {
     if (this.visibility == View.VISIBLE) this.visibility = View.INVISIBLE
+}
+
+fun Double.toCurrencyToRupiahFormat(): String {
+    val localeID = Locale("id", "ID")
+    val formatRupiah = NumberFormat.getCurrencyInstance(localeID)
+    val tempPrice = formatRupiah.format(this).replace(",00", "")
+    return tempPrice.replace("Rp", "Rp ")
 }
 

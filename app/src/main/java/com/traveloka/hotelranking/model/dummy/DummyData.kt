@@ -88,12 +88,12 @@ object DummyData {
     val listHotel = listOf(
         HomeModel(
             title = "Alila Purnama Hotel",
-            rating = "2.0",
+            rating = "2.3",
             currentLocation = "415m",
             ratingHotel = "9.0",
             discount = "80",
-            price = "Rp.1.000.000",
-            pricePerNight = "Rp.400.000",
+            price = "1000000",
+            pricePerNight = "900000",
             point = "4000",
             image = listImage,
             room = listRoom
@@ -104,8 +104,8 @@ object DummyData {
             currentLocation = "4015m",
             ratingHotel = "4.0",
             discount = "60",
-            price = "Rp.2.000.000",
-            pricePerNight = "Rp.400.000",
+            price = "2000000",
+            pricePerNight = "400000",
             point = "6000",
             image = listImage,
             room = listRoom
@@ -116,8 +116,8 @@ object DummyData {
             currentLocation = "1015m",
             ratingHotel = "5.0",
             discount = "90",
-            price = "Rp.8.000.000",
-            pricePerNight = "Rp.700.000",
+            price = "8000000",
+            pricePerNight = "700000",
             point = "1000",
             image = listImage,
             room = listRoom
@@ -128,8 +128,8 @@ object DummyData {
             currentLocation = "215m",
             ratingHotel = "3.0",
             discount = "40",
-            price = "Rp.9.000.000",
-            pricePerNight = "Rp.300.000",
+            price = "9000000",
+            pricePerNight = "300000",
             point = "20000",
             image = listImage,
             room = listRoom
@@ -140,8 +140,8 @@ object DummyData {
             currentLocation = "615m",
             ratingHotel = "8.0",
             discount = "30",
-            price = "Rp.4.000.000",
-            pricePerNight = "Rp.800.000",
+            price = "4000000",
+            pricePerNight = "800000",
             point = "50000",
             image = listImage,
             room = listRoom

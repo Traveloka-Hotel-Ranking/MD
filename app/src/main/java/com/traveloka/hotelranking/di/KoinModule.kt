@@ -7,6 +7,7 @@ import androidx.datastore.preferences.core.PreferenceDataStoreFactory
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.emptyPreferences
 import androidx.datastore.preferences.preferencesDataStoreFile
+import com.chuckerteam.chucker.api.ChuckerInterceptor
 import com.traveloka.hotelranking.BuildConfig
 import com.traveloka.hotelranking.data.HotelRepository
 import com.traveloka.hotelranking.data.remote.network.ApiService
@@ -15,6 +16,7 @@ import com.traveloka.hotelranking.view.ui.register.RegisterViewModel
 import com.traveloka.hotelranking.model.UserPreference
 import com.traveloka.hotelranking.view.ui.home.HomeViewModel
 import com.traveloka.hotelranking.view.ui.login.LoginViewModel
+import com.traveloka.hotelranking.view.ui.maps.MapsViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -36,11 +38,12 @@ val networkModule = module {
             }
         OkHttpClient.Builder()
             .addInterceptor(loggingInterceptor)
+            .addInterceptor(ChuckerInterceptor.Builder(get()).build())
             .build()
     }
     single {
         val retrofit = Retrofit.Builder()
-            .baseUrl("http://34.101.157.23:8080/api/auth/")
+            .baseUrl("http://34.101.157.23:8080/api/")
             .addConverterFactory(GsonConverterFactory.create())
             .client(get())
             .build()
@@ -52,7 +55,8 @@ val viewModelModule = module {
     viewModel { LoginViewModel(get(), get()) }
     viewModel { RegisterViewModel(get()) }
     viewModel { ForgetPasswordViewModel(get(), get()) }
-    viewModel {HomeViewModel(get())}
+    viewModel {HomeViewModel(get(), get())}
+    viewModel {MapsViewModel(get(), get())}
 }
 
 val repositoryModule = module {

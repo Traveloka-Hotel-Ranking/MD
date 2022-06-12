@@ -26,7 +26,7 @@ data class Response(
 	val totalPages: Int? = null,
 
 	@field:SerializedName("hotel")
-	val hotel: List<HotelItem?>? = null,
+	val hotel: List<HotelItem>? = null,
 
 	@field:SerializedName("currentPage")
 	val currentPage: Int? = null
@@ -36,35 +36,35 @@ data class Response(
 data class HotelItem(
 
 	@field:SerializedName("image")
-	val image: String? = null,
+	val image: String = "",
 
 	@field:SerializedName("createdAt")
-	val createdAt: String? = null,
+	val createdAt: String = "",
 
 	@field:SerializedName("price")
-	val price: String? = null,
+	val price: String = "",
 
 	@field:SerializedName("review")
-	val review: Double? = null,
+	val review: Double = 0.0,
 
 	@field:SerializedName("name")
-	val name: String? = null,
+	val name: String = "",
 
 	@field:SerializedName("rating")
-	val rating: Double? = null,
+	val rating: Double = 0.0,
 
 	@field:SerializedName("location")
-	val location: String? = null,
+	val location: String = "",
 
 	@field:SerializedName("lon")
-	val lon: String? = null,
+	val lon: String = "",
 
 	@field:SerializedName("id")
-	val id: Int? = null,
+	val id: Int = 0,
 
 	@field:SerializedName("lat")
-	val lat: String? = null,
+	val lat: String = "",
 
 	@field:SerializedName("updatedAt")
-	val updatedAt: String? = null
+	val updatedAt: String = ""
 ) : Parcelable
