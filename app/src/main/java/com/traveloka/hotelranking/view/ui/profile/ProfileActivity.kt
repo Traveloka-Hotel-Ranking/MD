@@ -15,7 +15,6 @@ import com.traveloka.hotelranking.R
 import com.traveloka.hotelranking.data.Resource
 import com.traveloka.hotelranking.databinding.ActivityProfileBinding
 import com.traveloka.hotelranking.databinding.NewPasswordLayoutBinding
-import com.traveloka.hotelranking.model.UserForgetPasswordModel
 import com.traveloka.hotelranking.model.UserModel
 import com.traveloka.hotelranking.view.ui.home.HomeActivity
 import com.traveloka.hotelranking.view.ui.login.ForgetPasswordViewModel
@@ -31,12 +30,12 @@ class ProfileActivity : AppCompatActivity() {
     private val forgetPasswordViewModel: ForgetPasswordViewModel by viewModel()
     private lateinit var userModel: UserModel
 
-    var email = "email"
-    var favCountry: String? = null
-    var favFood: String? = null
-    var favMovie: String? = null
+    private var email = "email"
+    private var favCountry: String? = null
+    private var favFood: String? = null
+    private var favMovie: String? = null
+    private var accessTokenReset: String? = null
 
-    private lateinit var userForgetPasswordModel: UserForgetPasswordModel
     private lateinit var binding2: NewPasswordLayoutBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -70,7 +69,6 @@ class ProfileActivity : AppCompatActivity() {
 
     private fun setupAction() {
         binding.changePassword.setOnClickListener {
-
             forgetPasswordViewModel.forgetPassword(email, favCountry, favFood, favMovie)
                 .observe(this@ProfileActivity)
                 { result ->
@@ -86,55 +84,42 @@ class ProfileActivity : AppCompatActivity() {
                         showLoading(false)
                         if (result.data != null) {
                             val emailReset = result.data.email
-                            val accessTokenPassword = result.data.accessTokenPassword
-                            forgetPasswordViewModel.saveForgetPassword(
-                                UserForgetPasswordModel(
-                                    emailReset,
-                                    accessTokenPassword
-                                )
-                            )
+                            accessTokenReset = result.data.accessTokenPassword
 
                             binding2 = NewPasswordLayoutBinding.inflate(layoutInflater)
                             setContentView(binding2.root)
 
                             inputLayoutValidate()
-                            forgetPasswordViewModel.getUserForgetPassword()
-                                .observe(this) { userForget ->
-                                    this.userForgetPasswordModel = userForget
-                                    this.title = userForget.email
 
-                                    binding2.mbUpdate.setOnClickListener {
-                                        val emailReset = userForget.email
-                                        val tokenReset = userForget.accessTokenReset
-                                        val newPass = binding2.newPass.text.toString().trim()
-
-                                        forgetPasswordViewModel.resetPassword(
-                                            tokenReset,
-                                            emailReset,
-                                            newPass
-                                        ).observe(this@ProfileActivity) { result ->
-                                            if (result is Resource.Loading) {
-                                                showLoadingForgetPassword(true)
-                                            } else if (result is Resource.Error) {
-                                                showLoadingForgetPassword(false)
-                                                Toast.makeText(
-                                                    this@ProfileActivity, result.message.toString(),
-                                                    Toast.LENGTH_SHORT
-                                                ).show()
-                                            } else if (result is Resource.Success) {
-                                                showLoadingForgetPassword(false)
-                                                if (result.data != null) {
-                                                    Toast.makeText(
-                                                        this@ProfileActivity,
-                                                        result.data.message,
-                                                        Toast.LENGTH_LONG
-                                                    ).show()
-                                                    setContentView(binding.root)
-                                                }
-                                            }
+                            binding2.mbUpdate.setOnClickListener {
+                                val newPass = binding2.newPass.text.toString().trim()
+                                forgetPasswordViewModel.resetPassword(
+                                    accessTokenReset!!,
+                                    emailReset,
+                                    newPass
+                                ).observe(this@ProfileActivity) { result ->
+                                    if (result is Resource.Loading) {
+                                        showLoadingForgetPassword(true)
+                                    } else if (result is Resource.Error) {
+                                        showLoadingForgetPassword(false)
+                                        Toast.makeText(
+                                            this@ProfileActivity, result.message.toString(),
+                                            Toast.LENGTH_SHORT
+                                        ).show()
+                                    } else if (result is Resource.Success) {
+                                        showLoadingForgetPassword(false)
+                                        if (result.data != null) {
+                                            Toast.makeText(
+                                                this@ProfileActivity,
+                                                result.data.message,
+                                                Toast.LENGTH_LONG
+                                            ).show()
                                         }
+                                        accessTokenReset = null
+                                        finish()
                                     }
                                 }
+                            }
                         }
                     }
                 }

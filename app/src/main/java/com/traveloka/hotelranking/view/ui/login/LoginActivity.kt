@@ -113,12 +113,6 @@ class LoginActivity : AppCompatActivity() {
                                     true
                                 )
                             )
-
-                            Toast.makeText(
-                                this@LoginActivity,
-                                result.data.message,
-                                Toast.LENGTH_SHORT
-                            ).show()
                             startActivity(
                                 Intent(this@LoginActivity, HomeActivity::class.java),
                                 ActivityOptionsCompat.makeSceneTransitionAnimation(this@LoginActivity)

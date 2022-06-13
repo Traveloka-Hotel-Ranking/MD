@@ -54,7 +54,7 @@ val networkModule = module {
 val viewModelModule = module {
     viewModel { LoginViewModel(get(), get()) }
     viewModel { RegisterViewModel(get()) }
-    viewModel { ForgetPasswordViewModel(get(), get()) }
+    viewModel { ForgetPasswordViewModel(get()) }
     viewModel {HomeViewModel(get(), get())}
     viewModel {MapsViewModel(get(), get())}
 }

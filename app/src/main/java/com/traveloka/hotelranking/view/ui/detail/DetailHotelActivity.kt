@@ -139,7 +139,7 @@ class DetailHotelActivity : AppCompatActivity(), OnMapReadyCallback {
         binding.rvRoom.run {
             adapter = roomAdapter
             setHasFixedSize(true)
-            layoutManager = LinearLayoutManager(this@DetailHotelActivity)
+            layoutManager = LinearLayoutManager(this@DetailHotelActivity, RecyclerView.HORIZONTAL, false)
         }
     }
 

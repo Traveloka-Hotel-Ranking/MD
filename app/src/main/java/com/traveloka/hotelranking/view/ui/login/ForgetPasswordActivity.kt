@@ -16,7 +16,6 @@ import com.traveloka.hotelranking.R
 import com.traveloka.hotelranking.data.Resource
 import com.traveloka.hotelranking.databinding.ActivityForgetPasswordBinding
 import com.traveloka.hotelranking.databinding.NewPasswordLayoutBinding
-import com.traveloka.hotelranking.model.UserForgetPasswordModel
 import io.reactivex.Observable
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -25,11 +24,12 @@ class ForgetPasswordActivity : AppCompatActivity() {
     private lateinit var binding: ActivityForgetPasswordBinding
     private lateinit var binding2: NewPasswordLayoutBinding
     private val forgetPasswordViewModel: ForgetPasswordViewModel by viewModel()
-    private lateinit var userForgetPasswordModel: UserForgetPasswordModel
 
     private var favCountry: String? = null
     private var favFood: String? = null
     private var favMovie: String? = null
+    private var emailResetPassword: String? = null
+    private var tokenResetPassword: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,7 +49,6 @@ class ForgetPasswordActivity : AppCompatActivity() {
         }
 
         binding.mbSend.setOnClickListener {
-
             val email = binding.email.text.toString().trim()
             val favorite = binding.security.text.toString().trim()
             val spinner = binding.spinnerSecurity.selectedItem.toString()
@@ -96,68 +95,55 @@ class ForgetPasswordActivity : AppCompatActivity() {
                             } else if (result is Resource.Success) {
                                 showLoading(false)
                                 if (result.data != null) {
-                                    val emailReset = result.data.email
-                                    val accessTokenPassword = result.data.accessTokenPassword
-                                    forgetPasswordViewModel.saveForgetPassword(
-                                        UserForgetPasswordModel(emailReset, accessTokenPassword)
-                                    )
+                                    emailResetPassword = result.data.email
+                                    tokenResetPassword = result.data.accessTokenPassword
 
                                     binding2 = NewPasswordLayoutBinding.inflate(layoutInflater)
                                     setContentView(binding2.root)
 
                                     inputLayoutValidate()
-                                    forgetPasswordViewModel.getUserForgetPassword()
-                                        .observe(this) { userForget ->
-                                            this.userForgetPasswordModel = userForget
-                                            this.title = userForget.email
 
-                                            binding2.mbUpdate.setOnClickListener {
-                                                val emailReset = userForget.email
-                                                val tokenReset = userForget.accessTokenReset
-                                                val newPass =
-                                                    binding2.newPass.text.toString().trim()
-
-                                                forgetPasswordViewModel.resetPassword(
-                                                    tokenReset,
-                                                    emailReset,
-                                                    newPass
-                                                ).observe(this@ForgetPasswordActivity) { result ->
-                                                    if (result is Resource.Loading) {
-                                                        showLoadingForgetPassword(true)
-                                                    } else if (result is Resource.Error) {
-                                                        showLoadingForgetPassword(false)
-                                                        Toast.makeText(
-                                                            this@ForgetPasswordActivity,
-                                                            result.message.toString(),
-                                                            Toast.LENGTH_SHORT
-                                                        ).show()
-                                                    } else if (result is Resource.Success) {
-                                                        showLoadingForgetPassword(false)
-                                                        if (result.data != null) {
-                                                            AlertDialog.Builder(this@ForgetPasswordActivity)
-                                                                .apply {
-                                                                    setMessage(result.data.message)
-                                                                    setPositiveButton("Login") { _, _ ->
-                                                                        finish()
-                                                                        startActivity(
-                                                                            Intent(
-                                                                                this@ForgetPasswordActivity,
-                                                                                LoginActivity::class.java
-                                                                            ),
-                                                                            ActivityOptionsCompat.makeSceneTransitionAnimation(
-                                                                                this@ForgetPasswordActivity
-                                                                            )
-                                                                                .toBundle()
-                                                                        )
-                                                                    }
-                                                                    create()
-                                                                    show()
-                                                                }
+                                    binding2.mbUpdate.setOnClickListener {
+                                        val newPass = binding2.newPass.text.toString().trim()
+                                        forgetPasswordViewModel.resetPassword(
+                                            tokenResetPassword!!,
+                                            emailResetPassword!!,
+                                            newPass
+                                        ).observe(this@ForgetPasswordActivity) { result ->
+                                            if (result is Resource.Loading) {
+                                                showLoadingForgetPassword(true)
+                                            } else if (result is Resource.Error) {
+                                                showLoadingForgetPassword(false)
+                                                Toast.makeText(
+                                                    this@ForgetPasswordActivity,
+                                                    result.message.toString(),
+                                                    Toast.LENGTH_SHORT
+                                                ).show()
+                                            } else if (result is Resource.Success) {
+                                                showLoadingForgetPassword(false)
+                                                if (result.data != null) {
+                                                    AlertDialog.Builder(this@ForgetPasswordActivity)
+                                                        .apply {
+                                                            setMessage(result.data.message)
+                                                            setPositiveButton("Login") { _, _ ->
+                                                                finish()
+                                                                startActivity(
+                                                                    Intent(
+                                                                        this@ForgetPasswordActivity,
+                                                                        LoginActivity::class.java
+                                                                    ),
+                                                                    ActivityOptionsCompat.makeSceneTransitionAnimation(
+                                                                        this@ForgetPasswordActivity
+                                                                    ).toBundle()
+                                                                )
+                                                            }
+                                                            create()
+                                                            show()
                                                         }
-                                                    }
                                                 }
                                             }
                                         }
+                                    }
                                 }
                                 favCountry = null
                                 favFood = null

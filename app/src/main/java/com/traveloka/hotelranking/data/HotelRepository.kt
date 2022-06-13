@@ -68,7 +68,6 @@ class HotelRepository(
                 val message = jsonObj.getString("message")
                 emit(Resource.Error(message))
             }
-
         } catch (e: Exception) {
             emit(Resource.Error("Server timeout!"))
         }

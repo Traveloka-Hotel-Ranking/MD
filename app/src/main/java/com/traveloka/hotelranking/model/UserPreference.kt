@@ -55,22 +55,6 @@ class UserPreference (private val dataStore: DataStore<Preferences>){
         }
     }
 
-    fun getUserForgetPassword(): Flow<UserForgetPasswordModel> {
-        return dataStore.data.map { pref ->
-            UserForgetPasswordModel(
-                pref[EMAIL_RESET_KEY] ?:"",
-                pref[ACCESS_TOKEN_RESET_KEY] ?:""
-            )
-        }
-    }
-
-    suspend fun saveUserForgetPassword(userForgetModel: UserForgetPasswordModel) {
-        dataStore.edit { pref ->
-            pref[EMAIL_RESET_KEY] = userForgetModel.email
-            pref[ACCESS_TOKEN_RESET_KEY] = userForgetModel.accessTokenReset
-        }
-    }
-
     companion object {
         private val NAME_KEY = stringPreferencesKey("name")
         private val EMAIL_KEY = stringPreferencesKey("email")
@@ -80,8 +64,5 @@ class UserPreference (private val dataStore: DataStore<Preferences>){
         private val FAV_MOVIE_KEY = stringPreferencesKey("fav_movie")
         private val ACCESS_TOKEN_KEY = stringPreferencesKey("access_token")
         private val STATE_KEY = booleanPreferencesKey("state_token")
-
-        private val EMAIL_RESET_KEY = stringPreferencesKey("email")
-        private val ACCESS_TOKEN_RESET_KEY = stringPreferencesKey("access_token")
     }
 }
