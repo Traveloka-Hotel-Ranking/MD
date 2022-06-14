@@ -50,10 +50,7 @@ class HomeAdapter(val context: Context) :
                 rbRatingHotel.rating = data.rating.toFloat()
                 tvLocationDistance.text = data.location
                 tvRatingHotel.text = data.review.toString()
-//                tvRoomDiscount.text = (data.discount + " %")
                 tvRoomPrice.concatRupiah(data.price)
-//                tvPricePerRoom.text = data.pricePerNight.toDouble().toCurrencyToRupiahFormat()
-                tvPoint.concat("2000".toInt(), context.getString(R.string.text_points))
             }
             itemView.setOnClickListener {
                 listener.onClick(data)

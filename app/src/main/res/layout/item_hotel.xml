@@ -23,7 +23,7 @@
             android:layout_width="160dp"
             android:layout_height="@dimen/_160sdp"
             android:contentDescription="@string/image_desc"
-            android:scaleType="fitCenter"
+            android:scaleType="fitXY"
             android:src="@drawable/sample_image"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -35,7 +35,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="8dp"
-            android:layout_marginVertical="8dp"
+            android:layout_marginVertical="10dp"
             android:text="@string/app_name"
             android:textColor="@color/black"
             android:textStyle="bold"
@@ -48,7 +48,7 @@
             style="?android:attr/ratingBarStyleSmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
+            android:layout_marginTop="10dp"
             android:max="5"
             android:progressTint="@color/yellow"
             android:rating="0"
@@ -60,32 +60,21 @@
             android:id="@+id/tv_location_distance"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
+            android:layout_marginTop="10dp"
             android:drawablePadding="4dp"
-            android:maxLines="3"
-            tools:text="Hilton Singapore Orchard"
+            android:maxLines="1"
+            android:ellipsize="end"
+            tools:text="@tools:sample/lorem/random"
+            app:layout_constraintEnd_toEndOf="parent"
             app:drawableStartCompat="@drawable/ic_pin_maps_gray"
-            app:layout_constraintEnd_toStartOf="@+id/tv_current_location"
             app:layout_constraintStart_toStartOf="@+id/rb_rating_hotel"
             app:layout_constraintTop_toBottomOf="@+id/rb_rating_hotel" />
-
-        <TextView
-            android:id="@+id/tv_current_location"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:text="@string/current_location"
-            android:textColor="@color/gray"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="@+id/tv_location_distance"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/tv_location_distance" />
 
         <TextView
             android:id="@+id/tv_rating_hotel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
+            android:layout_marginTop="10dp"
             android:drawablePadding="4dp"
             android:text="8.5"
             android:textColor="@color/blue"
@@ -96,42 +85,16 @@
             app:layout_constraintTop_toBottomOf="@+id/tv_location_distance" />
 
         <TextView
-            android:id="@+id/tv_count_rating"
+            android:id="@+id/tv_room_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
-            android:text="(425)"
-            android:textColor="@color/gray"
-            app:layout_constraintBottom_toBottomOf="@+id/tv_rating_hotel"
-            app:layout_constraintStart_toEndOf="@+id/tv_rating_hotel"
-            app:layout_constraintTop_toTopOf="@+id/tv_rating_hotel" />
-
-        <TextView
-            android:id="@+id/tv_point"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="8dp"
-            android:layout_marginVertical="8dp"
-            android:drawablePadding="4dp"
-            android:textColor="@color/gray"
-            android:textStyle="bold"
-            app:drawableStartCompat="@drawable/ic_point"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/im_hotel"
-            tools:text="2000 Points" />
-
-        <TextView
-            android:id="@+id/tv_price_per_room"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="4dp"
+            android:layout_marginBottom="16dp"
             android:drawablePadding="4dp"
             android:text="RP. 500.000"
             android:textColor="@color/orange"
             android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@+id/tv_point"
-            app:layout_constraintStart_toStartOf="@+id/tv_point" />
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/tv_rating_hotel" />
 
         <TextView
             android:id="@+id/tv_room_type"
@@ -140,33 +103,9 @@
             android:layout_marginStart="2dp"
             android:text="@string/type_room"
             android:textColor="@color/gray"
-            app:layout_constraintBottom_toBottomOf="@+id/tv_price_per_room"
-            app:layout_constraintStart_toEndOf="@+id/tv_price_per_room"
-            app:layout_constraintTop_toTopOf="@+id/tv_price_per_room" />
-
-        <TextView
-            android:id="@+id/tv_room_price"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="4dp"
-            android:text="RP. 1000.000"
-            android:textColor="@color/gray"
-            app:layout_constraintBottom_toTopOf="@+id/tv_price_per_room"
-            app:layout_constraintStart_toStartOf="@+id/tv_price_per_room" />
-
-        <TextView
-            android:id="@+id/tv_room_discount"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="4dp"
-            android:drawableStart="@drawable/ic_disount"
-            android:drawablePadding="4dp"
-            android:text="Save 50 %"
-            android:textColor="@color/gray"
-            app:layout_constraintBottom_toTopOf="@+id/tv_room_price"
-            app:layout_constraintStart_toStartOf="@+id/tv_room_price"
-            app:layout_constraintTop_toBottomOf="@+id/tv_rating_hotel" />
-
+            app:layout_constraintBottom_toBottomOf="@+id/tv_room_price"
+            app:layout_constraintStart_toEndOf="@+id/tv_room_price"
+            app:layout_constraintTop_toTopOf="@+id/tv_room_price" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>
