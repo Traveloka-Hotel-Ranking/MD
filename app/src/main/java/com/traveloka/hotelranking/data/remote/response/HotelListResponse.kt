@@ -63,7 +63,7 @@ data class HotelItem(
 	val lat: String = "",
 
 	@field:SerializedName("facilities")
-	val hotel: List<Facilities>? = null,
+	val facilities: List<Facilities>? = null,
 ) : Parcelable
 
 @Parcelize

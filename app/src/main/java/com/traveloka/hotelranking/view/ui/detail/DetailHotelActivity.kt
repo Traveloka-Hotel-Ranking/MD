@@ -70,7 +70,7 @@ class DetailHotelActivity : AppCompatActivity(), OnMapReadyCallback {
             data = intent
             setupActionBar(data.name)
 //            setImageAdapter(intent.image)
-            setRoomAdapter(data.hotel)
+            setRoomAdapter(data.facilities)
             initView(data)
         }
 
