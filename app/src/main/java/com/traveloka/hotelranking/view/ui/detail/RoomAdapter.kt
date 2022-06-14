@@ -3,27 +3,28 @@ package com.traveloka.hotelranking.view.ui.detail
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.traveloka.hotelranking.R
+import com.traveloka.hotelranking.data.remote.response.Facilities
 import com.traveloka.hotelranking.databinding.ItemRoomBinding
-import com.traveloka.hotelranking.model.dummy.RoomModel
 import com.traveloka.hotelranking.view.utils.ItemClickListener
 import com.traveloka.hotelranking.view.utils.invisible
 import com.traveloka.hotelranking.view.utils.loadImageDrawable
 
 class RoomAdapter(val context: Context) :
-    ListAdapter<RoomModel, RoomAdapter.RoomViewHolder>(RoomDiffUtils) {
+    ListAdapter<Facilities, RoomAdapter.RoomViewHolder>(RoomDiffUtils) {
 
-    var listRoom = mutableListOf<RoomModel>()
-    private lateinit var listener: ItemClickListener<RoomModel>
+    var listRoom = mutableListOf<Facilities>()
+    private lateinit var listener: ItemClickListener<Facilities>
 
-    fun setItemClickListener(itemClickListener: ItemClickListener<RoomModel>) {
+    fun setItemClickListener(itemClickListener: ItemClickListener<Facilities>) {
         this.listener = itemClickListener
     }
 
-    fun setItemListRoom(list: MutableList<RoomModel>) {
+    fun setItemListRoom(list: MutableList<Facilities>) {
         listRoom.clear()
         listRoom.addAll(list)
         notifyDataSetChanged()
@@ -43,40 +44,61 @@ class RoomAdapter(val context: Context) :
 
     inner class RoomViewHolder(val binding: ItemRoomBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bindData(data: RoomModel) {
+        fun bindData(data: Facilities) {
             binding.run {
-                imHotel.loadImageDrawable(data.image)
-                tvKindOfRooms.text = data.bedType
+                imHotel.loadImageDrawable(R.drawable.img_welcome3)
 
-                val guestText = "${data.guest} Guest(s) Per Room"
+                val king = data.king_bed
+                val med = data.medium_bed
+                val std = data.standard_bed
+                var bed = ""
+
+                if (king > 0) {
+                    bed += itemView.resources.getString(R.string.king_bed, king.toString())
+                }
+
+                if (med > 0) {
+                    bed += if (bed.isNotBlank()) ", " + itemView.resources.getString(R.string.medium_bed, med.toString())
+                    else itemView.resources.getString(R.string.medium_bed, med.toString())
+                }
+
+                if (std > 0) {
+                    bed += if (bed.isNotBlank()) ", " + itemView.resources.getString(R.string.standard_bed, std.toString())
+                    else itemView.resources.getString(R.string.standard_bed, std.toString())
+                }
+                tvBed.text = bed
+
+                val guestText = "${data.capacity} Guest(s) Per Room"
                 tvGuest.text = guestText
 
-                val bedText = "${data.bedNumber} ${data.bedType}"
-                tvBed.text = bedText
-
-                when (data.breakfast) {
-                    true -> tvFood.text = "Included"
-                    else -> tvFood.text = "Not Included"
+                var food = ""
+                if (data.breakfast) {
+                    food += itemView.resources.getString(R.string.breakfast)
                 }
 
-                when (data.wifi) {
-                    true -> tvWifi.text = "Free Wifi"
-                    else -> tvWifi.text = "Not Included"
+                if (data.lunch) {
+                    food += if (food.isNotBlank()) ", " + itemView.resources.getString(R.string.lunch)
+                    else itemView.resources.getString(R.string.lunch)
                 }
 
-                when (data.discount) {
-                    true -> {
-                        tvRoomDiscount.text = itemView.resources.getString(
-                            R.string.room_price_before_discount,
-                            data.price
-                        )
-                        tvRoomPrice.text = data.discountPrice
-                    }
-                    else -> {
-                        tvRoomDiscount.invisible()
-                        tvRoomPrice.text = data.price
-                    }
+                if (data.dinner) {
+                    food += if (food.isNotBlank()) ", " + itemView.resources.getString(R.string.dinner)
+                    else itemView.resources.getString(R.string.dinner)
                 }
+                tvFood.text = food.ifBlank { "Not Included" }
+
+                if (data.wifi) {
+                    tvWifi.text = "Free Wifi"
+                } else {
+                    "Not Included"
+                }
+
+                // Referring to data from ML Model
+                tvSeeDetail.isVisible = false
+                tvRoomPrice.isVisible = false
+                tvRoomDiscount.isVisible = false
+                selectButton.isVisible = false
+
             }
             itemView.setOnClickListener {
                 listener.onClick(data)
@@ -84,17 +106,17 @@ class RoomAdapter(val context: Context) :
         }
     }
 
-    object RoomDiffUtils : DiffUtil.ItemCallback<RoomModel>() {
+    object RoomDiffUtils : DiffUtil.ItemCallback<Facilities>() {
         override fun areItemsTheSame(
-            oldItem: RoomModel,
-            newItem: RoomModel
+            oldItem: Facilities,
+            newItem: Facilities
         ): Boolean {
-            return oldItem.type == newItem.type
+            return oldItem.id == newItem.id
         }
 
         override fun areContentsTheSame(
-            oldItem: RoomModel,
-            newItem: RoomModel
+            oldItem: Facilities,
+            newItem: Facilities
         ): Boolean {
             return oldItem == newItem
         }

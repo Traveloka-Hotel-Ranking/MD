@@ -1,41 +1,45 @@
 package com.traveloka.hotelranking.view.ui.detail
 
 import android.Manifest
-import android.content.ContentValues
-import android.content.IntentSender
+import android.content.Intent
 import android.content.pm.PackageManager
-import android.location.Location
+import android.graphics.Bitmap
+import android.graphics.drawable.BitmapDrawable
+import android.location.Geocoder
+import android.net.Uri
 import android.os.Bundle
 import android.view.MenuItem
-import android.widget.Toast
-import androidx.activity.result.IntentSenderRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.gms.common.api.ResolvableApiException
+import coil.ImageLoader
+import coil.request.ImageRequest
+import coil.request.SuccessResult
+import coil.transform.CircleCropTransformation
 import com.google.android.gms.location.FusedLocationProviderClient
-import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationServices
-import com.google.android.gms.location.LocationSettingsRequest
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.LatLngBounds
 import com.google.android.gms.maps.model.MarkerOptions
 import com.traveloka.hotelranking.R
+import com.traveloka.hotelranking.data.remote.response.Facilities
 import com.traveloka.hotelranking.data.remote.response.HotelItem
 import com.traveloka.hotelranking.databinding.ActivityDetailHotelBinding
-import com.traveloka.hotelranking.model.dummy.HomeModel
 import com.traveloka.hotelranking.model.dummy.ImageModel
-import com.traveloka.hotelranking.model.dummy.RoomModel
 import com.traveloka.hotelranking.view.utils.ItemClickListener
 import com.traveloka.hotelranking.view.utils.constants.HOTEL_DATA
-import timber.log.Timber
-import java.util.concurrent.TimeUnit
+import com.traveloka.hotelranking.view.utils.loadImage
+import kotlinx.coroutines.launch
+import java.util.*
+
 
 class DetailHotelActivity : AppCompatActivity(), OnMapReadyCallback {
 
@@ -45,42 +49,14 @@ class DetailHotelActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private lateinit var mMap: GoogleMap
     private lateinit var fusedLocationClient: FusedLocationProviderClient
-    private lateinit var locationRequest: LocationRequest
-    private var boundsBuilder = LatLngBounds.builder()
+    private lateinit var data: HotelItem
 
     private val requestPermissionLauncher =
         registerForActivityResult(
-            ActivityResultContracts.RequestMultiplePermissions()
-        ) { permissions ->
-            when {
-                permissions[Manifest.permission.ACCESS_FINE_LOCATION] ?: false -> {
-                    // Precise location access granted.
-                    getMyLastLocation()
-                }
-                permissions[Manifest.permission.ACCESS_COARSE_LOCATION] ?: false -> {
-                    // Only approximate location access granted.
-                    getMyLastLocation()
-                }
-                else -> {
-                    // No location access granted.
-                }
-            }
-        }
-
-    private val resolutionLauncher =
-        registerForActivityResult(
-            ActivityResultContracts.StartIntentSenderForResult()
-        ) { result ->
-            when (result.resultCode) {
-                RESULT_OK ->
-                    Timber.tag(ContentValues.TAG)
-                        .i("onActivityResult: All location settings are satisfied.")
-                RESULT_CANCELED ->
-                    Toast.makeText(
-                        this@DetailHotelActivity,
-                        "Anda harus mengaktifkan GPS untuk menggunakan aplikasi ini!",
-                        Toast.LENGTH_SHORT
-                    ).show()
+            ActivityResultContracts.RequestPermission()
+        ) { isGranted: Boolean ->
+            if (isGranted) {
+                getMyLocation()
             }
         }
 
@@ -91,10 +67,11 @@ class DetailHotelActivity : AppCompatActivity(), OnMapReadyCallback {
 
         val intent = intent.getParcelableExtra<HotelItem>(HOTEL_DATA)
         if (intent != null) {
-            setupActionBar(intent.name)
+            data = intent
+            setupActionBar(data.name)
 //            setImageAdapter(intent.image)
-//            setRoomAdapter(intent.room)
-            initView(intent)
+            setRoomAdapter(data.hotel)
+            initView(data)
         }
 
         val mapView = supportFragmentManager
@@ -127,93 +104,61 @@ class DetailHotelActivity : AppCompatActivity(), OnMapReadyCallback {
         }
     }
 
-    private fun setRoomAdapter(data: List<RoomModel>) {
-        roomAdapter.setItemListRoom(data.toMutableList())
+    private fun setRoomAdapter(data: List<Facilities>?) {
+        if (data != null) {
+            roomAdapter.setItemListRoom(data.toMutableList())
 
-        roomAdapter.setItemClickListener(object: ItemClickListener<RoomModel> {
-            override fun onClick(data: RoomModel) {
-                TODO("Not yet implemented")
+            roomAdapter.setItemClickListener(object: ItemClickListener<Facilities> {
+                override fun onClick(data: Facilities) {
+                    TODO("Not yet implemented")
+                }
+            })
+
+            binding.rvRoom.run {
+                adapter = roomAdapter
+                setHasFixedSize(true)
+                layoutManager = LinearLayoutManager(this@DetailHotelActivity, RecyclerView.HORIZONTAL, false)
             }
-        })
-
-        binding.rvRoom.run {
-            adapter = roomAdapter
-            setHasFixedSize(true)
-            layoutManager = LinearLayoutManager(this@DetailHotelActivity, RecyclerView.HORIZONTAL, false)
         }
     }
 
     private fun initView(data: HotelItem) {
+        val geocoder = Geocoder(this@DetailHotelActivity, Locale.getDefault())
+        val lat = data.lat.toDouble()
+        val lon = data.lon.toDouble()
+        val hotelName = data.name
+        val mapAddress = geocoder.getFromLocation(lat, lon, 1)
+        val addressLine = mapAddress[0].getAddressLine(0)
         binding.run {
-            tvTitleHotel.text = data.name
+            // Referring to data from ML Model
+            rvImgHotel.isVisible = false
+
+            imgHotel.loadImage(data.image)
+            tvTitleHotel.text = hotelName
             rbRatingHotel.numStars = 5
             rbRatingHotel.rating = data.rating.toFloat()
             tvLocation.text = data.location
             tvRatingHotel.text = data.rating.toString()
-        }
-    }
 
-    private fun checkPermission(permission: String): Boolean {
-        return ContextCompat.checkSelfPermission(
-            this,
-            permission
-        ) == PackageManager.PERMISSION_GRANTED
-    }
-
-    private fun getMyLastLocation() {
-        if (checkPermission(Manifest.permission.ACCESS_FINE_LOCATION) &&
-            checkPermission(Manifest.permission.ACCESS_COARSE_LOCATION)
-        ) {
-            fusedLocationClient.lastLocation.addOnSuccessListener { location: Location? ->
-                if (location != null) {
-                    showStartMarker(location)
-                } else {
-                    Toast.makeText(
-                        this@DetailHotelActivity,
-                        "Location is not found. Try Again",
-                        Toast.LENGTH_SHORT
-                    ).show()
+            address.text = addressLine
+            address.paint.isUnderlineText = true
+            address.setOnClickListener {
+                val gmmIntentUri: Uri = Uri.parse("geo:0,0?q=$hotelName+$addressLine?z=zoom=12.0f")
+                val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
+                mapIntent.setPackage("com.google.android.apps.maps")
+                if (mapIntent.resolveActivity(packageManager) != null) {
+                    startActivity(mapIntent)
                 }
             }
-        } else {
-            requestPermissionLauncher.launch(
-                arrayOf(
-                    Manifest.permission.ACCESS_FINE_LOCATION,
-                    Manifest.permission.ACCESS_COARSE_LOCATION
-                )
-            )
         }
-    }
-
-    private fun showStartMarker(location: Location) {
-        val startLocation = LatLng(location.latitude, location.longitude)
-        mMap.addMarker(
-            MarkerOptions()
-                .position(startLocation)
-                .title("You're Here")
-        )
-        boundsBuilder.include(startLocation)
-        val bounds: LatLngBounds = boundsBuilder.build()
-        mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(bounds, 128))
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
 
-        createLocationRequest()
-
         mMap.uiSettings.isZoomControlsEnabled = true
         mMap.uiSettings.isCompassEnabled = true
         mMap.uiSettings.isMapToolbarEnabled = true
-
-        mMap.setOnMapLongClickListener { latLng ->
-            mMap.addMarker(
-                MarkerOptions()
-                    .position(latLng)
-                    .title("New Marker")
-                    .snippet("Lat: ${latLng.latitude} Long: ${latLng.longitude}")
-            )
-        }
 
         mMap.setOnCameraMoveStartedListener { i ->
             if (i == GoogleMap.OnCameraMoveStartedListener.REASON_GESTURE) {
@@ -223,34 +168,45 @@ class DetailHotelActivity : AppCompatActivity(), OnMapReadyCallback {
         mMap.setOnCameraIdleListener {
             binding.scrollView.setScrollingEnabled(true)
         }
+
+        getMyLocation()
+        setMapMarker(data)
     }
 
-    private fun createLocationRequest() {
-        locationRequest = LocationRequest.create().apply {
-            interval = TimeUnit.SECONDS.toMillis(1)
-            maxWaitTime = TimeUnit.SECONDS.toMillis(1)
-            priority = LocationRequest.PRIORITY_HIGH_ACCURACY
+    private fun getMyLocation() {
+        if (ContextCompat.checkSelfPermission(
+                this.applicationContext,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) == PackageManager.PERMISSION_GRANTED
+        ) {
+            mMap.isMyLocationEnabled = true
+        } else {
+            requestPermissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
         }
-        val builder = LocationSettingsRequest.Builder()
-            .addLocationRequest(locationRequest)
-        val client = LocationServices.getSettingsClient(this)
-        client.checkLocationSettings(builder.build())
-            .addOnSuccessListener {
-                getMyLastLocation()
-            }
-            .addOnFailureListener { exception ->
-                if (exception is ResolvableApiException) {
-                    try {
-                        resolutionLauncher.launch(
-                            IntentSenderRequest.Builder(exception.resolution).build()
-                        )
-                    } catch (sendEx: IntentSender.SendIntentException) {
-                        Toast.makeText(this@DetailHotelActivity, sendEx.message, Toast.LENGTH_SHORT)
-                            .show()
-                    }
-                }
-            }
     }
+
+    private fun setMapMarker(data: HotelItem) {
+        val latLng = LatLng(data.lat.toDouble(), data.lon.toDouble())
+        lifecycleScope.launch {
+            mMap.addMarker(
+                MarkerOptions()
+                    .position(latLng)
+                    .title(data.name)
+                    .snippet("Lat : ${latLng.latitude} Long : ${latLng.longitude}")
+                    .icon(
+                        BitmapDescriptorFactory.fromBitmap(
+                            resizesPhotos(
+                                getBitmapFromURL(
+                                    data.image
+                                )
+                            )
+                        )
+                    )
+            )
+            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 16.0f))
+        }
+    }
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             android.R.id.home ->{
@@ -261,5 +217,26 @@ class DetailHotelActivity : AppCompatActivity(), OnMapReadyCallback {
             }
             else -> true
         }
+    }
+
+    private fun resizesPhotos(bitmap: Bitmap): Bitmap {
+        val w = bitmap.width
+        val h = bitmap.height
+        val aspRat = w / h
+        val W = 80
+        val H = W * aspRat
+        val b = Bitmap.createScaledBitmap(bitmap, W, H, false)
+        return b
+    }
+
+    private suspend fun getBitmapFromURL(value: String): Bitmap {
+        val loading = ImageLoader(this)
+        val request = ImageRequest.Builder(this)
+            .data(value)
+            .transformations(CircleCropTransformation())
+            .build()
+
+        val result = (loading.execute(request) as SuccessResult).drawable
+        return (result as BitmapDrawable).bitmap
     }
 }

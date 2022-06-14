@@ -23,7 +23,7 @@
             android:layout_width="160dp"
             android:layout_height="@dimen/_160sdp"
             android:contentDescription="@string/image_desc"
-            android:scaleType="centerCrop"
+            android:scaleType="fitCenter"
             android:src="@drawable/sample_image"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
