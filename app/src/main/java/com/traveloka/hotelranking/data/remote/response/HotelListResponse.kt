@@ -38,9 +38,6 @@ data class HotelItem(
 	@field:SerializedName("image")
 	val image: String = "",
 
-	@field:SerializedName("createdAt")
-	val createdAt: String = "",
-
 	@field:SerializedName("price")
 	val price: String = "",
 
@@ -65,6 +62,42 @@ data class HotelItem(
 	@field:SerializedName("lat")
 	val lat: String = "",
 
-	@field:SerializedName("updatedAt")
-	val updatedAt: String = ""
+	@field:SerializedName("facilities")
+	val hotel: List<Facilities>? = null,
+) : Parcelable
+
+@Parcelize
+data class Facilities(
+	@field:SerializedName("id")
+	val id: Int = 0,
+
+	@field:SerializedName("capacity")
+	val capacity: Int = 0,
+
+	@field:SerializedName("standard_bed")
+	val standard_bed: Int = 0,
+
+	@field:SerializedName("medium_bed")
+	val medium_bed: Int = 0,
+
+	@field:SerializedName("king_bed")
+	val king_bed: Int = 0,
+
+	@field:SerializedName("ac")
+	val ac: Boolean,
+
+	@field:SerializedName("wifi")
+	val wifi: Boolean,
+
+	@field:SerializedName("breakfast")
+	val breakfast: Boolean,
+
+	@field:SerializedName("lunch")
+	val lunch: Boolean,
+
+	@field:SerializedName("dinner")
+	val dinner: Boolean,
+
+	@field:SerializedName("hotelId")
+	val hotelId: Int
 ) : Parcelable
