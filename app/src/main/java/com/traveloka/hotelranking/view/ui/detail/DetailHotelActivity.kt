@@ -8,6 +8,7 @@ import android.graphics.drawable.BitmapDrawable
 import android.location.Geocoder
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
@@ -131,9 +132,9 @@ class DetailHotelActivity : AppCompatActivity(), OnMapReadyCallback {
             tvLocation.text = data.location
             tvRatingHotel.text = data.rating.toString()
 
-            binding.imgHotel.setOnClickListener {
+            imgHotel.setOnClickListener {
                 val imageIntent = Intent(this@DetailHotelActivity, FullScreenImageActivity::class.java)
-                intent.putExtra(FullScreenImageActivity.EXTRA_IMAGE, data.image)
+                imageIntent.putExtra(FullScreenImageActivity.EXTRA_IMAGE, data.image)
                 startActivity(imageIntent)
             }
 

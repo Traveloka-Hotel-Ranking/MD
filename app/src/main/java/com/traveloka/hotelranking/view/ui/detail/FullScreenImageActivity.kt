@@ -1,7 +1,9 @@
 package com.traveloka.hotelranking.view.ui.detail
 
+import android.annotation.SuppressLint
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.MotionEvent
 import android.view.ScaleGestureDetector
 import android.view.ScaleGestureDetector.SimpleOnScaleGestureListener
@@ -19,6 +21,7 @@ class FullScreenImageActivity : AppCompatActivity() {
 
     var mScaleGestureDetector: ScaleGestureDetector? = null
 
+    @SuppressLint("LogNotTimber")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityFullScreenImageBinding.inflate(layoutInflater)
