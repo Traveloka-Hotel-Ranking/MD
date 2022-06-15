@@ -1,6 +1,8 @@
 package com.traveloka.hotelranking.data.remote.network
 
 import com.traveloka.hotelranking.data.remote.response.*
+import com.traveloka.hotelranking.model.HomeMLModel
+import com.traveloka.hotelranking.model.param.HomeMLParam
 import retrofit2.Call
 import retrofit2.Response
 import retrofit2.http.*
@@ -43,11 +45,25 @@ interface ApiService {
         @Field("password") password: String
     ): Response<ResetPasswordResponse>
 
-    @GET("hotel")
+    @GET("hotel/loc")
     suspend fun getHotel(
         @Header("x-access-token-hotel") token: String,
-        @Query("size") size: Int,
-        @Query("location") location : String
+        @Query("size") size : Int
     ): Response<HotelListResponse>
+
+    @GET("hotel")
+    suspend fun getHotelMaps(
+        @Header("x-access-token-hotel") token: String,
+    ): Response<HotelListResponse>
+
+    @POST("projects/capstone-project-353103/locations/asia-southeast1/endpoints/9116305992588460032/:predict")
+    suspend fun getHotelML(
+        @Header("Authorization") token : String,
+        @Body body : HomeMLParam
+    ) : Response<HomeMLModel>
+
+
+
+
 
 }

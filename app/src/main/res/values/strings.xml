@@ -101,6 +101,9 @@
     <string name="lunch">Lunch</string>
     <string name="dinner">Dinner</string>
     <string name="hotel_s_name">Hotel\'s name</string>
+
+    <string name="text_top_hotel">Top hotel picks for you</string>
+    <string name="text_other_hotel">Other Hotels</string>
     <string name="room_name">%1s Room</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

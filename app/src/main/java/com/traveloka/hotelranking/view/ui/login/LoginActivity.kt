@@ -97,12 +97,14 @@ class LoginActivity : AppCompatActivity() {
 
                         if (result.data != null) {
                             loginViewModel.login()
+                            val id = result.data.id
                             val name = result.data.name
                             val dataEmail = result.data.email
                             val dataPhone = result.data.phone
                             val accessToken = result.data.accessToken
                             loginViewModel.saveUser(
                                 UserModel(
+                                    id.toString(),
                                     name,
                                     dataEmail,
                                     dataPhone,

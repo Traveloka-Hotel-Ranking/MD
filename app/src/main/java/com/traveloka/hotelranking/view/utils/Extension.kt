@@ -10,8 +10,10 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.children
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
+import com.google.android.material.chip.ChipGroup
 import com.traveloka.hotelranking.R
 import com.traveloka.hotelranking.view.utils.constants.HOTEL_DATA
 import java.text.NumberFormat
@@ -103,5 +105,9 @@ fun Double.toCurrencyToRupiahFormat(): String {
     val formatRupiah = NumberFormat.getCurrencyInstance(localeID)
     val tempPrice = formatRupiah.format(this).replace(",00", "")
     return tempPrice.replace("Rp", "Rp ")
+}
+
+fun ChipGroup.setChildrenEnabled(enable: Boolean) {
+    children.forEach { it.isEnabled = enable }
 }
 

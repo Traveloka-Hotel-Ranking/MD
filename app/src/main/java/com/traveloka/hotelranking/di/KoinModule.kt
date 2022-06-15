@@ -9,6 +9,7 @@ import androidx.datastore.preferences.core.emptyPreferences
 import androidx.datastore.preferences.preferencesDataStoreFile
 import com.chuckerteam.chucker.api.ChuckerInterceptor
 import com.traveloka.hotelranking.BuildConfig
+import com.traveloka.hotelranking.data.HomeRepository
 import com.traveloka.hotelranking.data.HotelRepository
 import com.traveloka.hotelranking.data.remote.network.ApiService
 import com.traveloka.hotelranking.view.ui.login.ForgetPasswordViewModel
@@ -24,6 +25,7 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
+import org.koin.core.qualifier.named
 import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -41,9 +43,17 @@ val networkModule = module {
             .addInterceptor(ChuckerInterceptor.Builder(get()).build())
             .build()
     }
-    single {
+    single(named("bangkit")) {
         val retrofit = Retrofit.Builder()
             .baseUrl("http://34.128.85.45:8080/api/")
+            .addConverterFactory(GsonConverterFactory.create())
+            .client(get())
+            .build()
+        retrofit.create(ApiService::class.java)
+    }
+    single(named("mlbangkit")) {
+        val retrofit = Retrofit.Builder()
+            .baseUrl("https://asia-southeast1-aiplatform.googleapis.com/v1/")
             .addConverterFactory(GsonConverterFactory.create())
             .client(get())
             .build()
@@ -55,12 +65,13 @@ val viewModelModule = module {
     viewModel { LoginViewModel(get(), get()) }
     viewModel { RegisterViewModel(get()) }
     viewModel { ForgetPasswordViewModel(get()) }
-    viewModel {HomeViewModel(get(), get())}
+    viewModel {HomeViewModel(get(), get(), get())}
     viewModel {MapsViewModel(get(), get())}
 }
 
 val repositoryModule = module {
-    single { HotelRepository(get()) }
+    single { HotelRepository(get(named("bangkit"))) }
+    single { HomeRepository(get(named("mlbangkit"))) }
 }
 
 val dataPreferenceModule = module {

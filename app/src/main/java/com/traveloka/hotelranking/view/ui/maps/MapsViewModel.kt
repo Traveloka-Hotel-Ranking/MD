@@ -28,7 +28,7 @@ class MapsViewModel(
 
     fun requestHotelList(token : String){
         viewModelScope.launch {
-            repository.retrieveHotel(token, "")
+            repository.retrieveHotelMaps(token)
                 .onStart {
                     _isLoadingRequestList.postValue(true)
                 }

@@ -12,6 +12,7 @@ class UserPreference (private val dataStore: DataStore<Preferences>){
     fun getUser(): Flow<UserModel> {
         return dataStore.data.map { pref ->
             UserModel(
+                pref[ID_KEY] ?: "",
                 pref[NAME_KEY] ?:"",
                 pref[EMAIL_KEY] ?:"",
                 pref[PHONE_KEY] ?:"",
@@ -56,6 +57,7 @@ class UserPreference (private val dataStore: DataStore<Preferences>){
     }
 
     companion object {
+        private val ID_KEY = stringPreferencesKey("id")
         private val NAME_KEY = stringPreferencesKey("name")
         private val EMAIL_KEY = stringPreferencesKey("email")
         private val PHONE_KEY = stringPreferencesKey("phone")
