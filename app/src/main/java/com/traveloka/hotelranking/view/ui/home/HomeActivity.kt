@@ -8,6 +8,7 @@ import android.os.Handler
 import android.os.Looper
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.gms.tasks.OnSuccessListener
 import com.google.android.material.datepicker.CalendarConstraints
@@ -45,7 +46,6 @@ class HomeActivity : AppCompatActivity() {
 
         initView()
         subscribeToLiveData()
-
     }
 
     private fun subscribeToLiveData() {
@@ -86,7 +86,6 @@ class HomeActivity : AppCompatActivity() {
             rvHome.adapter = adapter
             tvDate.isFocusable = false
             etCountNight.isFocusable = false
-            tvNearYou.isFocusable = false
             tvDate.setOnClickListener {
                 showCalender(object : ItemClickListener<String> {
                     override fun onClick(data: String) {

@@ -94,15 +94,13 @@ class RoomAdapter(val context: Context) :
                 }
 
                 // Referring to data from ML Model
-                tvSeeDetail.isVisible = false
                 tvRoomPrice.isVisible = false
-                tvRoomDiscount.isVisible = false
                 selectButton.isVisible = false
 
             }
-            itemView.setOnClickListener {
-                listener.onClick(data)
-            }
+//            itemView.setOnClickListener {
+//                listener.onClick(data)
+//            }
         }
     }
 

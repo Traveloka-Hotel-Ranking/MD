@@ -211,8 +211,6 @@ class DetailHotelActivity : AppCompatActivity(), OnMapReadyCallback {
         return when (item.itemId) {
             android.R.id.home ->{
                 finish()
-//                val intent = Intent(this, HomeActivity::class.java)
-//                startActivity(intent, ActivityOptionsCompat.makeSceneTransitionAnimation(this@ProfileActivity).toBundle())
                 super.onOptionsItemSelected(item)
             }
             else -> true
