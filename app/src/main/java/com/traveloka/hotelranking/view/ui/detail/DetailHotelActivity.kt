@@ -108,12 +108,6 @@ class DetailHotelActivity : AppCompatActivity(), OnMapReadyCallback {
         if (data != null) {
             roomAdapter.setItemListRoom(data.toMutableList())
 
-            roomAdapter.setItemClickListener(object: ItemClickListener<Facilities> {
-                override fun onClick(data: Facilities) {
-                    TODO("Not yet implemented")
-                }
-            })
-
             binding.rvRoom.run {
                 adapter = roomAdapter
                 setHasFixedSize(true)

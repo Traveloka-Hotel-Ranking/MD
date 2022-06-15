@@ -18,11 +18,6 @@ class RoomAdapter(val context: Context) :
     ListAdapter<Facilities, RoomAdapter.RoomViewHolder>(RoomDiffUtils) {
 
     var listRoom = mutableListOf<Facilities>()
-    private lateinit var listener: ItemClickListener<Facilities>
-
-    fun setItemClickListener(itemClickListener: ItemClickListener<Facilities>) {
-        this.listener = itemClickListener
-    }
 
     fun setItemListRoom(list: MutableList<Facilities>) {
         listRoom.clear()
@@ -98,9 +93,6 @@ class RoomAdapter(val context: Context) :
                 selectButton.isVisible = false
 
             }
-//            itemView.setOnClickListener {
-//                listener.onClick(data)
-//            }
         }
     }
 
