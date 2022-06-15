@@ -3,14 +3,17 @@ package com.traveloka.hotelranking.view.ui.detail
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.traveloka.hotelranking.R
 import com.traveloka.hotelranking.data.remote.response.Facilities
+import com.traveloka.hotelranking.data.remote.response.HotelItem
 import com.traveloka.hotelranking.databinding.ItemRoomBinding
 import com.traveloka.hotelranking.view.utils.ItemClickListener
+import com.traveloka.hotelranking.view.utils.concatRupiah
 import com.traveloka.hotelranking.view.utils.invisible
 import com.traveloka.hotelranking.view.utils.loadImageDrawable
 
@@ -18,10 +21,14 @@ class RoomAdapter(val context: Context) :
     ListAdapter<Facilities, RoomAdapter.RoomViewHolder>(RoomDiffUtils) {
 
     var listRoom = mutableListOf<Facilities>()
+    var hotelPrice = ""
+    var hotelName = ""
 
-    fun setItemListRoom(list: MutableList<Facilities>) {
+    fun setItemListRoom(hotelItem: HotelItem) {
         listRoom.clear()
-        listRoom.addAll(list)
+        hotelPrice = hotelItem.price
+        hotelName = hotelItem.name
+        hotelItem.facilities?.let { listRoom.addAll(it.toMutableList()) }
         notifyDataSetChanged()
     }
 
@@ -42,6 +49,8 @@ class RoomAdapter(val context: Context) :
         fun bindData(data: Facilities) {
             binding.run {
                 imHotel.loadImageDrawable(R.drawable.img_welcome3)
+
+                tvKindOfRooms.text = itemView.resources.getString(R.string.room_name, hotelName)
 
                 val king = data.king_bed
                 val med = data.medium_bed
@@ -88,10 +97,11 @@ class RoomAdapter(val context: Context) :
                     "Not Included"
                 }
 
-                // Referring to data from ML Model
-                tvRoomPrice.isVisible = false
-                selectButton.isVisible = false
+                tvRoomPrice.concatRupiah(hotelPrice)
 
+                selectButton.setOnClickListener {
+                    Toast.makeText(itemView.context, "Room selected", Toast.LENGTH_SHORT).show()
+                }
             }
         }
     }

@@ -70,7 +70,7 @@ class DetailHotelActivity : AppCompatActivity(), OnMapReadyCallback {
             data = intent
             setupActionBar(data.name)
 //            setImageAdapter(intent.image)
-            setRoomAdapter(data.facilities)
+            setRoomAdapter(data)
             initView(data)
         }
 
@@ -104,15 +104,13 @@ class DetailHotelActivity : AppCompatActivity(), OnMapReadyCallback {
         }
     }
 
-    private fun setRoomAdapter(data: List<Facilities>?) {
-        if (data != null) {
-            roomAdapter.setItemListRoom(data.toMutableList())
+    private fun setRoomAdapter(data: HotelItem) {
+        roomAdapter.setItemListRoom(data)
 
-            binding.rvRoom.run {
-                adapter = roomAdapter
-                setHasFixedSize(true)
-                layoutManager = LinearLayoutManager(this@DetailHotelActivity, RecyclerView.HORIZONTAL, false)
-            }
+        binding.rvRoom.run {
+            adapter = roomAdapter
+            setHasFixedSize(true)
+            layoutManager = LinearLayoutManager(this@DetailHotelActivity, RecyclerView.HORIZONTAL, false)
         }
     }
 
@@ -197,7 +195,7 @@ class DetailHotelActivity : AppCompatActivity(), OnMapReadyCallback {
                         )
                     )
             )
-            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 16.0f))
+            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15.0f))
         }
     }
 

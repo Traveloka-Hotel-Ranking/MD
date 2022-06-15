@@ -18,7 +18,7 @@
             android:layout_height="230dp"
             android:background="@null"
             android:contentDescription="@string/image_hotel_desc"
-            android:scaleType="fitXY"
+            android:scaleType="centerCrop"
             android:src="@drawable/sample_image"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -49,6 +49,7 @@
 
         <RatingBar
             android:id="@+id/rb_rating_hotel"
+            android:secondaryProgressTint="@color/yellow"
             style="?android:attr/ratingBarStyleIndicator"
             android:layout_width="0dp"
             android:layout_height="wrap_content"

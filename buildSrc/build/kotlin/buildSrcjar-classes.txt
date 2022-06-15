@@ -1,1 +1,1 @@
-E:\AndroidStudioProjects\MD\buildSrc\build\classes\kotlin\main\Libs.class;E:\AndroidStudioProjects\MD\buildSrc\build\classes\kotlin\main\Versions.class
+D:\Bangkit\Traveloka Hotel Ranking\MD\buildSrc\build\classes\kotlin\main\Libs.class;D:\Bangkit\Traveloka Hotel Ranking\MD\buildSrc\build\classes\kotlin\main\Versions.class
