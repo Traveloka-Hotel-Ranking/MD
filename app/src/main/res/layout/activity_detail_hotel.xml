@@ -20,6 +20,7 @@
             android:contentDescription="@string/image_hotel_desc"
             android:scaleType="centerCrop"
             android:src="@drawable/sample_image"
+            android:adjustViewBounds="true"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

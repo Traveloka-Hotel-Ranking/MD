@@ -1,9 +1,10 @@
-<?xml version="1.0" encoding="utf-8"?><manifest xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
 package="string">
 
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.INTERNET" />
+<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+<uses-permission android:name="android.permission.INTERNET" />
 
 <application
     android:name="com.traveloka.hotelranking.MyHotelTraveloka"
@@ -17,6 +18,12 @@ package="string">
     <meta-data
         android:name="com.google.android.geo.API_KEY"
         android:value="AIzaSyDHDVlKN57TnzNjDpdMSXqpJUYU58-3BwE" />
+
+    <activity
+        android:name="com.traveloka.hotelranking.view.ui.detail.FullScreenImageActivity"
+        android:exported="false"
+        />
+
     <activity
         android:name="com.traveloka.hotelranking.view.ui.profile.ProfileActivity"
         android:exported="false"
@@ -56,8 +63,7 @@ package="string">
         android:exported="false" />
     <activity
         android:name="com.traveloka.hotelranking.view.ui.home.HomeActivity"
-        android:exported="true" >
-    </activity>
+        android:exported="true"></activity>
     <activity
         android:name="com.traveloka.hotelranking.view.ui.main.MainActivity"
         android:exported="true">

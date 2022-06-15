@@ -30,7 +30,6 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.traveloka.hotelranking.R
-import com.traveloka.hotelranking.data.remote.response.Facilities
 import com.traveloka.hotelranking.data.remote.response.HotelItem
 import com.traveloka.hotelranking.databinding.ActivityDetailHotelBinding
 import com.traveloka.hotelranking.model.dummy.ImageModel
@@ -131,6 +130,12 @@ class DetailHotelActivity : AppCompatActivity(), OnMapReadyCallback {
             rbRatingHotel.rating = data.rating.toFloat()
             tvLocation.text = data.location
             tvRatingHotel.text = data.rating.toString()
+
+            binding.imgHotel.setOnClickListener {
+                val imageIntent = Intent(this@DetailHotelActivity, FullScreenImageActivity::class.java)
+                intent.putExtra(FullScreenImageActivity.EXTRA_IMAGE, data.image)
+                startActivity(imageIntent)
+            }
 
             address.text = addressLine
             address.paint.isUnderlineText = true
