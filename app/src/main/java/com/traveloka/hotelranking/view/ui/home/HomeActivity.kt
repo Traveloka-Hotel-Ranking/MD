@@ -6,6 +6,7 @@ import android.location.Location
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
@@ -74,12 +75,11 @@ class HomeActivity : AppCompatActivity() {
             if (data.checkLogin) {
                 viewModel.requestDataList(data.accessToken)
                 val tokennya =
-                    "ya29.a0ARrdaM8wIyyoezBMVTxbZtEEPe9AK2Om6-wSGD5bIrupiAbs7zdP7Ne6kjGHE8rtE-0_5dFoCK9-m7iroYgD4WicKr84rAc-vsYQdEKo0DSO7K-t5JfjTBuoBJSsJeEWOeqbACCIAbHmuOu38rK6-bMieD-mwIZrgirqEZLHAPpb4wZDkDHmFKAbpDVsabWh8GUVq1MzSDw8XXWBMRHMNtV80twYtC2vzBsBH_bwFdcP1A_3yzDum-dvtdQUGtPNqGogyaQ"
+                    "ya29.a0ARrdaM8dz2GrkRPaytUZ8naVFoSlMLE8qacLpKRUuftag_OKxofYB19jnfQzuLCQtjWykaGbDvOJZ91iV3wXHgEVZw1t_fwtvA47nI0j4M6G7H-fbCUlUFgDAAiL8B6jm246miznZl2bSV0dCG4YjKBWI8_LnbC9nxJSQjhh2pU3Nm7B3ER7wKOJ7n9nehWEtURWCz60sz5jhusYtN6yLJhp_fz5XWsMtJ2ogi9A4b1NQQS6bm0qFqCj5xiqGoBeKln73Q0"
                 val listData = listOf(
                     Instance(data.id)
                 )
                 val data = HomeMLParam(listData)
-
                 viewModel.requestDataListML("Bearer $tokennya", data)
             } else {
                 openActivity(MainActivity::class.java)

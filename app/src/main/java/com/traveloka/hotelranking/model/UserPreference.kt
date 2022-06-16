@@ -33,6 +33,7 @@ class UserPreference (private val dataStore: DataStore<Preferences>){
 
     suspend fun saveUser(userModel: UserModel) {
         dataStore.edit { pref ->
+            pref[ID_KEY] = userModel.id
             pref[NAME_KEY] = userModel.name
             pref[EMAIL_KEY] = userModel.email
             pref[PHONE_KEY] = userModel.phone
