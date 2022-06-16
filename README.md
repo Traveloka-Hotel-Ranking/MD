@@ -62,6 +62,3 @@ The documentation of Mobile Development team in Traveloka Hotel Rangking project
 |     Ridhwan Anwar Fauzan    | A2237F2136 | Mobile Development |    Android Mobile Developer, Designer      |     [LinkedIn](https://www.linkedin.com/in/ridhwan-anwar-fauzan-4075b216a/) or [Github](https://github.com/RidhwanAF)      |
 |   Aditasha Fadhila Ramdani  | A2006F0501 | Mobile Development |    Android Mobile Developer, Designer      |                 [LinkedIn](https://www.linkedin.com/in/aditasha/) or [Github](https://github.com/aditasha)                 |
 |    Risma Adisty Nilasari    | A2203F1899 | Mobile Development |    Android Mobile Developer, Designer      |    [LinkedIn](https://www.linkedin.com/in/risma-adisty-nilasari-0740bb237/) or [Github](https://github.com/rismaadisty)    |
-
-  ## Acknowledgements
-  -
