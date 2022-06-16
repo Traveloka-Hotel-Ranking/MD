@@ -14,12 +14,12 @@ class HotelPagingSource(
 ) : PagingSource<Int, HotelItem>(){
 
     private companion object {
-        const val INITIAL_PAGE_INDEX = 1
+        const val INITIAL_PAGE_INDEX = 0
     }
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, HotelItem> {
         return try {
             val page = params.key ?: INITIAL_PAGE_INDEX
-            val result : HotelListResponse = apiService.getHotelPaging(token, page, 10, param)
+            val result : HotelListResponse = apiService.getHotelPaging(token, page, 10)
             LoadResult.Page(
                 data = result.response?.hotel ?: emptyList(),
                 prevKey = if (page == 1) null else page - 1,

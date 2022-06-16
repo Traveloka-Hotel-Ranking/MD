@@ -13,6 +13,7 @@ import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.distinctUntilChanged
 import androidx.lifecycle.lifecycleScope
+import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.gms.tasks.OnSuccessListener
 import com.google.android.material.chip.Chip
@@ -64,37 +65,57 @@ class HomeActivity : AppCompatActivity() {
     }
 
     private fun subscribeToLiveData() {
-        viewModel.dataRequestList.observe(this) { data ->
+        viewModel.dataRequestListName.observe(this) { data ->
             if (data.isNotEmpty()) {
                 dataEmpty = false
                 binding.layoutMessageIllustration.gone()
-//                adapter.setItemListHotel(data.toMutableList())
+                handledAdapterWithoutPaging()
+                adapter.setItemListHotel(data.toMutableList())
             } else {
                 dataEmpty = true
                 binding.layoutMessageIllustration.visible()
             }
         }
 
-        viewModel.isErrorRequestList.observe(this) { message ->
+        viewModel.dataRequestListLocation.observe(this) { data ->
+            if (data.isNotEmpty()) {
+                dataEmpty = false
+                binding.layoutMessageIllustration.gone()
+                handledAdapterWithoutPaging()
+                adapter.setItemListHotel(data.toMutableList())
+            } else {
+                dataEmpty = true
+                binding.layoutMessageIllustration.visible()
+            }
+        }
+
+        viewModel.isErrorRequestListLocation.observe(this) { message ->
             showToast(message!!)
         }
 
-        viewModel.isLoadingRequestList.observe(this) { isLoading ->
+        viewModel.isErrorRequestListName.observe(this) { message ->
+            showToast(message!!)
+        }
+
+        viewModel.isLoadingRequestListName.observe(this) { isLoading ->
             handleShimmer(isLoading)
         }
+
+        viewModel.isLoadingRequestListLocation.observe(this) { isLoading ->
+            handleShimmer(isLoading)
+        }
+
         viewModel.getUser().observe(this) { data ->
             this.userModel = data
 
             if (data.checkLogin) {
                 if (data.accessToken.isNotBlank()) {
                     binding.tvOther.alpha = 1F
-                    viewModel.requestDataList(data.accessToken)
-//                    viewModel.requestHotelPaging(data.accessToken, "")
-
-                    lifecycleScope.launch{
-                        viewModel.requestHotelPaging(data.accessToken, "").observe(this@HomeActivity){ data ->
-                            adapterPaging.submitData(lifecycle, data)
-                        }
+                    lifecycleScope.launch {
+                        viewModel.requestHotelPaging(data.accessToken, "")
+                            .observe(this@HomeActivity) { data ->
+                                adapterPaging.submitData(lifecycle, data)
+                            }
                     }
                 }
 
@@ -112,8 +133,8 @@ class HomeActivity : AppCompatActivity() {
                     hideKeyboard()
                 }
 
-                val tokennya =
-                    "ya29.a0ARrdaM-IBYJkpgYK0LC0zqGGjlQzcYWk_8Z0J0BWkJWmQ0MNecM7XYGDI1jrWl2SkdghGG3VBiIugux2fSxjtY33zri6alsFG8lkf3VqlkQgdWB73kifVOuROzRk_BqTKcL33JPORvz_Y5R_TRdhYUtXx6wKjF0mjgnxLC3ExZ5_fRQRTEqvdsAogfTp1TzBXVcn_BVNlrbHUm5rkaHjUpHhfpjk--DJAlP837DdgaLY34w9lUJLNzw0oOVx13tHdmVJ0fw"
+                val tokennya = "ya29.a0ARrdaM_u8cMEF90vAzHrHGlm8-f0qNfZYjh7E5siHsuzn19NgB_Lyu4MpWVo1wtGl3VC0yUIczpZoTkLvIu5t1mVfUcme0BAXNSmE0F6FxSGqJq-vSInMVY5CYvEZv5dM9mXrbFFpXJzWpzkv0JsLavaVVWD0WtVJD4qmrS5Jln0g_vQPF-8Ap5JPM6aWb_VAi0wYEo4R5yJ6t-ZZEWhEsv6QGu5zEbYWco-qouC84fLWKmT5EuZ84QjIKzzM06BU3krHm8"
+
                 val listData = listOf(
                     Instance(data.id)
                 )
@@ -136,15 +157,16 @@ class HomeActivity : AppCompatActivity() {
                 openActivityWithData(DetailHotelActivity::class.java, data)
             }
         })
+
+        adapterPaging.setItemClickListener(object : ItemClickListener<HotelItem>{
+            override fun onClick(data: HotelItem) {
+                showToast(data.name)
+            }
+
+        })
         binding.run {
-//            rvHome.adapter = adapter
             rvHome.layoutManager = LinearLayoutManager(this@HomeActivity)
-            rvHome.adapter = adapterPaging
-            rvHome.adapter = adapterPaging.withLoadStateFooter(
-                footer = LoadingStateAdapter{
-                    adapterPaging.retry()
-                }
-            )
+            handledAdapterPaging()
             tvDate.isFocusable = false
             etCountNight.isFocusable = false
             tvDate.setOnClickListener {
@@ -176,7 +198,7 @@ class HomeActivity : AppCompatActivity() {
 
             swipeRefresh.setOnRefreshListener {
                 binding.tvOther.alpha = 1F
-                viewModel.requestDataList(userModel.accessToken)
+                handledAdapterPaging()
                 adapterPaging.refresh()
             }
         }
@@ -305,11 +327,28 @@ class HomeActivity : AppCompatActivity() {
             chip.text = hotelName
             chip.isClickable = true
             chip.setOnClickListener {
+                hideKeyboard()
                 viewModel.requestDataByName(userModel.accessToken, hotelName.trim())
                 binding.tvOther.alpha = 0F
             }
             binding.chipGroup.addView(chip)
             i++
         }
+    }
+
+    private fun handledAdapterPaging() {
+        binding.rvHome.adapter = adapterPaging
+        binding.rvHome.adapter = adapterPaging.withLoadStateFooter(
+            footer = LoadingStateAdapter {
+                adapterPaging.retry()
+            }
+        )
+        adapterPaging.addLoadStateListener { isLoadState ->
+            handleShimmer(isLoadState.source.refresh is LoadState.Loading)
+        }
+    }
+
+    private fun handledAdapterWithoutPaging() {
+        binding.rvHome.adapter = adapter
     }
 }

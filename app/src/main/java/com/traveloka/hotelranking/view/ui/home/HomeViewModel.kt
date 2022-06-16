@@ -29,17 +29,27 @@ class HomeViewModel(
         return repository.retrieveHotelPaging(token,param).cachedIn(viewModelScope)
     }
 
-    private val _isErrorRequestList = MutableLiveData<String>()
-    private val _dataRequestList = MutableLiveData<List<HotelItem>>()
-    private val _isLoadingRequestList = MutableLiveData<Boolean>()
+    private val _isErrorRequestListName = MutableLiveData<String>()
+    private val _dataRequestListName = MutableLiveData<List<HotelItem>>()
+    private val _isLoadingRequestListName = MutableLiveData<Boolean>()
 
-    val isErrorRequestList = _isErrorRequestList
-    val dataRequestList = _dataRequestList
-    val isLoadingRequestList = _isLoadingRequestList
+    val isErrorRequestListName = _isErrorRequestListName
+    val dataRequestListName = _dataRequestListName
+    val isLoadingRequestListName = _isLoadingRequestListName
+
+    private val _isErrorRequestListLocation = MutableLiveData<String>()
+    private val _dataRequestListLocation = MutableLiveData<List<HotelItem>>()
+    private val _isLoadingRequestListLocation = MutableLiveData<Boolean>()
+
+    val isErrorRequestListLocation = _isErrorRequestListLocation
+    val dataRequestListLocation = _dataRequestListLocation
+    val isLoadingRequestListLocation = _isLoadingRequestListLocation
 
     private val _isErrorRequestListML = MutableLiveData<String>()
     private val _dataRequestListML = MutableLiveData<HomeMLModel>()
     private val _isLoadingRequestListML = MutableLiveData<Boolean>()
+
+
 
     val isErrorRequestListML = _isErrorRequestListML
     val dataRequestListML = _dataRequestListML
@@ -49,33 +59,14 @@ class HomeViewModel(
         return preference.getUser().asLiveData()
     }
 
-    fun requestDataList(token : String){
-        viewModelScope.launch {
-            repository.retrieveHotel(token)
-                .onStart {
-                    _isLoadingRequestList.postValue(true)
-                }
-                .onCompletion {
-                    _isLoadingRequestList.postValue(false)
-                }
-                .collect{ data ->
-                    when(data){
-                        is Resource.Loading -> _isLoadingRequestList.postValue(true)
-                        is Resource.Success -> _dataRequestList.postValue(data.data?.response?.hotel!!)
-                        is Resource.Error -> _isErrorRequestList.postValue(data.message!!)
-
-                    }
-                }
-        }
-    }
     fun requestDataListML(token : String, param : HomeMLParam){
         viewModelScope.launch {
             repositoryHome.retrieveHotelML(token, param)
                 .onStart {
-                    _isLoadingRequestList.postValue(true)
+                    _isLoadingRequestListML.postValue(true)
                 }
                 .onCompletion {
-                    _isLoadingRequestList.postValue(false)
+                    _isLoadingRequestListML.postValue(false)
                 }
                 .collect{ data ->
                     when(data){
@@ -91,16 +82,16 @@ class HomeViewModel(
         viewModelScope.launch {
             repository.retrieveHotelSearchByName(token, name)
                 .onStart {
-                    _isLoadingRequestList.postValue(true)
+                    _isLoadingRequestListName.postValue(true)
                 }
                 .onCompletion {
-                    _isLoadingRequestList.postValue(false)
+                    _isLoadingRequestListName.postValue(false)
                 }
                 .collect { data ->
                     when (data) {
-                        is Resource.Loading -> _isLoadingRequestList.postValue(true)
-                        is Resource.Success -> _dataRequestList.postValue(data.data?.response?.hotel!!)
-                        is Resource.Error -> _isErrorRequestList.postValue(data.message!!)
+                        is Resource.Loading -> _isLoadingRequestListName.postValue(true)
+                        is Resource.Success -> _dataRequestListName.postValue(data.data?.response?.hotel!!)
+                        is Resource.Error -> _isErrorRequestListName.postValue(data.message!!)
 
                     }
                 }
@@ -111,16 +102,16 @@ class HomeViewModel(
         viewModelScope.launch {
             repository.retrieveHotelSearchByLocation(token, location)
                 .onStart {
-                    _isLoadingRequestList.postValue(true)
+                    _isLoadingRequestListLocation.postValue(true)
                 }
                 .onCompletion {
-                    _isLoadingRequestList.postValue(false)
+                    _isLoadingRequestListLocation.postValue(false)
                 }
                 .collect { data ->
                     when (data) {
-                        is Resource.Loading -> _isLoadingRequestList.postValue(true)
-                        is Resource.Success -> _dataRequestList.postValue(data.data?.response?.hotel!!)
-                        is Resource.Error -> _isErrorRequestList.postValue(data.message!!)
+                        is Resource.Loading -> _isLoadingRequestListLocation.postValue(true)
+                        is Resource.Success -> _dataRequestListLocation.postValue(data.data?.response?.hotel!!)
+                        is Resource.Error -> _isErrorRequestListLocation.postValue(data.message!!)
 
                     }
                 }
