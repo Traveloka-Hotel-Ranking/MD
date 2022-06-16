@@ -6,7 +6,6 @@ import android.location.Location
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
@@ -39,9 +38,10 @@ class HomeActivity : AppCompatActivity() {
     private lateinit var binding: ActivityHomeBinding
     private val adapter by lazy { HomeAdapter(this) }
     private val viewModel: HomeViewModel by viewModel()
-    var countNight = 0
+    private var countNight = 0
     private var isExit = false
     private lateinit var userModel: UserModel
+    private var dataEmpty = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,10 +56,12 @@ class HomeActivity : AppCompatActivity() {
     private fun subscribeToLiveData() {
         viewModel.dataRequestList.observe(this) { data ->
             if (data.isNotEmpty()) {
+                dataEmpty = false
+                binding.layoutMessageIllustration.gone()
                 adapter.setItemListHotel(data.toMutableList())
             } else {
+                dataEmpty = true
                 binding.layoutMessageIllustration.visible()
-                binding.rvHome.gone()
             }
         }
 
@@ -74,7 +76,9 @@ class HomeActivity : AppCompatActivity() {
             this.userModel = data
 
             if (data.checkLogin) {
-                viewModel.requestDataList(data.accessToken)
+                if (data.accessToken.isNotBlank()) {
+                    viewModel.requestDataList(data.accessToken)
+                }
 
                 binding.mbSearch.setOnClickListener {
                     val searchByName = binding.tvHotelName.text.toString().trim()
@@ -89,19 +93,19 @@ class HomeActivity : AppCompatActivity() {
                 }
 
                 val tokennya =
-                    "ya29.a0ARrdaM8dz2GrkRPaytUZ8naVFoSlMLE8qacLpKRUuftag_OKxofYB19jnfQzuLCQtjWykaGbDvOJZ91iV3wXHgEVZw1t_fwtvA47nI0j4M6G7H-fbCUlUFgDAAiL8B6jm246miznZl2bSV0dCG4YjKBWI8_LnbC9nxJSQjhh2pU3Nm7B3ER7wKOJ7n9nehWEtURWCz60sz5jhusYtN6yLJhp_fz5XWsMtJ2ogi9A4b1NQQS6bm0qFqCj5xiqGoBeKln73Q0"
+                    "ya29.A0ARrdaM_rqMCvI0yiaE3_IxPqtuqAQ4i_b05i6rEc8yzq_Vr7CrYd3RZ4lr-m4mozIzo-Bg-my-0gpMopMqsgq85FxlpIGqWJ3JRdLAQsicYSxCM6CJ0QpdkYuC4nLnLL_daitk7_hlkKjY5otw8lsFwev-bMolIJnpPZU56o4LFMZQyzb2-9UtL7uAeJpzOdqnMAd1eFzb_eccirmq2Olub9ga1iZogEWIyKYW87ppKR6CgAwiTBSTwXFZqPqru98McngewYUNnWUtBVEFTQVRBU0ZRRl91NjFWOV9fZkllRmk5NzNBUTFWSEZTM0hsQQ0270"
                 val listData = listOf(
                     Instance(data.id)
                 )
-                val data = HomeMLParam(listData)
-                viewModel.requestDataListML("Bearer $tokennya", data)
+                val dataMl = HomeMLParam(listData)
+                viewModel.requestDataListML("Bearer $tokennya", dataMl)
             } else {
                 openActivity(MainActivity::class.java)
                 finish()
             }
         }
         viewModel.dataRequestListML.observe(this) { data ->
-            setTextMLList(data.predictions)
+            setTextMLList(data.predictions, userModel)
         }
         viewModel.isErrorRequestListML.observe(this) {
 
@@ -210,7 +214,11 @@ class HomeActivity : AppCompatActivity() {
                 binding.swipeRefresh.isRefreshing = false
                 visible()
             } else {
-                binding.rvHome.visible()
+                if (dataEmpty) {
+                    binding.rvHome.gone()
+                } else {
+                    binding.rvHome.visible()
+                }
                 binding.tvToolbar.visible()
                 binding.tvTittleRecommended.visible()
                 binding.tvOther.visible()
@@ -256,21 +264,29 @@ class HomeActivity : AppCompatActivity() {
         })
     }
 
-    private fun setTextMLList(statusList: List<Prediction>?) {
+    private fun setTextMLList(statusList: List<Prediction>?, userModel: UserModel) {
         val array = mutableListOf<String>()
         val inflater = LayoutInflater.from(binding.chipGroup.context)
         val layoutRes = R.layout.view_chip_ml
         val parent = binding.chipGroup
+        var i = 1
         statusList?.forEach { data ->
             data.output2.forEachIndexed { index, s ->
                 array.addAll(listOf(s))
             }
         }
-        array.forEach {
+        array.forEach { hotelName ->
             val chip = (inflater.inflate(layoutRes, parent, false) as Chip)
-            chip.text = it
+            chip.id = i
+            chip.text = hotelName
+            chip.isCheckable = true
+            chip.setOnCheckedChangeListener { _, b ->
+                if (b) {
+                    viewModel.requestDataByName(userModel.accessToken, hotelName.trim())
+                }
+            }
             binding.chipGroup.addView(chip)
-            binding.chipGroup.setChildrenEnabled(false)
+            i++
         }
     }
 }
