@@ -3,7 +3,8 @@
 The documentation of Mobile Development team in Traveloka Hotel Rangking project, Bangkit capstone
 
  - ### Architecture for this project  
- [Flow Chart MD - Bangkit Capstone Project](https://user-images.githubusercontent.com/88223451/174018055-7a5ef0d4-783f-4a20-a976-ab6123ba15c7.png)
+![Flow Chart MD - Bangkit Capstone Project](https://user-images.githubusercontent.com/88223451/174018232-855a6c33-34ba-4971-936c-c7c638709df2.png)
+
  
  - ### Feature!
 
