@@ -3,8 +3,10 @@
 The documentation of Mobile Development team in Traveloka Hotel Rangking project, Bangkit capstone
 
  - ### Architecture for this project  
+ [Flow Chart MD - Bangkit Capstone Project](https://user-images.githubusercontent.com/88223451/174018055-7a5ef0d4-783f-4a20-a976-ab6123ba15c7.png)
  
- - ### Feature
+ - ### Feature!
+
       * Splash Screen, There is logo screen before into the login page
       * Onboarding Page, Welcoming user to either login or signup
       * Login, Allows a user to gain access to an application by entering their email/phone number and password
