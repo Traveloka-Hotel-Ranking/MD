@@ -11,10 +11,10 @@ import com.traveloka.hotelranking.data.local.entity.HotelEntity
 interface HotelDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertGame(game: List<HotelEntity>)
+    suspend fun insertHotel(game: List<HotelEntity>)
 
     @Query("SELECT * FROM hotel")
-    fun getAllGame(): PagingSource<Int, HotelEntity>
+    fun getAllHotel(): PagingSource<Int, HotelEntity>
 
     @Query("DELETE FROM hotel")
     suspend fun deleteAll()

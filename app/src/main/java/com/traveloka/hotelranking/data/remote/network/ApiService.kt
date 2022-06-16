@@ -3,7 +3,6 @@ package com.traveloka.hotelranking.data.remote.network
 import com.traveloka.hotelranking.data.remote.response.*
 import com.traveloka.hotelranking.model.HomeMLModel
 import com.traveloka.hotelranking.model.param.HomeMLParam
-import retrofit2.Call
 import retrofit2.Response
 import retrofit2.http.*
 

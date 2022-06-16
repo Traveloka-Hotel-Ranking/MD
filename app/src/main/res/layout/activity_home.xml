@@ -14,20 +14,10 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-
-    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-        android:id="@+id/swipe_refresh"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:fillViewport="true"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
+            android:layout_height="match_parent"
+            android:fillViewport="true">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -194,8 +184,8 @@
                     <View
                         android:id="@+id/placeholder"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="12dp"
+                        android:layout_height="1dp"
+                        android:layout_margin="12dp"
                         app:layout_constraintTop_toBottomOf="@id/cv_search" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
@@ -218,104 +208,116 @@
 
                 </com.facebook.shimmer.ShimmerFrameLayout>
 
-                <TextView
-                    android:id="@+id/tv_tittle_recommended"
+                <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+                    android:id="@+id/swipe_refresh"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingHorizontal="@dimen/_12sdp"
-                    android:text="@string/text_top_hotel"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
+                    android:layout_height="match_parent">
 
-                <androidx.appcompat.widget.Toolbar
-                    android:id="@+id/tv_toolbar"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:contentInsetStart="0dp">
-
-                    <HorizontalScrollView
-                        android:id="@+id/scroll_view_status"
+                    <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:scrollbars="none">
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
 
-                        <com.google.android.material.chip.ChipGroup
-                            android:id="@+id/chip_group"
-                            android:layout_width="wrap_content"
+                        <TextView
+                            android:id="@+id/tv_tittle_recommended"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:clipToPadding="false"
-                            android:nestedScrollingEnabled="false"
-                            android:paddingHorizontal="20dp"
-                            app:singleLine="true"
-                            app:singleSelection="true" />
+                            android:paddingHorizontal="@dimen/_12sdp"
+                            android:text="@string/text_top_hotel"
+                            android:textSize="16sp"
+                            android:textStyle="bold" />
 
-                    </HorizontalScrollView>
+                        <androidx.appcompat.widget.Toolbar
+                            android:id="@+id/tv_toolbar"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            app:contentInsetStart="0dp">
 
-                </androidx.appcompat.widget.Toolbar>
+                            <HorizontalScrollView
+                                android:id="@+id/scroll_view_status"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:scrollbars="none">
 
-                <TextView
-                    android:id="@+id/tv_other"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingHorizontal="@dimen/_12sdp"
-                    android:text="@string/text_other_hotel"
-                    android:textSize="16sp"
-                    android:alpha="1"
-                    android:textStyle="bold" />
+                                <com.google.android.material.chip.ChipGroup
+                                    android:id="@+id/chip_group"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:clipToPadding="false"
+                                    android:nestedScrollingEnabled="false"
+                                    android:paddingHorizontal="20dp"
+                                    app:singleLine="true"
+                                    app:singleSelection="true" />
 
-                <LinearLayout
-                    android:id="@+id/layout_message_illustration"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center"
-                    android:gravity="center"
-                    android:orientation="vertical"
-                    android:visibility="gone"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent">
+                            </HorizontalScrollView>
 
-                    <ImageView
-                        android:id="@+id/img_message_illustration"
-                        android:layout_width="wrap_content"
-                        android:layout_height="110dp"
-                        android:src="@drawable/img_welcome2"
-                        tools:ignore="ContentDescription" />
+                        </androidx.appcompat.widget.Toolbar>
 
-                    <TextView
-                        android:id="@+id/tv_message_title"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="24dp"
-                        android:layout_marginTop="28dp"
-                        android:layout_marginEnd="24dp"
-                        android:text="@string/hotel_unavailable"
-                        android:textStyle="bold" />
+                        <TextView
+                            android:id="@+id/tv_other"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:paddingHorizontal="@dimen/_12sdp"
+                            android:text="@string/text_other_hotel"
+                            android:textSize="16sp"
+                            android:alpha="1"
+                            android:textStyle="bold" />
 
-                    <TextView
-                        android:id="@+id/tv_message_description"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="24dp"
-                        android:layout_marginTop="8dp"
-                        android:layout_marginEnd="24dp"
-                        android:gravity="center"
-                        android:text="@string/desc_hotel_unavailable" />
+                        <LinearLayout
+                            android:id="@+id/layout_message_illustration"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                            android:orientation="vertical"
+                            android:visibility="gone"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent">
 
-                </LinearLayout>
+                            <ImageView
+                                android:id="@+id/img_message_illustration"
+                                android:layout_width="wrap_content"
+                                android:layout_height="110dp"
+                                android:src="@drawable/img_welcome2"
+                                tools:ignore="ContentDescription" />
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rv_home"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:orientation="vertical"
-                    android:visibility="visible"
-                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                    tools:listitem="@layout/item_hotel" />
+                            <TextView
+                                android:id="@+id/tv_message_title"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="24dp"
+                                android:layout_marginTop="28dp"
+                                android:layout_marginEnd="24dp"
+                                android:text="@string/hotel_unavailable"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:id="@+id/tv_message_description"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="24dp"
+                                android:layout_marginTop="8dp"
+                                android:layout_marginEnd="24dp"
+                                android:gravity="center"
+                                android:text="@string/desc_hotel_unavailable" />
+
+                        </LinearLayout>
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/rv_home"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:orientation="vertical"
+                            android:visibility="visible"
+                            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                            tools:listitem="@layout/item_hotel"/>
+
+                    </LinearLayout>
+                </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>
-    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

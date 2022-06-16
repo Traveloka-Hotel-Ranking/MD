@@ -1,18 +1,19 @@
 package com.traveloka.hotelranking.view.ui.home
 
+import android.content.Intent
 import android.location.Address
 import android.location.Geocoder
 import android.location.Location
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.distinctUntilChanged
+import androidx.core.app.ActivityOptionsCompat
 import androidx.lifecycle.lifecycleScope
+import androidx.paging.ExperimentalPagingApi
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.gms.tasks.OnSuccessListener
@@ -20,7 +21,6 @@ import com.google.android.material.chip.Chip
 import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.DateValidatorPointForward
 import com.google.android.material.datepicker.MaterialDatePicker
-import com.google.gson.Gson
 import com.traveloka.hotelranking.R
 import com.traveloka.hotelranking.data.remote.response.HotelItem
 import com.traveloka.hotelranking.databinding.ActivityHomeBinding
@@ -36,12 +36,13 @@ import com.traveloka.hotelranking.view.ui.main.MainActivity
 import com.traveloka.hotelranking.view.ui.maps.MapsActivity
 import com.traveloka.hotelranking.view.ui.profile.ProfileActivity
 import com.traveloka.hotelranking.view.utils.*
+import com.traveloka.hotelranking.view.utils.constants.HOTEL_DATA
 import com.traveloka.hotelranking.view.utils.constants.MESSAGE_BACK_PRESS
 import com.traveloka.hotelranking.view.utils.constants.RAW_DATE_PATTERN_NEW
+import kotlinx.coroutines.flow.distinctUntilChangedBy
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.util.*
-import kotlin.math.log
 
 class HomeActivity : AppCompatActivity() {
 
@@ -54,6 +55,7 @@ class HomeActivity : AppCompatActivity() {
     private var dataEmpty = false
     private val adapterPaging by lazy { HotelPagingAdapter() }
 
+    @ExperimentalPagingApi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityHomeBinding.inflate(layoutInflater)
@@ -64,6 +66,7 @@ class HomeActivity : AppCompatActivity() {
         subscribeToLiveData()
     }
 
+    @ExperimentalPagingApi
     private fun subscribeToLiveData() {
         viewModel.dataRequestListName.observe(this) { data ->
             if (data.isNotEmpty()) {
@@ -154,13 +157,17 @@ class HomeActivity : AppCompatActivity() {
     private fun initView() {
         adapter.setItemClickListener(object : ItemClickListener<HotelItem> {
             override fun onClick(data: HotelItem) {
-                openActivityWithData(DetailHotelActivity::class.java, data)
+                val intent = Intent(this@HomeActivity, DetailHotelActivity::class.java)
+                intent.putExtra(HOTEL_DATA, data)
+                startActivity(intent, ActivityOptionsCompat.makeSceneTransitionAnimation(this@HomeActivity).toBundle())
             }
         })
 
         adapterPaging.setItemClickListener(object : ItemClickListener<HotelItem>{
             override fun onClick(data: HotelItem) {
-                openActivityWithData(DetailHotelActivity::class.java, data)
+                val intent = Intent(this@HomeActivity, DetailHotelActivity::class.java)
+                intent.putExtra(HOTEL_DATA, data)
+                startActivity(intent, ActivityOptionsCompat.makeSceneTransitionAnimation(this@HomeActivity).toBundle())
             }
 
         })
@@ -343,9 +350,17 @@ class HomeActivity : AppCompatActivity() {
                 adapterPaging.retry()
             }
         )
-        adapterPaging.addLoadStateListener { isLoadState ->
-            handleShimmer(isLoadState.source.refresh is LoadState.Loading)
+        lifecycleScope.launchWhenCreated {
+            adapterPaging.loadStateFlow
+                .distinctUntilChangedBy { it.refresh }
+                .collect {
+                    val isLoading = it.refresh is LoadState.Loading
+                    handleShimmer(isLoading)
+                }
         }
+//        adapterPaging.addLoadStateListener { isLoadState ->
+//            handleShimmer(isLoadState.source.refresh is LoadState.Loading)
+//        }
     }
 
     private fun handledAdapterWithoutPaging() {

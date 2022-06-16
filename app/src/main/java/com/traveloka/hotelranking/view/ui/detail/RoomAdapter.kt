@@ -4,7 +4,6 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -12,9 +11,7 @@ import com.traveloka.hotelranking.R
 import com.traveloka.hotelranking.data.remote.response.Facilities
 import com.traveloka.hotelranking.data.remote.response.HotelItem
 import com.traveloka.hotelranking.databinding.ItemRoomBinding
-import com.traveloka.hotelranking.view.utils.ItemClickListener
 import com.traveloka.hotelranking.view.utils.concatRupiah
-import com.traveloka.hotelranking.view.utils.invisible
 import com.traveloka.hotelranking.view.utils.loadImageDrawable
 
 class RoomAdapter(val context: Context) :

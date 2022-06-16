@@ -8,12 +8,10 @@ import android.graphics.drawable.BitmapDrawable
 import android.location.Geocoder
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.MenuItem
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -33,8 +31,6 @@ import com.google.android.gms.maps.model.MarkerOptions
 import com.traveloka.hotelranking.R
 import com.traveloka.hotelranking.data.remote.response.HotelItem
 import com.traveloka.hotelranking.databinding.ActivityDetailHotelBinding
-import com.traveloka.hotelranking.model.dummy.ImageModel
-import com.traveloka.hotelranking.view.utils.ItemClickListener
 import com.traveloka.hotelranking.view.utils.constants.HOTEL_DATA
 import com.traveloka.hotelranking.view.utils.loadImage
 import kotlinx.coroutines.launch
@@ -44,7 +40,6 @@ import java.util.*
 class DetailHotelActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private lateinit var binding: ActivityDetailHotelBinding
-    private val imageAdapter by lazy { ImageAdapter(this) }
     private val roomAdapter by lazy { RoomAdapter(this) }
 
     private lateinit var mMap: GoogleMap
@@ -69,7 +64,6 @@ class DetailHotelActivity : AppCompatActivity(), OnMapReadyCallback {
         if (intent != null) {
             data = intent
             setupActionBar(data.name)
-//            setImageAdapter(intent.image)
             setRoomAdapter(data)
             initView(data)
         }
@@ -86,22 +80,6 @@ class DetailHotelActivity : AppCompatActivity(), OnMapReadyCallback {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         this.title = title
 
-    }
-
-    private fun setImageAdapter(data: List<ImageModel>) {
-        imageAdapter.setItemListImage(data.toMutableList())
-
-        imageAdapter.setItemClickListener(object: ItemClickListener<ImageModel> {
-            override fun onClick(data: ImageModel) {
-                TODO("Not yet implemented")
-            }
-        })
-
-        binding.rvImgHotel.run {
-            adapter = imageAdapter
-            setHasFixedSize(true)
-            layoutManager = LinearLayoutManager(this@DetailHotelActivity, RecyclerView.HORIZONTAL, false)
-        }
     }
 
     private fun setRoomAdapter(data: HotelItem) {
@@ -122,8 +100,6 @@ class DetailHotelActivity : AppCompatActivity(), OnMapReadyCallback {
         val mapAddress = geocoder.getFromLocation(lat, lon, 1)
         val addressLine = mapAddress[0].getAddressLine(0)
         binding.run {
-            // Referring to data from ML Model
-            rvImgHotel.isVisible = false
 
             imgHotel.loadImage(data.image)
             tvTitleHotel.text = hotelName

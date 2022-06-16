@@ -7,17 +7,19 @@ import androidx.datastore.preferences.core.PreferenceDataStoreFactory
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.emptyPreferences
 import androidx.datastore.preferences.preferencesDataStoreFile
+import androidx.room.Room
 import com.chuckerteam.chucker.api.ChuckerInterceptor
 import com.traveloka.hotelranking.BuildConfig
 import com.traveloka.hotelranking.data.HomeRepository
 import com.traveloka.hotelranking.data.HotelRepository
+import com.traveloka.hotelranking.data.local.room.HotelDatabase
 import com.traveloka.hotelranking.data.remote.network.ApiService
-import com.traveloka.hotelranking.view.ui.login.ForgetPasswordViewModel
-import com.traveloka.hotelranking.view.ui.register.RegisterViewModel
 import com.traveloka.hotelranking.model.UserPreference
 import com.traveloka.hotelranking.view.ui.home.HomeViewModel
+import com.traveloka.hotelranking.view.ui.login.ForgetPasswordViewModel
 import com.traveloka.hotelranking.view.ui.login.LoginViewModel
 import com.traveloka.hotelranking.view.ui.maps.MapsViewModel
+import com.traveloka.hotelranking.view.ui.register.RegisterViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -61,6 +63,17 @@ val networkModule = module {
     }
 }
 
+val databaseModule = module {
+    factory { get<HotelDatabase>().hotelDao() }
+    factory { get<HotelDatabase>().remoteKeysDao() }
+    single {
+        Room.databaseBuilder(
+            androidContext(),
+            HotelDatabase::class.java, "HotelRanking.db"
+        ).fallbackToDestructiveMigration().build()
+    }
+}
+
 val viewModelModule = module {
     viewModel { LoginViewModel(get(), get()) }
     viewModel { RegisterViewModel(get()) }
@@ -70,7 +83,7 @@ val viewModelModule = module {
 }
 
 val repositoryModule = module {
-    single { HotelRepository(get(named("bangkit"))) }
+    single { HotelRepository(get(), get(named("bangkit"))) }
     single { HomeRepository(get(named("mlbangkit"))) }
 }
 

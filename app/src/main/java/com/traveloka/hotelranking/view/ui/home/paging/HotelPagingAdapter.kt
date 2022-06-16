@@ -1,12 +1,10 @@
 package com.traveloka.hotelranking.view.ui.home.paging
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.google.gson.Gson
 import com.traveloka.hotelranking.data.remote.response.HotelItem
 import com.traveloka.hotelranking.databinding.ItemHotelBinding
 import com.traveloka.hotelranking.view.utils.ItemClickListener

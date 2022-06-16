@@ -1,14 +1,12 @@
 package com.traveloka.hotelranking.view.ui.main
 
 import android.content.Intent
-import android.location.Location
 import android.os.Build
 import android.os.Bundle
 import android.view.WindowInsets
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityOptionsCompat
-import com.google.android.gms.tasks.OnSuccessListener
 import com.traveloka.hotelranking.databinding.ActivityMainBinding
 import com.traveloka.hotelranking.view.ui.home.HomeActivity
 import com.traveloka.hotelranking.view.ui.login.LoginActivity

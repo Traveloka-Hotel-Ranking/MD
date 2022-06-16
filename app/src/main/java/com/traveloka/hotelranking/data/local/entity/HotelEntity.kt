@@ -4,17 +4,39 @@ import androidx.annotation.NonNull
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.traveloka.hotelranking.data.remote.response.Facilities
 
 @Entity(tableName = "hotel")
 data class HotelEntity(
-    @PrimaryKey
-    @NonNull
-    @ColumnInfo(name = "id_hotel")
-    var id_user: Int,
+    @ColumnInfo(name = "image")
+    val image: String = "",
+
+    @ColumnInfo(name = "price")
+    val price: String = "",
+
+    @ColumnInfo(name = "review")
+    val review: Double = 0.0,
 
     @ColumnInfo(name = "name")
-    var name: String,
+    val name: String = "",
+
+    @ColumnInfo(name = "rating")
+    val rating: Double = 0.0,
 
     @ColumnInfo(name = "location")
-    var no_telp: String
+    val location: String = "",
+
+    @ColumnInfo(name = "lon")
+    val lon: String = "",
+
+    @PrimaryKey
+    @NonNull
+    @ColumnInfo(name = "id")
+    val id: Int = 0,
+
+    @ColumnInfo(name = "lat")
+    val lat: String = "",
+
+    @ColumnInfo(name = "facilities")
+    val facilities: MutableList<Facilities>? = null,
 )

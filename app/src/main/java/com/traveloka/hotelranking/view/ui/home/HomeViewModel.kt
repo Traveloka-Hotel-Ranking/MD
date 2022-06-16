@@ -1,13 +1,10 @@
 package com.traveloka.hotelranking.view.ui.home
 
-import android.util.Log
 import androidx.lifecycle.*
-import androidx.paging.Pager
-import androidx.paging.PagingConfig
+import androidx.paging.ExperimentalPagingApi
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.traveloka.hotelranking.data.HomeRepository
-import com.traveloka.hotelranking.data.HotelPagingSource
 import com.traveloka.hotelranking.data.HotelRepository
 import com.traveloka.hotelranking.data.Resource
 import com.traveloka.hotelranking.data.remote.response.HotelItem
@@ -25,8 +22,11 @@ class HomeViewModel(
     private val preference: UserPreference
     ) : ViewModel() {
 
+    @ExperimentalPagingApi
     fun requestHotelPaging(token : String, param : String) : LiveData<PagingData<HotelItem>> {
-        return repository.retrieveHotelPaging(token,param).cachedIn(viewModelScope)
+        return repository.retrieveHotelPaging(token,param)
+            .asLiveData()
+            .cachedIn(viewModelScope)
     }
 
     private val _isErrorRequestListName = MutableLiveData<String>()

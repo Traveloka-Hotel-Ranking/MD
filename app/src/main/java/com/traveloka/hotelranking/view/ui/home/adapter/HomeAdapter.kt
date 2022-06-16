@@ -6,14 +6,14 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.traveloka.hotelranking.R
 import com.traveloka.hotelranking.data.remote.response.HotelItem
 import com.traveloka.hotelranking.databinding.ItemHotelBinding
-import com.traveloka.hotelranking.model.dummy.HomeModel
-import com.traveloka.hotelranking.view.utils.*
+import com.traveloka.hotelranking.view.utils.ItemClickListener
+import com.traveloka.hotelranking.view.utils.concatRupiah
+import com.traveloka.hotelranking.view.utils.loadImage
 
 class HomeAdapter(val context: Context) :
-    ListAdapter<HomeModel, HomeAdapter.HomeViewHolder>(HomeDiffUtils) {
+    ListAdapter<HotelItem, HomeAdapter.HomeViewHolder>(HomeDiffUtils) {
 
     var listHotel = mutableListOf<HotelItem>()
     private lateinit var listener: ItemClickListener<HotelItem>
@@ -58,19 +58,19 @@ class HomeAdapter(val context: Context) :
         }
     }
 
-    object HomeDiffUtils : DiffUtil.ItemCallback<HomeModel>() {
+    object HomeDiffUtils : DiffUtil.ItemCallback<HotelItem>() {
         override fun areItemsTheSame(
-            oldItem: HomeModel,
-            newItem: HomeModel
+            oldItem: HotelItem,
+            newItem: HotelItem
         ): Boolean {
-            return oldItem.title == newItem.title
+            return oldItem == newItem
         }
 
         override fun areContentsTheSame(
-            oldItem: HomeModel,
-            newItem: HomeModel
+            oldItem: HotelItem,
+            newItem: HotelItem
         ): Boolean {
-            return oldItem == newItem
+            return oldItem.id == newItem.id
         }
 
     }

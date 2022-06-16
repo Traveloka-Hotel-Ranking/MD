@@ -25,16 +25,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_img_hotel"
-            android:layout_width="0dp"
-            android:layout_height="100dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/img_hotel"
-            tools:listitem="@layout/item_img_hotel" />
-
         <TextView
             android:id="@+id/tv_title_hotel"
             android:layout_width="match_parent"
@@ -46,7 +36,7 @@
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/rv_img_hotel" />
+            app:layout_constraintTop_toBottomOf="@id/img_hotel" />
 
         <RatingBar
             android:id="@+id/rb_rating_hotel"

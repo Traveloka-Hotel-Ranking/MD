@@ -1,10 +1,7 @@
 package com.traveloka.hotelranking.view.ui
 
 import android.content.Context
-import android.text.Editable
-import android.text.TextWatcher
 import android.util.AttributeSet
-import android.util.Patterns
 import android.view.MotionEvent
 import androidx.core.widget.NestedScrollView
 

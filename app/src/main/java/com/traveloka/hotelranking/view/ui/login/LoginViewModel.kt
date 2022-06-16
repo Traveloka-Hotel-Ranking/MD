@@ -1,6 +1,9 @@
 package com.traveloka.hotelranking.view.ui.login
 
-import androidx.lifecycle.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.asLiveData
+import androidx.lifecycle.viewModelScope
 import com.traveloka.hotelranking.data.HotelRepository
 import com.traveloka.hotelranking.data.Resource
 import com.traveloka.hotelranking.data.remote.response.UserResponse
