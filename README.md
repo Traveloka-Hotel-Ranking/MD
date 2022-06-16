@@ -20,7 +20,7 @@ The documentation of Mobile Development team in Traveloka Hotel Rangking project
       - [Coil](https://coil-kt.github.io/coil/getting_started/)
       - [Glide](https://bumptech.github.io/glide/)
       - [Retrofit](https://square.github.io/retrofit/)
-      - POJO Generator
+      - [POJO Generator](https://plugins.jetbrains.com/plugin/8634-robopojogenerator)
       - [OkHttp](https://square.github.io/okhttp/)
       - [Koin](https://insert-koin.io/docs/reference/introduction)
       - [Coroutine](https://developer.android.com/kotlin/coroutines?gclid=Cj0KCQjwhqaVBhCxARIsAHK1tiOKc9ePsJHW0TksinpP-yUtm1vZZPVi7aqRgzWs5qFctj0oS_T4DHkaAmDzEALw_wcB&gclsrc=aw.ds)
@@ -41,6 +41,15 @@ The documentation of Mobile Development team in Traveloka Hotel Rangking project
 
   - #### Signup and Login
     - Fill all the required sign in fields and login using the credentials in order to use the app service
+   
+  - ### Forget Password
+    - Fill the required fields and create a new password
+  
+  - #### Home
+    - Get and pick hotel from the list hotel recommendations and all hotel list or search by hotel name/location
+  
+  - ### Detail
+    - See the detail of the hotel that picked in Home page such as image hotel, hotel name, rating hotel, price hotel, review hotel, location (Google Maps), and facilities
 
   ## Acknowledgements
   -
