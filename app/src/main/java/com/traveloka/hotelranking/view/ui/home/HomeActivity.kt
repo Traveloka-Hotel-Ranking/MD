@@ -77,6 +77,7 @@ class HomeActivity : AppCompatActivity() {
 
             if (data.checkLogin) {
                 if (data.accessToken.isNotBlank()) {
+                    binding.tvOther.alpha = 1F
                     viewModel.requestDataList(data.accessToken)
                 }
 
@@ -85,15 +86,17 @@ class HomeActivity : AppCompatActivity() {
                     val searchByLoc = binding.tvNearYou.text.toString().trim()
 
                     if (searchByName != "") {
+                        binding.tvOther.alpha = 1F
                         viewModel.requestDataByName(data.accessToken, searchByName)
                     } else {
+                        binding.tvOther.alpha = 1F
                         viewModel.requestDataByLocation(data.accessToken, searchByLoc)
                     }
                     hideKeyboard()
                 }
 
                 val tokennya =
-                    "ya29.A0ARrdaM_rqMCvI0yiaE3_IxPqtuqAQ4i_b05i6rEc8yzq_Vr7CrYd3RZ4lr-m4mozIzo-Bg-my-0gpMopMqsgq85FxlpIGqWJ3JRdLAQsicYSxCM6CJ0QpdkYuC4nLnLL_daitk7_hlkKjY5otw8lsFwev-bMolIJnpPZU56o4LFMZQyzb2-9UtL7uAeJpzOdqnMAd1eFzb_eccirmq2Olub9ga1iZogEWIyKYW87ppKR6CgAwiTBSTwXFZqPqru98McngewYUNnWUtBVEFTQVRBU0ZRRl91NjFWOV9fZkllRmk5NzNBUTFWSEZTM0hsQQ0270"
+                    "ya29.a0ARrdaM-IBYJkpgYK0LC0zqGGjlQzcYWk_8Z0J0BWkJWmQ0MNecM7XYGDI1jrWl2SkdghGG3VBiIugux2fSxjtY33zri6alsFG8lkf3VqlkQgdWB73kifVOuROzRk_BqTKcL33JPORvz_Y5R_TRdhYUtXx6wKjF0mjgnxLC3ExZ5_fRQRTEqvdsAogfTp1TzBXVcn_BVNlrbHUm5rkaHjUpHhfpjk--DJAlP837DdgaLY34w9lUJLNzw0oOVx13tHdmVJ0fw"
                 val listData = listOf(
                     Instance(data.id)
                 )
@@ -153,6 +156,7 @@ class HomeActivity : AppCompatActivity() {
             }
 
             swipeRefresh.setOnRefreshListener {
+                binding.tvOther.alpha = 1F
                 viewModel.requestDataList(userModel.accessToken)
             }
         }
@@ -271,7 +275,7 @@ class HomeActivity : AppCompatActivity() {
         val parent = binding.chipGroup
         var i = 1
         statusList?.forEach { data ->
-            data.output2.forEachIndexed { index, s ->
+            data.output2.forEachIndexed { _, s ->
                 array.addAll(listOf(s))
             }
         }
@@ -279,11 +283,10 @@ class HomeActivity : AppCompatActivity() {
             val chip = (inflater.inflate(layoutRes, parent, false) as Chip)
             chip.id = i
             chip.text = hotelName
-            chip.isCheckable = true
-            chip.setOnCheckedChangeListener { _, b ->
-                if (b) {
-                    viewModel.requestDataByName(userModel.accessToken, hotelName.trim())
-                }
+            chip.isClickable = true
+            chip.setOnClickListener {
+                viewModel.requestDataByName(userModel.accessToken, hotelName.trim())
+                binding.tvOther.alpha = 0F
             }
             binding.chipGroup.addView(chip)
             i++

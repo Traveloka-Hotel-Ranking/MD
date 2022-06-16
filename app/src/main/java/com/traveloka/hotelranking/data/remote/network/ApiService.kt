@@ -54,6 +54,7 @@ interface ApiService {
     @GET("hotel")
     suspend fun getHotelMaps(
         @Header("x-access-token-hotel") token: String,
+        @Query("size") size : Int
     ): Response<HotelListResponse>
 
     @GET("hotel")
