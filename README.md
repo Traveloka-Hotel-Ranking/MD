@@ -42,13 +42,13 @@ The documentation of Mobile Development team in Traveloka Hotel Rangking project
   - #### Signup and Login
     - Fill all the required sign in fields and login using the credentials in order to use the app service
    
-  - ### Forget Password
+  - #### Forget Password
     - Fill the required fields and create a new password
   
   - #### Home
     - Get and pick hotel from the list hotel recommendations and all hotel list or search by hotel name/location
   
-  - ### Detail
+  - #### Detail
     - See the detail of the hotel that picked in Home page such as image hotel, hotel name, rating hotel, price hotel, review hotel, location (Google Maps), and facilities
 
   ## Acknowledgements
