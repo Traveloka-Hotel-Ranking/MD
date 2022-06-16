@@ -1,5 +1,11 @@
 package com.traveloka.hotelranking.data
 
+import android.util.Log
+import androidx.lifecycle.LiveData
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
+import androidx.paging.liveData
 import com.traveloka.hotelranking.data.remote.network.ApiService
 import com.traveloka.hotelranking.data.remote.response.*
 import com.traveloka.hotelranking.model.dummy.DummyData
@@ -151,6 +157,19 @@ class HotelRepository(
         }catch (e : Exception){
             emit(Resource.Error(SERVER_TIME_OUT))
         }
+    }
+
+    fun retrieveHotelPaging(token: String, param : String) : LiveData<PagingData<HotelItem>> {
+        val pager = Pager(
+            config = PagingConfig(
+                pageSize = 10,
+                enablePlaceholders = false
+            ),
+            pagingSourceFactory = {
+                HotelPagingSource(token, apiService, param)
+            }
+        ).liveData
+        return pager
     }
 
 }

@@ -6,15 +6,20 @@ import android.location.Location
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.distinctUntilChanged
+import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.gms.tasks.OnSuccessListener
 import com.google.android.material.chip.Chip
 import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.DateValidatorPointForward
 import com.google.android.material.datepicker.MaterialDatePicker
+import com.google.gson.Gson
 import com.traveloka.hotelranking.R
 import com.traveloka.hotelranking.data.remote.response.HotelItem
 import com.traveloka.hotelranking.databinding.ActivityHomeBinding
@@ -24,14 +29,18 @@ import com.traveloka.hotelranking.model.param.HomeMLParam
 import com.traveloka.hotelranking.model.param.Instance
 import com.traveloka.hotelranking.view.ui.detail.DetailHotelActivity
 import com.traveloka.hotelranking.view.ui.home.adapter.HomeAdapter
+import com.traveloka.hotelranking.view.ui.home.paging.HotelPagingAdapter
+import com.traveloka.hotelranking.view.ui.home.paging.LoadingStateAdapter
 import com.traveloka.hotelranking.view.ui.main.MainActivity
 import com.traveloka.hotelranking.view.ui.maps.MapsActivity
 import com.traveloka.hotelranking.view.ui.profile.ProfileActivity
 import com.traveloka.hotelranking.view.utils.*
 import com.traveloka.hotelranking.view.utils.constants.MESSAGE_BACK_PRESS
 import com.traveloka.hotelranking.view.utils.constants.RAW_DATE_PATTERN_NEW
+import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.util.*
+import kotlin.math.log
 
 class HomeActivity : AppCompatActivity() {
 
@@ -42,6 +51,7 @@ class HomeActivity : AppCompatActivity() {
     private var isExit = false
     private lateinit var userModel: UserModel
     private var dataEmpty = false
+    private val adapterPaging by lazy { HotelPagingAdapter() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,7 +68,7 @@ class HomeActivity : AppCompatActivity() {
             if (data.isNotEmpty()) {
                 dataEmpty = false
                 binding.layoutMessageIllustration.gone()
-                adapter.setItemListHotel(data.toMutableList())
+//                adapter.setItemListHotel(data.toMutableList())
             } else {
                 dataEmpty = true
                 binding.layoutMessageIllustration.visible()
@@ -79,6 +89,13 @@ class HomeActivity : AppCompatActivity() {
                 if (data.accessToken.isNotBlank()) {
                     binding.tvOther.alpha = 1F
                     viewModel.requestDataList(data.accessToken)
+//                    viewModel.requestHotelPaging(data.accessToken, "")
+
+                    lifecycleScope.launch{
+                        viewModel.requestHotelPaging(data.accessToken, "").observe(this@HomeActivity){ data ->
+                            adapterPaging.submitData(lifecycle, data)
+                        }
+                    }
                 }
 
                 binding.mbSearch.setOnClickListener {
@@ -110,12 +127,7 @@ class HomeActivity : AppCompatActivity() {
         viewModel.dataRequestListML.observe(this) { data ->
             setTextMLList(data.predictions, userModel)
         }
-        viewModel.isErrorRequestListML.observe(this) {
 
-        }
-        viewModel.isLoadingRequestListML.observe(this) {
-
-        }
     }
 
     private fun initView() {
@@ -125,7 +137,14 @@ class HomeActivity : AppCompatActivity() {
             }
         })
         binding.run {
-            rvHome.adapter = adapter
+//            rvHome.adapter = adapter
+            rvHome.layoutManager = LinearLayoutManager(this@HomeActivity)
+            rvHome.adapter = adapterPaging
+            rvHome.adapter = adapterPaging.withLoadStateFooter(
+                footer = LoadingStateAdapter{
+                    adapterPaging.retry()
+                }
+            )
             tvDate.isFocusable = false
             etCountNight.isFocusable = false
             tvDate.setOnClickListener {
@@ -158,6 +177,7 @@ class HomeActivity : AppCompatActivity() {
             swipeRefresh.setOnRefreshListener {
                 binding.tvOther.alpha = 1F
                 viewModel.requestDataList(userModel.accessToken)
+                adapterPaging.refresh()
             }
         }
 

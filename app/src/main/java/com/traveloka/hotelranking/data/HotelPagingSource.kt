@@ -1,49 +1,41 @@
 package com.traveloka.hotelranking.data
 
+import android.util.Log
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
+import com.traveloka.hotelranking.data.remote.network.ApiService
 import com.traveloka.hotelranking.data.remote.response.HotelItem
-import com.traveloka.hotelranking.model.param.HotelListParam
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
+import com.traveloka.hotelranking.data.remote.response.HotelListResponse
 
-//class HotelPagingSource(
-//    val token : String,
-//    val repository: HotelRepository,
-//    val query : HotelListParam
-//    val dataItemHotel : (HotelItem) -> Unit
-//) : PagingSource<Int, HotelItem>() {
-//
-//    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, HotelItem> {
-//        val idx = params.key ?: 1
-//        query.page = idx
-//        val result = withContext(Dispatchers.IO) {
-//            repository.retrieveHotel(token, query.toClean())
-//        }
-//
-//        return when(result) {
-//            is Resource.Success<*> -> {
-//                val data = result.data
-//                dataItemHotel.invoke(data.toModel(query.q))
-//
-//                LoadResult.Page(
-//                    data = data.items?.data?.map { it.toModel() } ?: listOf(MarketplaceMapper.emptyDataItems()),
-//                    prevKey = if (data.items?.previousPage.isNullOrEmpty()) null else query.page - 1,
-//                    nextKey = if (paginationEnable == true) if (data.items?.data.isNullOrEmpty()) null else query.page + 1 else null
-//                )
-//            }
-//            is ApiResult.Error -> {
-//                LoadResult.Error(result.exception)
-//            }
-//        }
-//    }
-//
-//    override fun getRefreshKey(state: PagingState<Int, HotelItem>): Int? {
-//        TODO("Not yet implemented")
-//    }
-//
-//
-//}
-class HotelPagingSource {
+class HotelPagingSource(
+    val token: String,
+    val apiService: ApiService,
+    val param : String
+) : PagingSource<Int, HotelItem>(){
+
+    private companion object {
+        const val INITIAL_PAGE_INDEX = 1
+    }
+    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, HotelItem> {
+        return try {
+            val page = params.key ?: INITIAL_PAGE_INDEX
+            val result : HotelListResponse = apiService.getHotelPaging(token, page, 10, param)
+            LoadResult.Page(
+                data = result.response?.hotel ?: emptyList(),
+                prevKey = if (page == 1) null else page - 1,
+                nextKey = if (result.response?.hotel.isNullOrEmpty()) null else page + 1
+            )
+        }catch (e : Exception){
+            return LoadResult.Error(e)
+
+        }
+    }
+
+    override fun getRefreshKey(state: PagingState<Int, HotelItem>): Int? {
+        return state.anchorPosition?.let { anchorPosition ->
+            val anchorPage = state.closestPageToPosition(anchorPosition)
+            anchorPage?.prevKey?.plus(1) ?: anchorPage?.nextKey?.minus(1)
+        }
+    }
 
 }

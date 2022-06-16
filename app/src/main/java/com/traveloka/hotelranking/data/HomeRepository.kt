@@ -26,5 +26,4 @@ class HomeRepository(
             emit(Resource.Error(SERVER_TIME_OUT))
         }
     }
-
 }

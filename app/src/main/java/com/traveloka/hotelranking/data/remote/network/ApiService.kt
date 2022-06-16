@@ -75,6 +75,12 @@ interface ApiService {
         @Body body : HomeMLParam
     ) : Response<HomeMLModel>
 
-
+    @GET("hotel")
+    suspend fun getHotelPaging(
+        @Header("x-access-token-hotel") token: String,
+        @Query("page") page : Int,
+        @Query("size") size: Int,
+        @Query("name") name : String
+    ): HotelListResponse
 
 }
