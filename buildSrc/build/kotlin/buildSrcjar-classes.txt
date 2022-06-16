@@ -1,1 +1,1 @@
-/Users/muhamadsyafii/Documents/AndroidProject/Traveloka/MD/buildSrc/build/classes/kotlin/main/Libs.class:/Users/muhamadsyafii/Documents/AndroidProject/Traveloka/MD/buildSrc/build/classes/kotlin/main/Versions.class
+E:\AndroidStudioProjects\MD\buildSrc\build\classes\kotlin\main\Libs.class;E:\AndroidStudioProjects\MD\buildSrc\build\classes\kotlin\main\Versions.class
