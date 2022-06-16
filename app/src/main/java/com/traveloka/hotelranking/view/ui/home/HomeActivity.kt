@@ -85,6 +85,7 @@ class HomeActivity : AppCompatActivity() {
                     } else {
                         viewModel.requestDataByLocation(data.accessToken, searchByLoc)
                     }
+                    hideKeyboard()
                 }
 
                 val tokennya =
@@ -149,10 +150,6 @@ class HomeActivity : AppCompatActivity() {
 
             swipeRefresh.setOnRefreshListener {
                 viewModel.requestDataList(userModel.accessToken)
-            }
-
-            mbSearch.setOnClickListener {
-                hideKeyboard()
             }
         }
 
