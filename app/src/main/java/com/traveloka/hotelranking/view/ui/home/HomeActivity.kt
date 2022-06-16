@@ -160,7 +160,7 @@ class HomeActivity : AppCompatActivity() {
 
         adapterPaging.setItemClickListener(object : ItemClickListener<HotelItem>{
             override fun onClick(data: HotelItem) {
-                showToast(data.name)
+                openActivityWithData(DetailHotelActivity::class.java, data)
             }
 
         })
