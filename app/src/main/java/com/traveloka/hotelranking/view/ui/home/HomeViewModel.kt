@@ -79,4 +79,44 @@ class HomeViewModel(
                 }
         }
     }
+
+    fun requestDataByName(token: String, name: String) {
+        viewModelScope.launch {
+            repository.retrieveHotelSearchByName(token, name)
+                .onStart {
+                    _isLoadingRequestList.postValue(true)
+                }
+                .onCompletion {
+                    _isLoadingRequestList.postValue(false)
+                }
+                .collect { data ->
+                    when (data) {
+                        is Resource.Loading -> _isLoadingRequestList.postValue(true)
+                        is Resource.Success -> _dataRequestList.postValue(data.data?.response?.hotel!!)
+                        is Resource.Error -> _isErrorRequestList.postValue(data.message!!)
+
+                    }
+                }
+        }
+    }
+
+    fun requestDataByLocation(token: String, location: String) {
+        viewModelScope.launch {
+            repository.retrieveHotelSearchByLocation(token, location)
+                .onStart {
+                    _isLoadingRequestList.postValue(true)
+                }
+                .onCompletion {
+                    _isLoadingRequestList.postValue(false)
+                }
+                .collect { data ->
+                    when (data) {
+                        is Resource.Loading -> _isLoadingRequestList.postValue(true)
+                        is Resource.Success -> _dataRequestList.postValue(data.data?.response?.hotel!!)
+                        is Resource.Error -> _isErrorRequestList.postValue(data.message!!)
+
+                    }
+                }
+        }
+    }
 }

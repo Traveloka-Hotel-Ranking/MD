@@ -86,8 +86,8 @@
     <string name="text_night">Night</string>
     <string name="text_points">Points</string>
     <string name="text_maps">Maps</string>
-    <string name="hotel_unavailable">Hotel Tidak Ditemukan</string>
-    <string name="desc_hotel_unavailable">Coba cari dengan kata kunci lain atau pilih filter lain, ya.</string>
+    <string name="hotel_unavailable">Hotel Not Found</string>
+    <string name="desc_hotel_unavailable">Try to search using different parameter</string>
 
     <!-- Room List -->
     <string name="room_price_before_discount"><strike>%1s</strike></string>
@@ -105,7 +105,6 @@
     <string name="text_top_hotel">Top hotel picks for you</string>
     <string name="text_other_hotel">Other Hotels</string>
     <string name="room_name">%1s Room</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="close_button">close button</string>
 </resources>

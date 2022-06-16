@@ -120,4 +120,37 @@ class HotelRepository(
             emit(Resource.Error(SERVER_TIME_OUT))
         }
     }
+
+    fun retrieveHotelSearchByName(token : String, name : String) : Flow<Resource<HotelListResponse>> = flow {
+        emit(Resource.Loading())
+        try {
+            val response = apiService.getHotelByName(token, name)
+            if (response.isSuccessful && response.body() !=null){
+                emit(Resource.Success(response.body()))
+            }else{
+                val jsonObj = JSONObject(response.errorBody()!!.charStream().readText())
+                val message = jsonObj.getString("message")
+                emit(Resource.Error(message))
+            }
+        }catch (e : Exception){
+            emit(Resource.Error(SERVER_TIME_OUT))
+        }
+    }
+
+    fun retrieveHotelSearchByLocation(token : String, location : String) : Flow<Resource<HotelListResponse>> = flow {
+        emit(Resource.Loading())
+        try {
+            val response = apiService.getHotelByLocation(token, location)
+            if (response.isSuccessful && response.body() !=null){
+                emit(Resource.Success(response.body()))
+            }else{
+                val jsonObj = JSONObject(response.errorBody()!!.charStream().readText())
+                val message = jsonObj.getString("message")
+                emit(Resource.Error(message))
+            }
+        }catch (e : Exception){
+            emit(Resource.Error(SERVER_TIME_OUT))
+        }
+    }
+
 }

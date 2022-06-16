@@ -72,8 +72,21 @@ class HomeActivity : AppCompatActivity() {
         }
         viewModel.getUser().observe(this) { data ->
             this.userModel = data
+
             if (data.checkLogin) {
                 viewModel.requestDataList(data.accessToken)
+
+                binding.mbSearch.setOnClickListener {
+                    val searchByName = binding.tvHotelName.text.toString().trim()
+                    val searchByLoc = binding.tvNearYou.text.toString().trim()
+
+                    if (searchByName != "") {
+                        viewModel.requestDataByName(data.accessToken, searchByName)
+                    } else {
+                        viewModel.requestDataByLocation(data.accessToken, searchByLoc)
+                    }
+                }
+
                 val tokennya =
                     "ya29.a0ARrdaM8dz2GrkRPaytUZ8naVFoSlMLE8qacLpKRUuftag_OKxofYB19jnfQzuLCQtjWykaGbDvOJZ91iV3wXHgEVZw1t_fwtvA47nI0j4M6G7H-fbCUlUFgDAAiL8B6jm246miznZl2bSV0dCG4YjKBWI8_LnbC9nxJSQjhh2pU3Nm7B3ER7wKOJ7n9nehWEtURWCz60sz5jhusYtN6yLJhp_fz5XWsMtJ2ogi9A4b1NQQS6bm0qFqCj5xiqGoBeKln73Q0"
                 val listData = listOf(

@@ -56,13 +56,23 @@ interface ApiService {
         @Header("x-access-token-hotel") token: String,
     ): Response<HotelListResponse>
 
+    @GET("hotel")
+    suspend fun getHotelByName(
+        @Header("x-access-token-hotel") token: String,
+        @Query("name") name : String?
+    ): Response<HotelListResponse>
+
+    @GET("hotel/loc")
+    suspend fun getHotelByLocation(
+        @Header("x-access-token-hotel") token: String,
+        @Query("location") location : String?
+    ): Response<HotelListResponse>
+
     @POST("projects/capstone-project-353103/locations/asia-southeast1/endpoints/9116305992588460032/:predict")
     suspend fun getHotelML(
         @Header("Authorization") token : String,
         @Body body : HomeMLParam
     ) : Response<HomeMLModel>
-
-
 
 
 
