@@ -1,14 +1,16 @@
 package com.traveloka.hotelranking.data
 
+import android.util.Log
 import androidx.paging.*
+import com.google.gson.Gson
 import com.traveloka.hotelranking.data.local.entity.HotelEntity
 import com.traveloka.hotelranking.data.local.room.HotelDatabase
 import com.traveloka.hotelranking.data.remote.network.ApiService
 import com.traveloka.hotelranking.data.remote.response.*
+import com.traveloka.hotelranking.model.ReviewResponses
 import com.traveloka.hotelranking.view.utils.constants.SERVER_TIME_OUT
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.*
 import org.json.JSONObject
 
 class HotelRepository(
@@ -163,6 +165,22 @@ class HotelRepository(
                 rating = it.rating,
                 review = it.review
             )
+        }
+    }
+
+    fun requestHotelByReview(token : String, review : Double, reviewMax : Double) : Flow<Resource<ReviewResponses>> = channelFlow {
+        send(Resource.Loading())
+        try {
+            val response = apiService.getHotelByReview(token, review, reviewMax)
+            if (response.isSuccessful && response.body() !=null){
+                send(Resource.Success(response.body()))
+            }else{
+                val jsonObj = JSONObject(response.errorBody()!!.charStream().readText())
+                val message = jsonObj.getString("message")
+                send(Resource.Error(message))
+            }
+        }catch (e : Exception){
+            send(Resource.Error(SERVER_TIME_OUT))
         }
     }
 }

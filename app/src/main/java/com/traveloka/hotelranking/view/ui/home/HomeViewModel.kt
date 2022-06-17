@@ -12,19 +12,21 @@ import com.traveloka.hotelranking.model.HomeMLModel
 import com.traveloka.hotelranking.model.UserModel
 import com.traveloka.hotelranking.model.UserPreference
 import com.traveloka.hotelranking.model.param.HomeMLParam
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 
 class HomeViewModel(
     private val repository: HotelRepository,
-    private val repositoryHome : HomeRepository,
+    private val repositoryHome: HomeRepository,
     private val preference: UserPreference
-    ) : ViewModel() {
+) : ViewModel() {
 
     @ExperimentalPagingApi
-    fun requestHotelPaging(token : String, param : String) : LiveData<PagingData<HotelItem>> {
-        return repository.retrieveHotelPaging(token,param)
+    fun requestHotelPaging(token: String, param: String): LiveData<PagingData<HotelItem>> {
+        return repository.retrieveHotelPaging(token, param)
             .asLiveData()
             .cachedIn(viewModelScope)
     }
@@ -50,16 +52,23 @@ class HomeViewModel(
     private val _isLoadingRequestListML = MutableLiveData<Boolean>()
 
 
-
     val isErrorRequestListML = _isErrorRequestListML
     val dataRequestListML = _dataRequestListML
     val isLoadingRequestListML = _isLoadingRequestListML
+
+    private val _isErrorRequestReview = MutableLiveData<String>()
+    private val _dataRequestReview = MutableLiveData<List<HotelItem>>()
+    private val _isLoadingRequestReview = MutableLiveData<Boolean>()
+
+    val isErrorRequestListReview = _isErrorRequestReview
+    val dataRequestListReview = _dataRequestReview
+    val isLoadingRequestReview = _isLoadingRequestReview
 
     fun getUser(): LiveData<UserModel> {
         return preference.getUser().asLiveData()
     }
 
-    fun requestDataListML(token : String, param : HomeMLParam){
+    fun requestDataListML(token: String, param: HomeMLParam) {
         viewModelScope.launch {
             repositoryHome.retrieveHotelML(token, param)
                 .onStart {
@@ -68,8 +77,8 @@ class HomeViewModel(
                 .onCompletion {
                     _isLoadingRequestListML.postValue(false)
                 }
-                .collect{ data ->
-                    when(data){
+                .collect { data ->
+                    when (data) {
                         is Resource.Loading -> _isLoadingRequestListML.postValue(true)
                         is Resource.Success -> _dataRequestListML.postValue(data.data!!)
                         is Resource.Error -> _isErrorRequestListML.postValue(data.message!!)
@@ -112,6 +121,26 @@ class HomeViewModel(
                         is Resource.Loading -> _isLoadingRequestListLocation.postValue(true)
                         is Resource.Success -> _dataRequestListLocation.postValue(data.data?.response?.hotel!!)
                         is Resource.Error -> _isErrorRequestListLocation.postValue(data.message!!)
+
+                    }
+                }
+        }
+    }
+
+    fun requestHotelReview(token: String, review: Double, reviewMax: Double) {
+        viewModelScope.launch {
+            repository.requestHotelByReview(token, review, reviewMax)
+                .onStart {
+                    _isLoadingRequestReview.postValue(true)
+                }
+                .onCompletion {
+                    _isLoadingRequestReview.postValue(false)
+                }
+                .collect { data ->
+                    when (data) {
+                        is Resource.Loading -> _isLoadingRequestReview.postValue(true)
+                        is Resource.Success -> _dataRequestReview.postValue(data.data?.data)
+                        is Resource.Error -> _isErrorRequestReview.postValue(data.message!!)
 
                     }
                 }

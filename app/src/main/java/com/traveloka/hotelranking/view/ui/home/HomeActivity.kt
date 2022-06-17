@@ -121,6 +121,8 @@ class HomeActivity : AppCompatActivity() {
                                 adapterPaging.submitData(lifecycle, data)
                             }
                     }
+
+                    setupChipReview(userModel)
                 }
 
                 binding.mbSearch.setOnClickListener {
@@ -149,7 +151,27 @@ class HomeActivity : AppCompatActivity() {
             }
         }
         viewModel.dataRequestListML.observe(this) { data ->
-            setTextMLList(data.predictions, userModel)
+//            setTextMLList(data.predictions, userModel)
+        }
+
+        viewModel.dataRequestListReview.observe(this){ data ->
+            if (data.isNotEmpty()) {
+                dataEmpty = false
+                binding.layoutMessageIllustration.gone()
+                handledAdapterWithoutPaging()
+                adapter.setItemListHotel(data.toMutableList())
+            } else {
+                dataEmpty = true
+                binding.layoutMessageIllustration.visible()
+            }
+        }
+
+        viewModel.isErrorRequestListReview.observe(this){ message ->
+            showToast(message)
+        }
+
+        viewModel.isLoadingRequestReview.observe(this){ isLoading ->
+            handleShimmer(isLoading)
         }
 
     }
@@ -322,7 +344,8 @@ class HomeActivity : AppCompatActivity() {
         val inflater = LayoutInflater.from(binding.chipGroup.context)
         val layoutRes = R.layout.view_chip_ml
         val parent = binding.chipGroup
-        var i = 1
+        val sampeData = listOf<String>("#1","#2","#3")
+//        var i = 1
         statusList?.forEach { data ->
             data.output2.forEachIndexed { _, s ->
                 array.addAll(listOf(s))
@@ -330,16 +353,36 @@ class HomeActivity : AppCompatActivity() {
         }
         array.forEach { hotelName ->
             val chip = (inflater.inflate(layoutRes, parent, false) as Chip)
-            chip.id = i
+//            chip.id = i
             chip.text = hotelName
-            chip.isClickable = true
+//            chip.isClickable = true
             chip.setOnClickListener {
+                var review  = 0.0
+                var reviewMax  = 0.0
+                when(hotelName){
+                    "#1" -> {
+                        review = 8.0
+                        reviewMax = 10.0
+                        viewModel.requestHotelReview(userModel.accessToken, review, reviewMax)
+                    }
+                    "#2" -> {
+                        review = 6.0
+                        reviewMax = 7.9
+                        viewModel.requestHotelReview(userModel.accessToken, review, reviewMax)
+                    }
+                    "#3" -> {
+                        review = 0.0
+                        reviewMax = 5.9
+                        viewModel.requestHotelReview(userModel.accessToken, review, reviewMax)
+                    }
+                }
                 hideKeyboard()
-                viewModel.requestDataByName(userModel.accessToken, hotelName.trim())
+//                viewModel.requestDataByName(userModel.accessToken, hotelName.trim())
+//                viewModel.requestHotelReview(userModel.accessToken, review, reviewMax)
                 binding.tvOther.alpha = 0F
             }
             binding.chipGroup.addView(chip)
-            i++
+//            i++
         }
     }
 
@@ -366,4 +409,40 @@ class HomeActivity : AppCompatActivity() {
     private fun handledAdapterWithoutPaging() {
         binding.rvHome.adapter = adapter
     }
+
+    private fun setupChipReview(userModel: UserModel) {
+        val array = listOf("#1","#2","#3")
+        val inflater = LayoutInflater.from(binding.chipGroup.context)
+        val layoutRes = R.layout.view_chip_ml
+        val parent = binding.chipGroup
+
+        array.forEach { hotelName ->
+            val chip = (inflater.inflate(layoutRes, parent, false) as Chip)
+            chip.text = hotelName
+            chip.setOnClickListener {
+                var review  = 0.0
+                var reviewMax  = 0.0
+                when(hotelName){
+                    "#1" -> {
+                        review = 8.0
+                        reviewMax = 10.0
+                    }
+                    "#2" -> {
+                        review = 6.0
+                        reviewMax = 7.9
+                    }
+                    "#3" -> {
+                        review = 0.0
+                        reviewMax = 5.9
+                    }
+                }
+                hideKeyboard()
+                viewModel.requestHotelReview(userModel.accessToken, review, reviewMax)
+                binding.tvOther.alpha = 0F
+            }
+            binding.chipGroup.addView(chip)
+        }
+    }
+
+
 }

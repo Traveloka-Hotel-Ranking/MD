@@ -2,6 +2,7 @@ package com.traveloka.hotelranking.data.remote.network
 
 import com.traveloka.hotelranking.data.remote.response.*
 import com.traveloka.hotelranking.model.HomeMLModel
+import com.traveloka.hotelranking.model.ReviewResponses
 import com.traveloka.hotelranking.model.param.HomeMLParam
 import retrofit2.Response
 import retrofit2.http.*
@@ -80,5 +81,12 @@ interface ApiService {
         @Query("page") page : Int,
         @Query("size") size: Int,
     ): HotelListResponse
+
+    @GET("hotel/rev")
+    suspend fun getHotelByReview(
+        @Header("x-access-token-hotel") token: String,
+        @Query("review") review : Double,
+        @Query("reviewMax") reviewMax : Double,
+    ): Response<ReviewResponses>
 
 }
