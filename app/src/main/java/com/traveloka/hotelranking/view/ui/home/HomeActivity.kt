@@ -1,5 +1,6 @@
 package com.traveloka.hotelranking.view.ui.home
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.location.Address
 import android.location.Geocoder
@@ -10,6 +11,7 @@ import android.os.Looper
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.ScrollView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityOptionsCompat
 import androidx.lifecycle.lifecycleScope
@@ -55,7 +57,7 @@ class HomeActivity : AppCompatActivity() {
     private var dataEmpty = false
     private val adapterPaging by lazy { HotelPagingAdapter() }
 
-    @ExperimentalPagingApi
+    @OptIn(ExperimentalPagingApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityHomeBinding.inflate(layoutInflater)
