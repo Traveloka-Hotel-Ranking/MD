@@ -358,9 +358,6 @@ class HomeActivity : AppCompatActivity() {
                     handleShimmer(isLoading)
                 }
         }
-//        adapterPaging.addLoadStateListener { isLoadState ->
-//            handleShimmer(isLoadState.source.refresh is LoadState.Loading)
-//        }
     }
 
     private fun handledAdapterWithoutPaging() {

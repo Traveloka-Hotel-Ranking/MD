@@ -50,7 +50,6 @@ class HomeViewModel(
     private val _isLoadingRequestListML = MutableLiveData<Boolean>()
 
 
-
     val isErrorRequestListML = _isErrorRequestListML
     val dataRequestListML = _dataRequestListML
     val isLoadingRequestListML = _isLoadingRequestListML

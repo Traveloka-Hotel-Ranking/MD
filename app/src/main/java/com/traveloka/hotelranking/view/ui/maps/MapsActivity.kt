@@ -57,12 +57,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         mapFragment.getMapAsync(this)
 
         subscribeToLiveData()
-        initView()
 
-    }
-
-    private fun initView() {
-        // TODO "Not yet implemented"
     }
 
     private fun subscribeToLiveData() {
@@ -113,8 +108,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         maps.uiSettings.isCompassEnabled = true
         maps.uiSettings.isMapToolbarEnabled = true
 
-
-
         getMyLocation()
 
     }
@@ -142,7 +135,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                         val addresses: List<Address> = geocoder.getFromLocation(location.latitude, location.longitude, 1)
                         if (addresses.isNotEmpty()){
                             val currentAddress : Address? = if (addresses.isEmpty()) null else addresses[0]
-//                        binding.tvNearYou.setText(bestMatch?.locality)
                             val currentLocation = LatLng(location.latitude, location.longitude)
                             maps.addMarker(
                                 MarkerOptions()
@@ -176,8 +168,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         return when (item.itemId) {
             android.R.id.home ->{
                 finish()
-//                val intent = Intent(this, HomeActivity::class.java)
-//                startActivity(intent, ActivityOptionsCompat.makeSceneTransitionAnimation(this@ProfileActivity).toBundle())
                 super.onOptionsItemSelected(item)
             }
             else -> true
