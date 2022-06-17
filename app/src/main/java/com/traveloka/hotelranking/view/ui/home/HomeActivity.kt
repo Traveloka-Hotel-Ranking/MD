@@ -121,8 +121,6 @@ class HomeActivity : AppCompatActivity() {
                                 adapterPaging.submitData(lifecycle, data)
                             }
                     }
-
-                    setupChipReview(userModel)
                 }
 
                 binding.mbSearch.setOnClickListener {
@@ -172,6 +170,10 @@ class HomeActivity : AppCompatActivity() {
 
         viewModel.isLoadingRequestReview.observe(this){ isLoading ->
             handleShimmer(isLoading)
+        }
+
+        viewModel.dataRequestChipReview.observe(this){ data ->
+            setupChipReview(data, userModel)
         }
 
     }
@@ -233,6 +235,7 @@ class HomeActivity : AppCompatActivity() {
         }
 
         getMyLocation()
+        viewModel.requestListReview()
 
     }
 
@@ -410,13 +413,12 @@ class HomeActivity : AppCompatActivity() {
         binding.rvHome.adapter = adapter
     }
 
-    private fun setupChipReview(userModel: UserModel) {
-        val array = listOf("#1","#2","#3")
+    private fun setupChipReview(listChip : List<String>, userModel: UserModel) {
         val inflater = LayoutInflater.from(binding.chipGroup.context)
         val layoutRes = R.layout.view_chip_ml
         val parent = binding.chipGroup
 
-        array.forEach { hotelName ->
+        listChip.forEach { hotelName ->
             val chip = (inflater.inflate(layoutRes, parent, false) as Chip)
             chip.text = hotelName
             chip.setOnClickListener {

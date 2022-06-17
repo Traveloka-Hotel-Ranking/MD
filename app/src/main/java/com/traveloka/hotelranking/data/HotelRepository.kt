@@ -183,4 +183,14 @@ class HotelRepository(
             send(Resource.Error(SERVER_TIME_OUT))
         }
     }
+
+    fun requestListReview() : Flow<Resource<List<String>>> = channelFlow{
+        send(Resource.Loading())
+        try {
+            val response = listOf("#1","#2","#3")
+            send(Resource.Success(response))
+        }catch (e : Exception){
+            send(Resource.Error(SERVER_TIME_OUT))
+        }
+    }
 }

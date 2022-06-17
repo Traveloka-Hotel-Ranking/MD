@@ -64,6 +64,14 @@ class HomeViewModel(
     val dataRequestListReview = _dataRequestReview
     val isLoadingRequestReview = _isLoadingRequestReview
 
+    private val _isErrorRequestChipReview = MutableLiveData<String>()
+    private val _dataRequestChipReview = MutableLiveData<List<String>>()
+    private val _isLoadingRequestChipReview = MutableLiveData<Boolean>()
+
+    val isErrorRequestChipReview = _isErrorRequestChipReview
+    val dataRequestChipReview = _dataRequestChipReview
+    val isLoadingRequestChipReview = _isLoadingRequestChipReview
+
     fun getUser(): LiveData<UserModel> {
         return preference.getUser().asLiveData()
     }
@@ -141,6 +149,26 @@ class HomeViewModel(
                         is Resource.Loading -> _isLoadingRequestReview.postValue(true)
                         is Resource.Success -> _dataRequestReview.postValue(data.data?.data)
                         is Resource.Error -> _isErrorRequestReview.postValue(data.message!!)
+
+                    }
+                }
+        }
+    }
+
+    fun requestListReview(){
+        viewModelScope.launch {
+            repository.requestListReview()
+                .onStart {
+                    _isLoadingRequestChipReview.postValue(true)
+                }
+                .onCompletion {
+                    _isLoadingRequestChipReview.postValue(false)
+                }
+                .collect { data ->
+                    when (data) {
+                        is Resource.Loading -> _isLoadingRequestChipReview.postValue(true)
+                        is Resource.Success -> _dataRequestChipReview.postValue(data.data!!)
+                        is Resource.Error -> _isErrorRequestChipReview.postValue(data.message!!)
 
                     }
                 }
