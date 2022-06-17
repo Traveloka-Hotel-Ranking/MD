@@ -21,14 +21,10 @@ import com.google.android.material.chip.Chip
 import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.DateValidatorPointForward
 import com.google.android.material.datepicker.MaterialDatePicker
-import com.traveloka.hotelranking.BuildConfig
 import com.traveloka.hotelranking.R
 import com.traveloka.hotelranking.data.remote.response.HotelItem
 import com.traveloka.hotelranking.databinding.ActivityHomeBinding
-import com.traveloka.hotelranking.model.Prediction
 import com.traveloka.hotelranking.model.UserModel
-import com.traveloka.hotelranking.model.param.HomeMLParam
-import com.traveloka.hotelranking.model.param.Instance
 import com.traveloka.hotelranking.view.ui.detail.DetailHotelActivity
 import com.traveloka.hotelranking.view.ui.home.adapter.HomeAdapter
 import com.traveloka.hotelranking.view.ui.home.paging.HotelPagingAdapter
@@ -55,7 +51,7 @@ class HomeActivity : AppCompatActivity() {
     private lateinit var userModel: UserModel
     private var dataEmpty = false
     private val adapterPaging by lazy { HotelPagingAdapter() }
-
+    
     @OptIn(ExperimentalPagingApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -121,6 +117,7 @@ class HomeActivity : AppCompatActivity() {
                                 adapterPaging.submitData(lifecycle, data)
                             }
                     }
+                    viewModel.requestListReview()
                 }
 
                 binding.mbSearch.setOnClickListener {
@@ -137,19 +134,19 @@ class HomeActivity : AppCompatActivity() {
                     hideKeyboard()
                 }
 
-                val tokennya = BuildConfig.ML_TOKEN
-                val listData = listOf(
-                    Instance(data.id)
-                )
-                val dataMl = HomeMLParam(listData)
-                viewModel.requestDataListML("Bearer $tokennya", dataMl)
+//                val tokennya = BuildConfig.ML_TOKEN
+//                val listData = listOf(
+//                    Instance(data.id)
+//                )
+//                val dataMl = HomeMLParam(listData)
+//                viewModel.requestDataListML("Bearer $tokennya", dataMl)
             } else {
                 openActivity(MainActivity::class.java)
                 finish()
             }
         }
-        viewModel.dataRequestListML.observe(this) { data ->
-//            setTextMLList(data.predictions, userModel)
+        viewModel.dataRequestListML.observe(this) {
+
         }
 
         viewModel.dataRequestListReview.observe(this){ data ->
@@ -235,7 +232,6 @@ class HomeActivity : AppCompatActivity() {
         }
 
         getMyLocation()
-        viewModel.requestListReview()
 
     }
 
@@ -342,53 +338,6 @@ class HomeActivity : AppCompatActivity() {
         })
     }
 
-    private fun setTextMLList(statusList: List<Prediction>?, userModel: UserModel) {
-        val array = mutableListOf<String>()
-        val inflater = LayoutInflater.from(binding.chipGroup.context)
-        val layoutRes = R.layout.view_chip_ml
-        val parent = binding.chipGroup
-        val sampeData = listOf<String>("#1","#2","#3")
-//        var i = 1
-        statusList?.forEach { data ->
-            data.output2.forEachIndexed { _, s ->
-                array.addAll(listOf(s))
-            }
-        }
-        array.forEach { hotelName ->
-            val chip = (inflater.inflate(layoutRes, parent, false) as Chip)
-//            chip.id = i
-            chip.text = hotelName
-//            chip.isClickable = true
-            chip.setOnClickListener {
-                var review  = 0.0
-                var reviewMax  = 0.0
-                when(hotelName){
-                    "#1" -> {
-                        review = 8.0
-                        reviewMax = 10.0
-                        viewModel.requestHotelReview(userModel.accessToken, review, reviewMax)
-                    }
-                    "#2" -> {
-                        review = 6.0
-                        reviewMax = 7.9
-                        viewModel.requestHotelReview(userModel.accessToken, review, reviewMax)
-                    }
-                    "#3" -> {
-                        review = 0.0
-                        reviewMax = 5.9
-                        viewModel.requestHotelReview(userModel.accessToken, review, reviewMax)
-                    }
-                }
-                hideKeyboard()
-//                viewModel.requestDataByName(userModel.accessToken, hotelName.trim())
-//                viewModel.requestHotelReview(userModel.accessToken, review, reviewMax)
-                binding.tvOther.alpha = 0F
-            }
-            binding.chipGroup.addView(chip)
-//            i++
-        }
-    }
-
     private fun handledAdapterPaging() {
         binding.rvHome.adapter = adapterPaging
         binding.rvHome.adapter = adapterPaging.withLoadStateFooter(
@@ -404,9 +353,6 @@ class HomeActivity : AppCompatActivity() {
                     handleShimmer(isLoading)
                 }
         }
-//        adapterPaging.addLoadStateListener { isLoadState ->
-//            handleShimmer(isLoadState.source.refresh is LoadState.Loading)
-//        }
     }
 
     private fun handledAdapterWithoutPaging() {

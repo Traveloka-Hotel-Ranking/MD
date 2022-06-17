@@ -56,7 +56,6 @@ class HotelRemoteMediator(
                 if (loadType == LoadType.REFRESH) {
                     hotelDatabase.remoteKeysDao().deleteRemoteKeys()
                     hotelDatabase.hotelDao().deleteAll()
-                    //counter = 1
                 }
                 val prevKey = if (page == 0) null else page - 1
                 val nextKey = if (endOfPaginationReached) null else page + 1
@@ -68,7 +67,6 @@ class HotelRemoteMediator(
                 val hotelEntity = mapper(responseData.response?.hotel)
 
                 hotelDatabase.hotelDao().insertHotel(hotelEntity)
-                //counter += entity.size + 1
             }
             MediatorResult.Success(endOfPaginationReached = endOfPaginationReached)
         } catch (exception: Exception) {
@@ -118,7 +116,6 @@ class HotelRemoteMediator(
 
     private companion object {
         const val INITIAL_PAGE_INDEX = 0
-        //var counter = 1
     }
 
 }

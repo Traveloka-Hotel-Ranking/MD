@@ -25,12 +25,6 @@ class UserPreference (private val dataStore: DataStore<Preferences>){
         }
     }
 
-    fun getToken(): Flow<String>{
-        return dataStore.data.map {
-            it[ACCESS_TOKEN_KEY] ?: ""
-        }
-    }
-
     suspend fun saveUser(userModel: UserModel) {
         dataStore.edit { pref ->
             pref[ID_KEY] = userModel.id

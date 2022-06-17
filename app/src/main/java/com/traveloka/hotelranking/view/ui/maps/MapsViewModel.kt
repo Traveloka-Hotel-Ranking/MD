@@ -20,7 +20,6 @@ class MapsViewModel(
 
     val isErrorRequestList = _isErrorRequestList
     val dataRequestList = _dataRequestList
-    val isLoadingRequestList = _isLoadingRequestList
 
     fun observeGetUser(): LiveData<UserModel> {
         return preference.getUser().asLiveData()
@@ -40,7 +39,6 @@ class MapsViewModel(
                         is Resource.Loading -> _isLoadingRequestList.postValue(true)
                         is Resource.Success -> _dataRequestList.postValue(data.data?.response?.hotel!!)
                         is Resource.Error -> _isErrorRequestList.postValue(data.message!!)
-
                     }
                 }
         }

@@ -1,16 +1,16 @@
 package com.traveloka.hotelranking.data
 
-import android.util.Log
 import androidx.paging.*
-import com.google.gson.Gson
 import com.traveloka.hotelranking.data.local.entity.HotelEntity
 import com.traveloka.hotelranking.data.local.room.HotelDatabase
 import com.traveloka.hotelranking.data.remote.network.ApiService
 import com.traveloka.hotelranking.data.remote.response.*
 import com.traveloka.hotelranking.model.ReviewResponses
 import com.traveloka.hotelranking.view.utils.constants.SERVER_TIME_OUT
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.channelFlow
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.map
 import org.json.JSONObject
 
 class HotelRepository(

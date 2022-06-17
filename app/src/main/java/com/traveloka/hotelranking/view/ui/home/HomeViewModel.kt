@@ -11,9 +11,6 @@ import com.traveloka.hotelranking.data.remote.response.HotelItem
 import com.traveloka.hotelranking.model.HomeMLModel
 import com.traveloka.hotelranking.model.UserModel
 import com.traveloka.hotelranking.model.UserPreference
-import com.traveloka.hotelranking.model.param.HomeMLParam
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
@@ -51,10 +48,7 @@ class HomeViewModel(
     private val _dataRequestListML = MutableLiveData<HomeMLModel>()
     private val _isLoadingRequestListML = MutableLiveData<Boolean>()
 
-
-    val isErrorRequestListML = _isErrorRequestListML
     val dataRequestListML = _dataRequestListML
-    val isLoadingRequestListML = _isLoadingRequestListML
 
     private val _isErrorRequestReview = MutableLiveData<String>()
     private val _dataRequestReview = MutableLiveData<List<HotelItem>>()
@@ -68,32 +62,30 @@ class HomeViewModel(
     private val _dataRequestChipReview = MutableLiveData<List<String>>()
     private val _isLoadingRequestChipReview = MutableLiveData<Boolean>()
 
-    val isErrorRequestChipReview = _isErrorRequestChipReview
     val dataRequestChipReview = _dataRequestChipReview
-    val isLoadingRequestChipReview = _isLoadingRequestChipReview
 
     fun getUser(): LiveData<UserModel> {
         return preference.getUser().asLiveData()
     }
 
-    fun requestDataListML(token: String, param: HomeMLParam) {
-        viewModelScope.launch {
-            repositoryHome.retrieveHotelML(token, param)
-                .onStart {
-                    _isLoadingRequestListML.postValue(true)
-                }
-                .onCompletion {
-                    _isLoadingRequestListML.postValue(false)
-                }
-                .collect { data ->
-                    when (data) {
-                        is Resource.Loading -> _isLoadingRequestListML.postValue(true)
-                        is Resource.Success -> _dataRequestListML.postValue(data.data!!)
-                        is Resource.Error -> _isErrorRequestListML.postValue(data.message!!)
-                    }
-                }
-        }
-    }
+//    fun requestDataListML(token: String, param: HomeMLParam) {
+//        viewModelScope.launch {
+//            repositoryHome.retrieveHotelML(token, param)
+//                .onStart {
+//                    _isLoadingRequestListML.postValue(true)
+//                }
+//                .onCompletion {
+//                    _isLoadingRequestListML.postValue(false)
+//                }
+//                .collect { data ->
+//                    when (data) {
+//                        is Resource.Loading -> _isLoadingRequestListML.postValue(true)
+//                        is Resource.Success -> _dataRequestListML.postValue(data.data!!)
+//                        is Resource.Error -> _isErrorRequestListML.postValue(data.message!!)
+//                    }
+//                }
+//        }
+//    }
 
     fun requestDataByName(token: String, name: String) {
         viewModelScope.launch {

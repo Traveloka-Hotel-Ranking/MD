@@ -45,12 +45,6 @@ interface ApiService {
         @Field("password") password: String
     ): Response<ResetPasswordResponse>
 
-    @GET("hotel/loc")
-    suspend fun getHotel(
-        @Header("x-access-token-hotel") token: String,
-        @Query("size") size : Int
-    ): Response<HotelListResponse>
-
     @GET("hotel")
     suspend fun getHotelMaps(
         @Header("x-access-token-hotel") token: String,
@@ -88,5 +82,4 @@ interface ApiService {
         @Query("review") review : Double,
         @Query("reviewMax") reviewMax : Double,
     ): Response<ReviewResponses>
-
 }
