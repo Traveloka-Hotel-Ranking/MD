@@ -6,6 +6,10 @@ plugins {
     id 'kotlin-kapt'
 }
 
+def localPropertiesFile = rootProject.file("local.properties")
+def localProperties = new Properties()
+localProperties.load(new FileInputStream(localPropertiesFile))
+
 android {
     compileSdk 32
 
@@ -17,6 +21,9 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        buildConfigField "String", "CC_URL", localProperties['CC_endpoint']
+        buildConfigField "String", "ML_URL", localProperties['ML_endpoint']
+        buildConfigField "String", "ML_TOKEN", localProperties['ML_token']
     }
 
     buildTypes {

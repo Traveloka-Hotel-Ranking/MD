@@ -23,6 +23,7 @@ import com.google.android.material.chip.Chip
 import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.DateValidatorPointForward
 import com.google.android.material.datepicker.MaterialDatePicker
+import com.traveloka.hotelranking.BuildConfig
 import com.traveloka.hotelranking.R
 import com.traveloka.hotelranking.data.remote.response.HotelItem
 import com.traveloka.hotelranking.databinding.ActivityHomeBinding
@@ -138,8 +139,7 @@ class HomeActivity : AppCompatActivity() {
                     hideKeyboard()
                 }
 
-                val tokennya = "ya29.a0ARrdaM_u8cMEF90vAzHrHGlm8-f0qNfZYjh7E5siHsuzn19NgB_Lyu4MpWVo1wtGl3VC0yUIczpZoTkLvIu5t1mVfUcme0BAXNSmE0F6FxSGqJq-vSInMVY5CYvEZv5dM9mXrbFFpXJzWpzkv0JsLavaVVWD0WtVJD4qmrS5Jln0g_vQPF-8Ap5JPM6aWb_VAi0wYEo4R5yJ6t-ZZEWhEsv6QGu5zEbYWco-qouC84fLWKmT5EuZ84QjIKzzM06BU3krHm8"
-
+                val tokennya = BuildConfig.ML_TOKEN
                 val listData = listOf(
                     Instance(data.id)
                 )

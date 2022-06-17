@@ -47,7 +47,7 @@ val networkModule = module {
     }
     single(named("bangkit")) {
         val retrofit = Retrofit.Builder()
-            .baseUrl("http://34.128.85.45:8080/api/")
+            .baseUrl(BuildConfig.CC_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .client(get())
             .build()
@@ -55,7 +55,7 @@ val networkModule = module {
     }
     single(named("mlbangkit")) {
         val retrofit = Retrofit.Builder()
-            .baseUrl("https://asia-southeast1-aiplatform.googleapis.com/v1/")
+            .baseUrl(BuildConfig.ML_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .client(get())
             .build()

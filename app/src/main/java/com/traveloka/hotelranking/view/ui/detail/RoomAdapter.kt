@@ -91,7 +91,7 @@ class RoomAdapter(val context: Context) :
                 if (data.wifi) {
                     tvWifi.text = "Free Wifi"
                 } else {
-                    "Not Included"
+                    tvWifi.text = "Not Included"
                 }
 
                 tvRoomPrice.concatRupiah(hotelPrice)
