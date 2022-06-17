@@ -60,13 +60,13 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:drawablePadding="4dp"
-            android:maxLines="1"
             android:ellipsize="end"
-            tools:text="@tools:sample/lorem/random"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:maxLines="1"
             app:drawableStartCompat="@drawable/ic_pin_maps_gray"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/rb_rating_hotel"
-            app:layout_constraintTop_toBottomOf="@+id/rb_rating_hotel" />
+            app:layout_constraintTop_toBottomOf="@+id/rb_rating_hotel"
+            tools:text="@tools:sample/lorem/random" />
 
         <TextView
             android:id="@+id/tv_rating_hotel"

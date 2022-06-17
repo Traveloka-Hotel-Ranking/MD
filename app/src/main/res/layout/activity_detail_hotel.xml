@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.traveloka.hotelranking.view.ui.LockableScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/scrollView"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/scrollView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
@@ -16,11 +16,11 @@
             android:id="@+id/img_hotel"
             android:layout_width="match_parent"
             android:layout_height="230dp"
+            android:adjustViewBounds="true"
             android:background="@null"
             android:contentDescription="@string/image_hotel_desc"
             android:scaleType="centerCrop"
             android:src="@drawable/sample_image"
-            android:adjustViewBounds="true"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -40,7 +40,6 @@
 
         <RatingBar
             android:id="@+id/rb_rating_hotel"
-            android:secondaryProgressTint="@color/yellow"
             style="?android:attr/ratingBarStyleIndicator"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -50,6 +49,7 @@
             android:rating="2"
             android:scaleX="0.8"
             android:scaleY="0.8"
+            android:secondaryProgressTint="@color/yellow"
             app:layout_constraintStart_toStartOf="@+id/tv_title_hotel"
             app:layout_constraintTop_toBottomOf="@+id/tv_title_hotel" />
 
@@ -113,8 +113,8 @@
             android:textSize="16sp"
             android:textStyle="bold"
             app:drawableStartCompat="@drawable/ic_rating_traveloka"
-            app:layout_constraintStart_toStartOf="@id/tv_company_name"
             app:layout_constraintEnd_toStartOf="@id/tv_desc_rating"
+            app:layout_constraintStart_toStartOf="@id/tv_company_name"
             app:layout_constraintTop_toBottomOf="@id/tv_company_name" />
 
         <TextView
@@ -124,8 +124,8 @@
             android:layout_marginStart="4dp"
             android:text="@string/impressive"
             android:textColor="@color/blue"
-            app:layout_constraintEnd_toEndOf="@id/tv_company_name"
             app:layout_constraintBottom_toBottomOf="@+id/tv_rating_hotel"
+            app:layout_constraintEnd_toEndOf="@id/tv_company_name"
             app:layout_constraintStart_toEndOf="@+id/tv_rating_hotel"
             app:layout_constraintTop_toTopOf="@+id/tv_rating_hotel" />
 
@@ -156,12 +156,12 @@
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/map_view_holder"
+            style="?attr/materialCardViewElevatedStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             app:cardCornerRadius="10dp"
             app:cardElevation="4dp"
-            style="?attr/materialCardViewElevatedStyle"
             app:layout_constraintEnd_toEndOf="@id/tv_title_location"
             app:layout_constraintStart_toStartOf="@id/tv_title_location"
             app:layout_constraintTop_toBottomOf="@id/tv_title_location">
@@ -171,7 +171,7 @@
                 android:name="com.google.android.gms.maps.SupportMapFragment"
                 android:layout_width="match_parent"
                 android:layout_height="250dp"
-                tools:context=".view.ui.detail.DetailHotelActivity"/>
+                tools:context=".view.ui.detail.DetailHotelActivity" />
         </com.google.android.material.card.MaterialCardView>
 
         <TextView
@@ -179,11 +179,11 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
-            app:layout_constraintStart_toStartOf="@id/map_view_holder"
-            app:layout_constraintTop_toBottomOf="@id/map_view_holder"
-            app:layout_constraintEnd_toEndOf="@id/map_view_holder"
+            android:drawablePadding="@dimen/_4sdp"
             app:drawableStartCompat="@drawable/ic_location_traveloka"
-            android:drawablePadding="@dimen/_4sdp"/>
+            app:layout_constraintEnd_toEndOf="@id/map_view_holder"
+            app:layout_constraintStart_toStartOf="@id/map_view_holder"
+            app:layout_constraintTop_toBottomOf="@id/map_view_holder" />
 
         <TextView
             android:id="@+id/tv_title_room_selection"

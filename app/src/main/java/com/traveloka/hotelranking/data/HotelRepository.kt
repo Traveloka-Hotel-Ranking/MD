@@ -89,7 +89,7 @@ class HotelRepository(
     fun retrieveHotelMaps(token : String) : Flow<Resource<HotelListResponse>> = flow {
         emit(Resource.Loading())
         try {
-            val response = apiService.getHotelMaps(token, 100)
+            val response = apiService.getHotelMaps(token, 25)
             if (response.isSuccessful && response.body() !=null){
                 emit(Resource.Success(response.body()))
             }else{

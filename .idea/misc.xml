@@ -37,9 +37,21 @@
         <entry key="..\:/AndroidStudioProjects/hotel-ranking-traveloka-android/app/src/main/res/layout/item_on_boarding.xml" value="0.25" />
         <entry key="..\:/AndroidStudioProjects/hotel-ranking-traveloka-android/app/src/main/res/layout/item_room.xml" value="0.12158054711246201" />
         <entry key="..\:/Bangkit/Traveloka Hotel Ranking/MD/app/src/main/res/layout/activity_detail_hotel.xml" value="0.23568872987477638" />
+        <entry key="..\:/Bangkit/Traveloka Hotel Ranking/MD/app/src/main/res/layout/activity_forget_password.xml" value="0.27025641025641023" />
+        <entry key="..\:/Bangkit/Traveloka Hotel Ranking/MD/app/src/main/res/layout/activity_full_screen_image.xml" value="0.27025641025641023" />
         <entry key="..\:/Bangkit/Traveloka Hotel Ranking/MD/app/src/main/res/layout/activity_home.xml" value="0.264" />
         <entry key="..\:/Bangkit/Traveloka Hotel Ranking/MD/app/src/main/res/layout/activity_login.xml" value="0.27447916666666666" />
+        <entry key="..\:/Bangkit/Traveloka Hotel Ranking/MD/app/src/main/res/layout/activity_maps.xml" value="0.27025641025641023" />
+        <entry key="..\:/Bangkit/Traveloka Hotel Ranking/MD/app/src/main/res/layout/activity_profile.xml" value="0.27025641025641023" />
         <entry key="..\:/Bangkit/Traveloka Hotel Ranking/MD/app/src/main/res/layout/item_hotel.xml" value="0.264" />
+        <entry key="..\:/Bangkit/Traveloka Hotel Ranking/MD/app/src/main/res/layout/item_img_hotel.xml" value="0.27025641025641023" />
+        <entry key="..\:/Bangkit/Traveloka Hotel Ranking/MD/app/src/main/res/layout/item_loading.xml" value="0.27025641025641023" />
+        <entry key="..\:/Bangkit/Traveloka Hotel Ranking/MD/app/src/main/res/layout/item_room.xml" value="0.27025641025641023" />
+        <entry key="..\:/Bangkit/Traveloka Hotel Ranking/MD/app/src/main/res/layout/new_password_layout.xml" value="0.27025641025641023" />
+        <entry key="..\:/Bangkit/Traveloka Hotel Ranking/MD/app/src/main/res/layout/view_chip_ml.xml" value="0.27025641025641023" />
+        <entry key="..\:/Bangkit/Traveloka Hotel Ranking/MD/app/src/main/res/layout/view_shimmer_chip.xml" value="0.27025641025641023" />
+        <entry key="..\:/Bangkit/Traveloka Hotel Ranking/MD/app/src/main/res/layout/view_shimmer_listing_hotel.xml" value="0.27025641025641023" />
+        <entry key="..\:/Bangkit/Traveloka Hotel Ranking/MD/app/src/main/res/layout/view_shimmer_listing_item_hotel.xml" value="0.27025641025641023" />
         <entry key="..\:/Bangkit/Traveloka Hotel Ranking/MD/app/src/main/res/menu/menu.xml" value="0.27447916666666666" />
         <entry key="app/src/main/res/drawable/dot_blue_default.xml" value="0.162" />
         <entry key="app/src/main/res/drawable/dot_default.xml" value="0.45" />

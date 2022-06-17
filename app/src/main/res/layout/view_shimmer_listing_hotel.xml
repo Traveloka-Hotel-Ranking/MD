@@ -15,12 +15,12 @@
         android:id="@+id/ll_chip"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_12sdp"
         android:background="@color/white"
         android:gravity="center"
         android:orientation="horizontal"
         android:paddingVertical="@dimen/_8sdp"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="@dimen/_12sdp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/include">
 
@@ -33,17 +33,17 @@
     </LinearLayout>
 
 
-        <include
+    <include
         android:id="@+id/item_1"
         layout="@layout/view_shimmer_listing_item_hotel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_14sdp"
         android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="@dimen/_14sdp"
         app:layout_constraintTop_toBottomOf="@+id/ll_chip"
         tools:layout_editor_absoluteX="16dp" />
 
-        <include
+    <include
         android:id="@+id/item_2"
         layout="@layout/view_shimmer_listing_item_hotel"
         android:layout_width="match_parent"
